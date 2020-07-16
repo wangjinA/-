@@ -1,0 +1,5 @@
+<view style="{{'width: ' + width + '; padding: 20rpx 0; margin: 0 auto;'}}">
+  <van-button type="primary" block bindtap="nextPage">
+    <slot></slot>
+  </van-button>
+</view>

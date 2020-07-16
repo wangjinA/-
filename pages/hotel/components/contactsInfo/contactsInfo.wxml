@@ -1,0 +1,2 @@
+<wjForm formList="{{formList}}" id="wjForm"></wjForm>
+<addImg title="名片" rightText="上传名片可加快审核" id="addImg"></addImg>

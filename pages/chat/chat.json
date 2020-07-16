@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "chat-item": "/components/chatItem/chatItem"
+  },
+  "navigationBarTitleText": "会话页面"
+}

@@ -1,0 +1,102 @@
+page {
+  background-color: #f5f5f5;
+}
+
+.user-avatar {
+  width: 90rpx;
+  width: 90rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.user-avatar image {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+}
+
+.user-header {
+  height: 150rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+  background-color: #fff;
+}
+
+.user-name {
+  font-size: 28rpx;
+}
+
+.icon-youjiantou {
+  margin-left: auto;
+}
+
+.money-list {
+  display: flex;
+  background-color: #fff;
+  padding: 20rpx 0;
+  margin: 20rpx 0;
+}
+
+.money-item {
+  flex: 1;
+  text-align: center;
+}
+
+.money-num {
+  color: #333;
+}
+
+.money-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.nav-item image {
+  height: 46rpx;
+  width: 46rpx;
+  margin-right: 20rpx;
+}
+
+.nav-item {
+  height: 100rpx;
+  display: flex;
+  padding: 0 28rpx;
+  align-items: center;
+  background-color: #fff;
+  font-size: 28rpx;
+}
+
+.nav-item+.nav-item {
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.nav-item .iconfont {
+  margin-left: auto;
+  color: #ababab;
+  font-size: 36rpx;
+}
+
+.qiandao {
+  font-size: 24rpx;
+  height: 32rpx;
+  margin-left: auto;
+  padding: 0 50rpx;
+  background-color: #FD960D;
+  text-align: center;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 60rpx;
+  color: #fff;
+  box-shadow: 0rpx 0rFpx 8rpx 1rpx rgba(253, 150, 13, .6);
+  display: flex;
+  align-items: center;
+}
+.qym{
+  font-size: 28rpx;
+  color: #999;
+  margin-left: auto;
+}
+.yqm-code{
+  color: #4059FD;
+}

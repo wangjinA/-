@@ -1,0 +1,16 @@
+<view class="user-header" wx:for="{{10}}">
+  <view class="user-avatar" bindtap="toUserInfo">
+    <image src="/images/avatar.jpg"></image>
+  </view>
+  <view>
+    <view class="user-name" bindtap="toUserInfo">小沐同学</view>
+    <view class="gs-name">南昌xxxx公司</view>
+  </view>
+  <view class="t-info">
+    <view class="overOrder">
+      <view>已成交10单</view>
+      <view class="createTime">06-21</view>
+    </view>
+    <view class="addScore">+5000积分</view>
+  </view>
+</view>

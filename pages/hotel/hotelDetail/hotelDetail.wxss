@@ -1,0 +1,63 @@
+.swiperContainer {
+  position: relative;
+}
+.img {
+  width: 100%;
+  height: 100%;
+}
+.imageCount {
+  width:120rpx;
+  height:50rpx;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius:40rpx;
+  line-height:50rpx;
+  color:#fff;
+  text-align:center;
+  font-size:26rpx;
+  position:absolute;
+  right:13px;
+  bottom:20rpx;
+}
+.hotel-name-wrap{
+  display: flex;
+  align-items: baseline;
+}
+.hotel-name{
+  font-size: 36rpx;
+}
+.van-rate{
+  height: 14px;
+}
+.container{
+  padding: 20rpx 24rpx;
+}
+.info-list{
+  overflow-x: auto;
+  display: flex;
+}
+.info-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 185rpx;
+  height: 185rpx;
+  flex-shrink: 0;
+  border: 1rpx solid #cabccb;
+  margin-right: 20rpx;
+  justify-content: center;
+}
+.info-item van-icon{
+  
+}
+.info-label{
+  font-size: 22rpx;
+  color: #676767;
+}
+.info-val{
+  font-size: 28rpx;
+
+}
+
+.meeting{
+  border-top: 1rpx solid #ebedf0;
+}

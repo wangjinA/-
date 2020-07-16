@@ -1,0 +1,15 @@
+.order-footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0rpx 30rpx;
+  height: 120rpx;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 0;
+  box-shadow: 0 -2rpx 15rpx 0 #eaeaea;
+  z-index: 99;
+}

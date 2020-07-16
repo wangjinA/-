@@ -1,0 +1,11 @@
+
+page {
+    background-color: #f0f0f0;
+}
+.listScroll {
+    padding: 20rpx;
+    margin-top: -5rpx;
+    height: calc(100vh - 150rpx - 50rpx);
+    background-color: #fff;
+    box-sizing: border-box;
+}

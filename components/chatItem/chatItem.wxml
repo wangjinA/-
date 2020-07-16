@@ -1,0 +1,25 @@
+<view class="chat-item {{data.other && 'other'}}">
+    <view class="avatar-view">
+        <image src="{{data.avatar}}"></image>
+    </view>
+
+    <image wx:if="{{data.other}}" class="chat-item-arrow" src="/images/chat/popu_white.png"></image>
+    <image wx:else class="chat-item-arrow" src="/images/chat/popu_blue.png"></image>
+    <view class="chat-item-content">
+      <text class="chat-item-text" wx:if="{{data.type === 'text'}}">{{data.content}}</text>
+      <image bindtap="previewImage" mode="widthFix" class="chat-item-image" wx:elif="{{data.type === 'img'}}" src="{{data.img}}"></image>
+      <view wx:elif="{{data.type === 'baojia'}}" class="priceList">
+        <view class="baojia-title">
+          <view class="baojia-tips">报价详情</view>
+          <view class="baojia-total">
+            <text>总报价</text>
+            <text class="c">￥{{data.totalPrice}}</text>
+          </view>
+        </view>
+        <view class="baojia-list" wx:for="{{data.baojiaData}}">
+          <view class="baojia-name">{{item.name}}</view>
+          <view class="baojia-value">￥{{item.value}}</view>
+        </view>
+      </view>
+    </view>
+</view>

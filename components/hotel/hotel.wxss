@@ -1,0 +1,31 @@
+.hotel {
+  display: flex;
+  overflow: hidden;
+  padding: 15rpx 0;
+}
+.hotel-title{
+  font-weight: bold;
+}
+.hotel-image{
+  width: 210rpx;
+  height: 260rpx;
+  flex-shrink: 0;
+  margin-right: 20rpx;
+}
+.hotel-price{
+  color: #FD960D;
+  margin-top: auto;
+}
+.hotel-address{
+  color: #666666;
+  margin-bottom: 10rpx;
+}
+.baseInfo{
+  color: #999999;
+}
+.baseInfo .flex{
+  align-items: baseline;
+}
+.hotel-info{
+  flex: 1;
+}

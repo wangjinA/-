@@ -1,0 +1,11 @@
+<view class="module-form" style="border-bottom: 20rpx solid #f6f6f6">
+  <view class="module-title">酒店基本信息</view>
+  <wjForm formList="{{formList}}" id="wjForm"></wjForm>
+</view>
+
+<view class="module-form">
+  <view class="module-title">联系人信息</view>
+  <contactsInfo id="contactsInfo"></contactsInfo>
+</view>
+
+<footerButton isFixed="{{false}}" bind:click="commit">确认提交</footerButton>

@@ -1,0 +1,6 @@
+.module-title{
+  padding: 30rpx 16px;
+  font-weight: 700;
+  margin-top: 20rpx;
+  
+}

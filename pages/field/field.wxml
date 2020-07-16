@@ -1,0 +1,26 @@
+<view class='container flex-col'>
+	<van-search
+    value="{{ keyword }}"
+    placeholder="请输入酒店名称"
+    use-action-slot
+    bind:change="onChange"
+    bind:search="searchData"
+  >
+    <view slot="action" bind:tap="searchData">
+      <text>搜索</text>
+    </view>
+  </van-search>
+	<van-dropdown-menu>
+		<van-dropdown-item bind:change="optionChange1" value="{{ val1 }}" options="{{ menuOptions1 }}" />
+		<van-dropdown-item bind:change="optionChange2" value="{{ val2 }}" options="{{ menuOptions2 }}" />
+		<van-dropdown-item id="item" title="综合筛选">
+			自定义
+			<van-button type="info" block>
+				确定
+			</van-button>
+		</van-dropdown-item>
+	</van-dropdown-menu>
+  <scroll-view class='listScroll' style="width:{{width}}px;" scroll-y="true" scroll-x lower-threshold="800" bindscrolltolower="loadmore">
+		<hotel wx:for="{{list}}" wx:key="*this" data="{{item}}"></hotel>
+  </scroll-view>
+</view>

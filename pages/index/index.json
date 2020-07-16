@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "hotel": "/components/hotel/hotel"
+  }
+  
+}

@@ -1,0 +1,5 @@
+<wjForm formList="{{formList}}"></wjForm>
+<addImg title="添加会议厅图片"></addImg>
+<view style="padding: 20px 16px;">
+  <wjButton bindtap="commit">提交</wjButton>  
+</view>

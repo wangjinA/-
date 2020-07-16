@@ -1,0 +1,176 @@
+<!-- 最多10家报价 -->
+<view class="container"> 
+    <view class="top">
+      <view class="name text-overflow">在{{item.city}}需要{{item.meetingPeople}}的场地</view>
+      <!-- <view class="type flex0">会议</view> -->
+    </view>
+    <view class="list">
+      <view class="item">
+        <view class="label last">预算</view>
+        <view class="val c totalPrice">
+          <text class="size12">￥</text>
+          <text class="bold">{{item.budget}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="label last">订单状态</view>
+        <view class="val size16" style="margin-left: auto">
+          <text class="bold" >已报价</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="label">会议时间</view>
+        <view class="val">10-04周日（下午）</view>
+      </view>
+      <view class="item">
+        <view class="label">人数类型</view>
+        <view class="val">101人 | 其他会议活动</view>
+      </view>
+      <view class="item">
+        <view class="label">位置要求</view>
+        <view class="val">南昌</view>
+      </view>
+      <view class="item">
+        <view class="label">其他说明</view>
+        <view class="val">时间不能调整，只要这一天，有的可以联系我时间不能调整，只要这一天，有的可以联系我</view>
+      </view>
+    </view>
+</view>
+
+
+<view class="container" wx:if="{{ user == 0}}"> 
+  <view class="top">
+    <view class="name text-overflow">报价列表</view>
+  </view>
+  <view class="bj-list" wx:for="{{bjList}}">
+    <view class="bj-item" bindtap="showBj" data-index="{{index}}">
+      <view class="hotel-name-rob col-center">
+        <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
+        <text class="size14 bold">{{item.hotelName}}</text>
+      </view>
+      <view class="hotel-price-rob">
+        <block wx:if="{{!item.show}}">
+          <text class="size12 c9">第{{item.num}}次报价：</text>
+          <text class="totalPrice">￥{{item.price}}</text>
+        </block>
+        <block wx:else>
+          <van-button type="info" size="small" catchtap="useBj">确认报价</van-button>
+        </block>
+      </view>
+    </view>
+    <van-steps
+      wx:if="{{item.show}}"
+      steps="{{ steps }}"
+      active="{{ active }}"
+      direction="vertical"
+      active-color="#FEAF11"
+    />
+  </view>
+</view>
+
+<view class="container"> 
+  <view class="top">
+    <view class="name text-overflow">会场</view>
+    <view class="name text-overflow">
+      预算：<text class="price">￥50000</text>
+    </view>
+  </view>
+  <view wx:for="{{3}}">
+    <view class="detail-time">
+      10月01日
+    </view>
+    <view class="detail-item">
+      <view>主会场，全天，200人，分组式</view>
+      <view class="item-remark">晚上也要用</view>
+    </view>
+  </view>
+  <view class="top">
+    <view class="name text-overflow">客房</view>
+    <view class="name text-overflow">
+      预算：<text class="price">￥50000</text>
+    </view>
+  </view>
+  <view wx:for="{{3}}">
+    <view class="detail-time">
+      10月01日
+    </view>
+    <view class="detail-item">
+      主会场，全天，200人，分组式
+    </view>
+  </view>
+  <view class="top">
+    <view class="name text-overflow">餐饮</view>
+    <view class="name text-overflow">
+      预算：<text class="price">￥50000</text>
+    </view>
+  </view>
+  <view wx:for="{{3}}">
+    <view class="detail-time">
+      10月01日
+    </view>
+    <view class="detail-item">
+      主会场，全天，200人，分组式
+    </view>
+  </view>
+</view>
+<view class="container" wx:if="{{ status == 1 }}">
+  <view class="top">
+    <view class="name text-overflow">报价详情</view>
+  </view>
+  <van-steps
+    steps="{{ steps }}"
+    active="{{ active }}"
+    direction="vertical"
+    active-color="#FEAF11"
+  />
+</view>
+<view class="container"> 
+  <view class="top">
+    <view class="name text-overflow">客户信息</view>
+  </view>
+  <view class="list">
+    <view class="item">
+      <view class="label">公司名称</view>
+      <view class="val">南昌****集团</view>
+    </view>
+    <view class="item">
+      <view class="label">联系人</view>
+      <view class="val">沐雨**</view>
+    </view>
+    <view class="item">
+      <view class="label">手机号</view>
+      <view class="val">152****8182</view>
+    </view>
+    <view class="item">
+      <view class="label">邮箱</view>
+      <view class="val">116******45@qq.com</view>
+    </view>
+  </view>
+</view>
+
+<view class="container b0"> 
+  <view class="time-wrap">
+    <view class="time">2020-06-02 20:16</view>
+    <view class="code">询价单号:WW202006029988</view>
+  </view>
+</view>
+
+<view class="footer-wrap" wx:if="{{ status == 0 && user == 1}}">
+  <view class="footer">
+    <view class="baojiarenshu size14">
+      <text class="blue">4</text>
+      <text >人已报价</text>
+    </view>
+    <van-button icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
+  	<van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button>
+  </view>
+</view>
+
+<!-- <view class="footer-wrap">
+  <view class="footer">
+  <view class="baojiarenshu size14">
+    <text class="blue">进行中</text>
+  </view>
+	<van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button>
+</view>
+</view> -->

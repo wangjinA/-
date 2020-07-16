@@ -1,0 +1,21 @@
+<view class="swiperContainer">
+	<swiper bindchange="swiperChange" indicator-active-color="#FD960D" indicator-dots  autoplay="{{true}}" duration="{{2000}}" style='height: 380rpx;'>
+		<block wx:for="{{banner}}" wx:key="*this">
+			<swiper-item wx:key="*this">
+				<image src="{{item}}" class="slide-image" class='img' style="width:100%;" />
+			</swiper-item>
+		</block>
+	</swiper>
+</view>
+<view class="container">
+  <view class="goods-name">南昌大酒店房券</view>
+  <view class="goods-tips">免费入住一晚豪华房（含次日自助早餐）</view>
+  <view>
+    <view class="score">
+      <text class="c">50000</text>
+      <text class="text c6">积分</text>
+    </view>
+    <!-- <view class="kucun">库存: 4件</view> -->
+  </view>
+  <view class="title" style="margin-top:20rpx;">礼品介绍</view>
+</view>

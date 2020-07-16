@@ -1,0 +1,36 @@
+<van-tabs active="{{ activeIndex }}" bind:change="onChange" color="#FD960D">
+	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item }}">
+		<view class="content">
+			<view class="order-item" wx:for="{{2}}" bindtap="goDetail">
+				<!-- <view class="hotel-img">
+          <image src="/images/hotel/hotel1.jpg"></image>
+        </view> -->
+        <view class="flex1">
+					<view class="order-top-wrap">
+						<view class="order-name">需要200人的会场</view>
+						<view>
+							<text class="size14 c9">预算:</text>
+							<text class="order-status-dfk">￥999991</text>
+						</view>
+					</view>
+					<view class="order-time">6月1号至6月8号 共7天</view>
+					<view class="order-info">
+						<view class="order-info-label">会场预算</view>
+						<view class="order-info-val">￥8999</view>
+					</view>
+					<view class="order-info">
+						<view class="order-info-label">餐饮预算</view>
+						<view class="order-info-val">￥5000</view>
+					</view>
+					<view class="order-info">
+						<view class="order-info-label">客房预算</view>
+						<view class="order-info-val">￥4980</view>
+					</view>
+					<view class="flex">
+						<van-button type="primary" size="small" style="margin-left:auto" catchtap="goChat">发消息</van-button>
+					</view>
+				</view>
+			</view>
+		</view>
+	</van-tab>
+</van-tabs>

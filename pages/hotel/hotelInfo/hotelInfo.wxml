@@ -1,0 +1,27 @@
+<view class="addHotelImage" bindtap="goAddHotelImage">
+  <view class="add-icon iconfont icon-tianjiatupian"></view>
+  <view class="add-text">添加酒店图片</view>
+</view>
+<wjForm formList="{{formList}}"></wjForm>
+<van-tabs active="{{ 0 }}" bind:change="onChange" color="#FD960D">
+	<van-tab title="宴会厅">
+      <view style="width: 300rpx; margin: 40rpx auto;">
+        <van-button block plain type="info" round size="small" bind:click="goAddMeeting"><text style="font-size:32rpx;" >+</text> 添加会议厅</van-button>
+      </view>
+		<view class="content" style="padding: 10rpx 28rpx;" >
+      <block wx:for="{{yhList}}">
+        <meeting class="meeting" bindtap="goAddMeeting" />
+      </block>
+		</view>
+	</van-tab>
+  <van-tab title="客房">
+      <view style="width: 300rpx; margin: 40rpx auto;">
+        <van-button block plain type="info" round size="small" bind:click="goAddGuestRoom"><text style="font-size:32rpx;" >+</text> 添加客房</van-button>
+      </view>
+		<view class="content" style="padding: 10rpx 28rpx;" >
+      <block wx:for="{{kfList}}">
+        <meeting class="meeting" bindtap="goAddGuestRoom" />
+      </block>
+		</view>
+	</van-tab>
+</van-tabs>

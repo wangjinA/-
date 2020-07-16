@@ -1,0 +1,14 @@
+<view class="msg-list">
+	<view class="msg-item" wx:for="{{7}}" bindtap="clickHandler">
+		<view class="msg-avatar">
+			<image class="avatar-img" src="/images/avatar.jpg"></image>
+		</view>
+		<view class="msg-info">
+			<view class="info-top">
+        <view class="msg-name text-overflow">小沐同学</view>
+        <view class="msg-time">2020-05-17</view>
+      </view>
+			<view class="msg-text">我接受这个报价，很高兴和贵酒店合作</view>
+		</view>
+	</view>
+</view>

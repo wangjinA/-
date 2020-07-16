@@ -1,0 +1,27 @@
+<view class="line-bottom">
+  <van-search
+    value="{{ keyword }}"
+    label="南昌"
+    placeholder="请输入酒店名称"
+    use-action-slot
+    bind:change="onChange"
+    bind:search="searchCommit"
+  >
+    <view slot="action" bind:tap="searchCommit">
+      <text>搜索</text>
+    </view>
+  </van-search>
+</view>
+
+<view class="hotel-list">
+  <view class="hotel-item" wx:for="{{hotelList}}">
+    <view class="hotel-info">
+      <view class="hotel-name bold">{{item.hotelName}}</view>
+      <view class="hotel-address size14 c9">{{item.city}}{{item.address}}</view>
+    </view>
+  <van-button round type="info" size="small" data-id="item.id" data-id="{{item.id}}" bind:click="toHotelSettlein">加入</van-button>
+  </view>
+</view>
+<view class="add-btn flex-center" bindtap="toHotelCreate">
+  <van-icon name="plus" size="35"/>
+</view>

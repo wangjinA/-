@@ -1,0 +1,12 @@
+.footerButton{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30rpx 30rpx;
+  background-color: #fff;
+  z-index: 99;
+}
+.footerPillar{
+  height: 150rpx;
+}

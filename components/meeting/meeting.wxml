@@ -1,0 +1,24 @@
+<view class="meeting" bindtap="handlerClick" data-item="{{data}}">
+  <view class="meeting-img">
+    <image src="/images/hotel/hotel4.jpg"></image>
+  </view>
+  <view class="meeting-info">
+    <view class="top-wrap">
+      <view class="meeting-name">豪华大展堂</view>
+      <view class="meeting-price">
+        <text class="money-i size14">￥</text>
+        <text class="val">12999</text>
+        <text class="unit size14">/全天</text>
+      </view>
+    </view>
+    <view class="size14 c6 flex">
+      面积：2770m²
+    </view>
+    <view class="size14 c6 flex">
+      最多容纳：3000人
+    </view>
+  </view>
+  <view wx:if="{{showSelect}}" class="select-icon-wrap">
+    <van-icon name="success" custom-class="select-icon"/>
+  </view>
+</view>

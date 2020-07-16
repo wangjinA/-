@@ -1,0 +1,10 @@
+<van-tabs active="{{ 0 }}" bind:change="onChange" color="#FD960D">
+	<van-tab title="会议需求">
+		<wjForm formList="{{ meetingformList }}" id="meetingForm"></wjForm>
+		<wjButton width="92%" bindtap="commitMeeting">快速发布</wjButton>
+	</van-tab>
+  <van-tab title="婚宴需求">
+		<wjForm formList="{{ weddingFormList }}" id="weddingForm"></wjForm>
+		<wjButton width="92%" bindtap="commitWedding">快速发布</wjButton>
+	</van-tab>
+</van-tabs>

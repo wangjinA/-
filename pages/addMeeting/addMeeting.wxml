@@ -1,0 +1,17 @@
+<addImg title="添加会议厅图片"></addImg>
+<wjForm formList="{{formList}}"></wjForm>
+
+<wjPopup show="{{ showBaitai }}" title="摆台信息" bind:close="closeBaitai">
+  <wjForm formList="{{baitaiFormList}}"></wjForm>
+  <wjButton width="92%">保存</wjButton>
+</wjPopup>
+
+<wjPopup show="{{ showLeixing }}" title="类型信息" bind:close="closeLeixing">
+  <wjForm formList="{{leixingFormList}}"></wjForm>
+  <wjButton width="92%">保存</wjButton>
+</wjPopup>
+
+<wjPopup show="{{ showShuxing }}" title="属性信息" bind:close="closeShuxing">
+  <wjForm formList="{{shuxingFormList}}"></wjForm>
+  <wjButton width="92%">保存</wjButton>
+</wjPopup>

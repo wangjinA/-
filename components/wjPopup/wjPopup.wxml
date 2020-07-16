@@ -1,0 +1,4 @@
+<van-popup show="{{ show }}" round closeable position="bottom" custom-style="{{customStyle}}" bind:close="closeHandler">
+  <view wx:if="{{title}}" class="popup-title line">{{title}}</view>
+  <slot></slot>
+</van-popup>

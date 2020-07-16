@@ -1,0 +1,93 @@
+<view class='maylike'>
+	<view class="swiper-container">
+		<swiper class='banners' indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-color="#fff" indicator-active-color="#FD960D">
+			<block wx:for="{{banner}}" wx:key="*this">
+				<swiper-item>
+					<image src="{{item}}" class="banner" mode="aspectFill"></image>
+				</swiper-item>
+			</block>
+		</swiper>
+	</view>
+	<!-- <view class='title'>通知中心</view> -->
+	<!-- <view class="notice">
+		<image class="notice-img" src="../../images/notice.png"></image>
+		<swiper class='notice-swiper' vertical="true" autoplay="true" interval="2000" duration="1000" >
+			<swiper-item>今天天气很好</swiper-item>
+			<swiper-item>有多好</swiper-item>
+			<swiper-item>好的那叫不得了</swiper-item>
+		</swiper>
+	</view> -->
+	<!-- <view class="notice">
+		<image class="notice-img" src="../../images/notice.png"></image>
+		<van-notice-bar
+			backgroundColor="transparent"
+			text="今天天气很好"
+			custom-class="test"
+		/>
+	</view> -->
+	<van-notice-bar left-icon="/images/notice.png" text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。" />
+	<view class="h-hotel-info" wx:if="{{ type == 1 }}">
+		<view class="h-hotel-name">{{hotelInfo.hotelName}}</view>
+		<view class="hotel-edit more" data-id="{{hotelInfo.id}}"  bindtap="goHotelInfo">
+			<text>维护酒店信息</text>
+			<text class="iconfont icon-youjiantou"></text>
+		</view>
+	</view>
+	<!-- <view class="business-nav">
+		<view class="business-item">
+			<view>
+				<image src="/images/home-nav-dingdan.png"></image>
+			</view>
+			<view class="nav-text">匹配订单</view>
+		</view>
+		<view class="business-item">
+			<view>
+				<image src="/images/home-nav-dating.png"></image>
+			</view>
+			<view class="nav-text">抢单大厅</view>
+		</view>
+		<view class="business-item">
+			<view>
+				<image src="/images/home-nav-jifen.png"></image>
+			</view>
+			<view class="nav-text">赚取积分</view>
+		</view>
+	</view> -->
+	<view class="business-nav" wx:if="{{ type == 1 }}">
+		<view class="business-item" data-index="0" bindtap="homeNavClick">
+			<view>
+				<image src="/images/home-nav-dingdan.png"></image>
+			</view>
+			<view class="nav-text">匹配订单</view>
+		</view>
+		<view class="business-item" data-index="1" bindtap="homeNavClick">
+			<view>
+				<image src="/images/home-nav-dating.png"></image>
+			</view>
+			<view class="nav-text">抢单大厅</view>
+		</view>
+		<view class="business-item" data-index="2" bindtap="homeNavClick">
+			<view>
+				<image src="/images/home-nav-jifen.png"></image>
+			</view>
+			<view class="nav-text">赚取积分</view>
+		</view>
+	</view>
+	<view>
+
+	</view>
+	<block wx:if="{{ type == 2 }}">
+		<view class='title'>
+			推荐商家
+			<view class="more" bindtap="toField">查看更多></view>
+		</view>
+		<view class="recom flex">
+			<view class="recom-item" wx:for="{{recommendList}}" bindtap="toHotelDetail">
+				<image src="{{item.imgUrl}}"></image>
+				<view class="recom-item-name text-overflow1">{{item.hotelName}}</view>
+			</view>
+		</view>
+		<view class='title'>猜你喜欢</view>
+		<hotel wx:for="{{likeList}}" data="{{item}}"></hotel>
+	</block>
+</view>

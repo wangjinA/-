@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "contactsInfo": "/pages/hotel/components/contactsInfo/contactsInfo"
+  }
+}

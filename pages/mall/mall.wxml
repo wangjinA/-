@@ -1,0 +1,32 @@
+<image class="banner" src="/images/hotel/hotel4.jpg" mode="aspectFill"></image>
+<van-tabs active="{{ tabIndex }}" bind:change="onChange" color="#FD960D">
+	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item }}">
+		<view class="goods-list" wx:if="{{index == 0}}">
+      <view class="goods-item" wx:for="{{10}}">
+        <view class="goods-img"><image src="/images/hotel/hotel5.jpg"></image></view>
+        <view class="goods-name">南昌大酒店房券</view>
+        <view class="goods-score">
+          <text class="godds-score-val c">50000</text>
+          <text>积分</text>
+        </view>
+      </view>
+		</view>
+    <view class="content" wx:if="{{index == 1}}">
+      <view class="getScore">
+        <view class="getScore-item" wx:for="{{getScore}}">
+          <view class="icon">
+          </view>
+          <view class="getScore-wrap">
+            <view class="name-wrap">
+              <view class="name-val">{{item.name}}</view>
+              <van-button plain  type="info" size="mini">+{{item.score}}</van-button>
+            </view>
+            <view class="tips">
+              {{item.tips}} 
+            </view>
+          </view>
+        </view>
+      </view>
+		</view>
+	</van-tab>
+</van-tabs>

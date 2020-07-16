@@ -1,0 +1,21 @@
+<van-collapse value="{{ activeNames }}" bind:change="onChange">
+  <van-collapse-item name="{{index}}" wx:for="{{timeList}}" custom-class="myCollapse">
+    <view slot="title" class="col-center">
+      <view style="margin-right: 7rpx;">{{item}}</view>
+      <van-icon name="clock-o" color="#FD960D"/>
+    </view>
+    <view wx:if="{{index > 0}}" class="flex-center">
+      <van-button round size="small" type="info" data-index="{{index}}" bind:click="copyPrev">复制上一天需求</van-button>
+    </view>
+    <view class="title">主会场,全天,200,分组式</view>
+    <wjForm formList="{{formList}}" id="wjForm"></wjForm>
+  </van-collapse-item>
+</van-collapse>
+
+<wjPopup show="{{showPopup}}" title="请选择会场" bind:close="closePopup">
+  <view class="meetingWrap" wx:for="{{8}}" hover-class="hoverStyle1" hover-stay-time="200">
+    <meeting bind:click="meetingClick" data-index="{{index}}" showSelect="{{index == meetingIndex}}"/>
+  </view>
+</wjPopup>
+
+<footerButton bind:click="next">下一步: 客房报价</footerButton>

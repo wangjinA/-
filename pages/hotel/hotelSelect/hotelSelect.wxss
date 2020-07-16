@@ -1,0 +1,16 @@
+.hotel-item{
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hotel-item + .hotel-item{
+  border-top: 1px solid #ebedf0;
+}
+.hotel-info{
+  display: flex;
+  flex-direction: column;
+}
+.hotel-address{
+  margin-top: 10rpx;
+}

@@ -1,0 +1,7 @@
+<view class="footerPillar">
+</view>
+  <view class="footerButton {{isFixed && 'line-top'}}" style="{{isFixed ? '' : 'position: static;'}}">
+    <van-button block round type="info" bind:click="clickHandler"> 
+      <slot></slot>
+    </van-button>
+  </view>

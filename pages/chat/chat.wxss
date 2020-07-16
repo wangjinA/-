@@ -1,0 +1,60 @@
+page {
+    background-color: #EFEFEF;
+}
+
+.chat-input {
+    border-radius: 10rpx;
+    border: 2rpx solid gainsboro;
+    margin-top: 14rpx;
+    margin-bottom: 13rpx;
+    padding: 10rpx;
+    min-height: 51rpx;
+    background-color: #EFEFEF;
+    flex: 1;
+}
+
+.press-style-opacity image {
+    width: 50rpx;
+    height: 50rpx;
+    padding: 25rpx 15rpx;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.input-flex {
+    padding-left: 20rpx;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    align-items: center;
+    height: 110rpx;
+    box-sizing: border-box;
+}
+
+.sendBtn {
+    margin: 0 20rpx;
+    min-width: 100rpx !important;
+}
+
+.chat-scroll-wrap {
+    height: calc(100vh - 110rpx);
+}
+
+.xunjiadan {
+    position: fixed;
+    padding: 0 50rpx;
+    background-color: #FD960D;
+    text-align: center;
+    right: 24rpx;
+    top: 24rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-radius: 60rpx;
+    font-size: 28rpx;
+    color: #fff;
+    box-shadow: 0rpx 0rpx 8rpx 1rpx rgba(253,150,13, .6);
+}

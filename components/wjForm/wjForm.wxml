@@ -1,0 +1,148 @@
+<view class="wjFrom">
+  <view wx:for="{{formList}}" wx:key="{{index}}">
+    <!-- 选择日期 -->
+    <picker wx:if="{{item.type === 'date'}}" data-key="{{item.key}}" mode="date" bindchange="dateChange">
+      <van-cell required="{{item.required}}" size="large" title="{{item.label}}" value="{{formData[item.key] || item.placeholder}}" is-link />
+    </picker>
+    <!-- <view class="section__title">日期选择器</view>
+    <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+      <view class="picker">
+        当前选择: {{date}}
+      </view>
+    </picker> -->
+    <!-- 列表选择 -->
+    <picker wx:elif="{{item.type === 'select'}}" data-key="{{item.key}}" bindchange="pickChange"  range="{{item.data}}" range-key="{{item.rangeKey || 'name'}}">
+      <van-cell required="{{item.required}}" size="large" title="{{item.label}}" value="{{formData[item.key] || '请选择'}}" is-link />
+    </picker>
+    <!-- 城市选择 -->
+    <view wx:elif="{{item.type === 'city'}}" >
+      <picker
+        custom-item="{{customItem}}"
+        mode="region"
+        data-key="{{item.key}}"
+        bindchange="bindRegionChange"
+        range="{{item.data}}"
+        value="{{formData[item.key]}}"
+        >
+        <van-cell required="{{item.required}}" size="large" title="{{item.label}}" value="{{formData[item.key] || '请选择'}}" is-link />
+      </picker>
+      <!-- 详细地址选择，基于address字段 -->
+      <van-field 
+        wx:if="{{item.address}}"
+        title-width="{{item.addressLabelWidth || labelWidth}}" 
+        data-key="{{item.key+'Address'}}" 
+        label="{{item.addressLabel || '详细地址'}}" 
+        placeholder="{{'请输入'}}" 
+        input-align="right"
+        size="large" 
+        value="{{ formData[item.key+'Address'] }}" 
+        bindchange="inputChange" 
+        type="{{item.inputType || 'text'}}"
+        required="{{item.addressRequired}}"
+        autosize
+        >
+      </van-field>
+    </view>
+    <!-- url链接 -->
+    <van-cell required="{{item.required}}" wx:elif="{{item.type === 'link'}}"size="large" title="{{item.label}}" value="{{item.value || item.placeholder}}" is-link url="{{item.url}}"/>
+    <!-- 点击事件 -->
+    <van-cell required="{{item.required}}" wx:elif="{{item.type === 'event'}}"size="large" title="{{item.label}}" value="{{item.value || item.placeholder}}" is-link bindtap="{{item.key}}"/>
+    <!-- 时间范围选择 -->
+    <van-cell required="{{item.required}}" wx:elif="{{item.type === 'timeScope'}}" 
+      data-key="{{item.key}}" 
+      size="large" 
+      title="{{item.label}}" 
+      value="{{formData[item.key]? formData[item.key][0] + ' - ' + formData[item.key][1] : '请选择' }}" 
+      is-link 
+      bindtap="openCalendar"
+      />
+    <!-- switch -->
+    <van-cell required="{{item.required}}" wx:elif="{{item.type === 'switch'}}" size="large" title="{{item.label}}" value="{{item.value || item.placeholder}}" >
+      <view slot="right-icon">
+        <van-switch inactive-color="#daecff" data-key="{{item.key}}" checked="{{ formData[item.key] }}" bind:change="switchOnChange" size="48rpx"/>
+      </view>
+    </van-cell>
+    <!-- 关联组合项 -->
+    <view wx:elif="{{item.type === 'relation'}}">
+      <view wx:for="{{item.list}}" wx:key="{{index}}" wx:for-item="listItem" style="position: relative;">
+        <van-cell 
+        required="{{item.required}}"
+        size="large" 
+        data-index="{{index}}" 
+        data-item="{{listItem}}" 
+        title="{{listItem.label}}" 
+        value="{{formData[item.key][index] ? (formData[item.key][index].name) + (formData[item.key][index].value ? ',' + formData[item.key][index].value + (listItem.company||'') : ',' + formData[item.key][index].value) : listItem.placeholder }}" 
+        is-link 
+        bindtap="openRelation"/>
+        <view
+          wx:if="{{index > 0 || formData[item.key][index]}}"
+          class="close-relation-item"
+          style="position: absolute; right: 0rpx; top: 50%;transform: translateY(-50%);"
+          data-item="{{listItem}}"
+          data-index="{{index}}"
+          bindtap="closeRelationItem"
+        >
+          <van-icon name="clear" color="#ff976a" />
+        </view>
+      </view>
+      <view style="padding: 6rpx 20rpx;">
+        <van-button wx:if="{{item.isAdd}}" type="primary" block size="small" plain data-index="{{index}}" data-item="{{item}}" bind:click="addRelationItem">{{item.isAdd}}</van-button>
+      </view>
+    </view>
+    <!-- 输入框 -->
+    <view class="flex-center" wx:else>
+      <view class="flex1">
+        <van-field 
+        title-width="{{item.labelWidth || labelWidth}}" 
+        data-key="{{item.key}}" 
+        label="{{item.label}}" 
+        placeholder="{{item.placeholder || '请输入' + item.label}}" 
+        input-align="right" size="large" 
+        value="{{ formData[item.key] }}" 
+        bindchange="inputChange" 
+        type="{{item.inputType || 'text'}}"
+        required="{{item.required}}"
+        autosize
+        >
+        </van-field>
+      </view>
+      <view style="padding: 0 14rpx;" wx:if="{{item.company}}">{{item.company}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- <cover-view> -->
+  <van-calendar
+    show="{{ calendarShow }}"
+    type="range"
+    bind:close="calendarClose"
+    bind:confirm="calendarConfirm"
+    color="#FD960D"
+    id="calendar"
+    default-date="{{ timeScopeDefaultDate }}"
+  />
+<!-- </cover-view> -->
+<wjPopup title="{{ pickerView.title }}" bind:close="closeRelation" show="{{ showRelation }}" customStyle="height: 300px;">
+  <picker-view indicator-style="height: 50px;" value="{{ pickerViewValue }}" style="width: 100%; height: 300px;" bindchange="pickerViewChange">
+    <picker-view-column>
+      <view wx:for="{{ pickerView.selectData }}" wx:key="{{index}}" style="line-height: 50px; text-align: center;">{{item}}</view>
+    </picker-view-column>
+    <picker-view-column>
+      <block wx:if="{{pickerView.rightSelectData}}">
+        <view wx:for="{{pickerView.rightSelectData}}" wx:key="{{index}}" style="line-height: 50px; text-align: center;">{{item}}</view>
+      </block>
+      <view class="flex-center" wx:else>
+        <view style="width: 70%">
+          <van-field
+            value="{{ formData[pickerView.currentKey][pickerView.currentIndex].value }}"
+            placeholder="{{pickerView.placeholder}}"
+            border="{{ false }}"
+            bind:change="pickerViewInputChange"
+            input-align="{{ pickerView.company ? 'right' : 'left' }}"
+          />
+        </view>
+        <view wx:if="pickerView.company">{{ pickerView.company }}</view>
+      </view>
+    </picker-view-column>
+  </picker-view>
+</wjPopup>

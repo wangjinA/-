@@ -1,0 +1,6 @@
+<view class="addHotelImage" bindtap="goAddHotelImage">
+  <view class="add-icon iconfont icon-tianjiatupian"></view>
+  <view class="add-text">添加客房图片</view>
+</view>
+<wjForm formList="{{formList}}" ></wjForm>
+<wjPopup show="{{ showShuxing }}" bind:close="closeShuxing" title="属性信息"></wjPopup>

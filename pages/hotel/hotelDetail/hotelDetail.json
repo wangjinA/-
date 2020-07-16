@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "meeting": "/components/meeting/meeting",
+    "footerMsg": "/components/footerMsg/footerMsg",
+    "meetingDetail": "/components/meetingDetail/meetingDetail"
+  }
+}

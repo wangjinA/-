@@ -1,0 +1,28 @@
+.hotel-item{
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hotel-item + .hotel-item{
+  border-top: 1px solid #ebedf0;
+}
+.hotel-info{
+  display: flex;
+  flex-direction: column;
+}
+.hotel-address{
+  margin-top: 10rpx;
+}
+.add-btn{
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #5145ff;
+  box-shadow: 0rpx 2rpx 10rpx 2rpx #5145ff;
+  border-radius: 50%;
+  position: fixed;
+  right: 50rpx;
+  bottom: 100rpx;
+  color: #fff;
+
+}

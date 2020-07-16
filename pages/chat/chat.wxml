@@ -1,0 +1,23 @@
+<scroll-view scroll-top="{{scrollTop}}"  class="chat-scroll-wrap" scroll-y="true">
+    <chat-item bind:previewImage="previewImage" wx:for="{{chatItems}}" data="{{item}}"/>
+</scroll-view>
+<view class="input-flex">
+    <input class="chat-input"  model:value="{{textMessage}}" bindfocus="inputFocus" bindblur="inputBlur"/>
+    <van-button wx:if="{{inputType === 'text' || textMessage.length}}" class="sendBtn" type="primary" size="small" bindtap="sendMsg">发送</van-button>
+    <view wx:else class="press-style-opacity"  bindtap="openAction">
+        <image src="/images/chat/extra.png" />
+    </view>
+</view>
+<van-action-sheet
+    title="请选择"
+    show="{{ showAction }}"
+    actions="{{ actions }}"
+    cancel-text="取消"
+    bind:close="closeAction"
+    bind:cancel="closeAction"
+    bind:select="selectAction"
+/>
+<view class="xunjiadan flex-center">
+    <van-icon name="orders-o" style="margin-right: 5rpx;" />
+    <text>询价单</text>
+</view>

@@ -1,0 +1,16 @@
+.container{
+  padding: 24rpx
+}
+.goods-name{
+  font-weight: 700;
+}
+.goods-tips{
+  color: #999;
+  font-size: 26rpx;
+  margin: 10rpx 0;
+}
+.score .c{
+  font-size: 40rpx;
+}
+.socre .text{
+}

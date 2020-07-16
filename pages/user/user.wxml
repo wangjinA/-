@@ -1,0 +1,63 @@
+<view class="user-header">
+  <view class="user-avatar" bindtap="toUserInfo">
+    <image src="{{userInfo.url}}"></image>
+  </view>
+  <view class="user-name" bindtap="toUserInfo">{{type == 1 ? hotelInfo.hotelName : userInfo.name}}</view>
+  <!-- <text class="iconfont icon-youjiantou"></text> -->
+  <view class="qiandao">
+    <van-icon name="diamond" wx:if="{{!signin}}"/>
+    <text wx:if="{{!userInfo.sign}}" bindtap="openSignin">积分签到</text>
+    <text wx:elif="{{userInfo.sign}}">已签到</text>
+  </view>
+</view>
+<view class="money-list">
+  <view class="money-item">
+    <view class="money-num">2999</view>
+    <view class="money-text">我的积分</view>
+  </view>
+  <view class="money-item">
+    <view class="money-num">￥299</view>
+    <view class="money-text">可提现</view>
+  </view>
+  <view class="money-item">
+    <view class="money-num">￥1800</view>
+    <view class="money-text">总收入</view>
+  </view>
+</view>
+<view class="nav-list">
+  <view class="nav-item" bindtap="toMyTeam">
+    <image src="/images/tuijian.png"></image>
+    <text>我的推荐</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view>
+  <!-- <view class="nav-item">
+    <image src="/images/tuandui.png"></image>
+    <text>我的团队</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view> -->
+  <view class="nav-item" bindtap="toOrder">
+    <image src="/images/dingdan.png"></image>
+    <text>需求订单</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view>
+  <view class="nav-item" bindtap="toOrder" wx:if="{{type == 2}}">
+    <image src="/images/fb.png"></image>
+    <text>我的发布</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view>
+  <view class="nav-item">
+    <image src="/images/yaoqing.png"></image>
+    <text>邀请注册</text>
+    <text class="qym" bindtap="copyCode" data-code="996342">邀请码：<text class="yqm-code">996342</text></text>
+  </view>
+  <view class="nav-item" bindtap="goGetScore">
+    <image src="/images/wenti.png" ></image>
+    <text>如何获取积分?</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view>
+  <view class="nav-item" bindtap="userToggle">
+    <image src="/images/toggle.png" ></image>
+    <text>{{ type==2 ? '切换商家' : '切换用户' }}</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view>
+</view>

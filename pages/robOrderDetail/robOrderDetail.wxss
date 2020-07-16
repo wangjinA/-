@@ -1,0 +1,107 @@
+.container{
+  padding: 0 28rpx;
+  border-bottom: 8rpx solid #F8F8F8;
+  padding-bottom: 20rpx;
+}
+.item + .item{
+  margin-top: 10rpx;
+}
+.top{
+  display: flex;
+  justify-content: space-between;
+  height: 80rpx;
+  align-items: center;
+}
+.name{
+  font-weight: 700;
+}
+.type{
+  font-size: 24rpx;
+  color: #368CFD;
+  background-color: rgba(54,140,253, .1);
+  width: 60rpx;
+  height: 35rpx;
+  text-align: center;
+  line-height: 35rpx;
+  border-radius: 5rpx;
+}
+.item{
+  display: flex;
+  align-items: flex-start;
+  font-size: 28rpx;
+}
+.label{
+  width: 120rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+.last{
+  text-align-last: justify;
+}
+.time-wrap{
+  font-size: 22rpx;
+  color: #999;
+  justify-content: space-between;
+  display: flex;
+  padding: 20rpx 0;
+}
+.b0{
+  border-bottom: 0;
+}
+.footer-wrap{
+  height: 120rpx;
+}
+.footer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0rpx 30rpx;
+  height: 120rpx;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 0;
+  box-shadow: 0 -2rpx 15rpx 0 #eaeaea;
+  z-index: 99;
+}
+.footer .van-button{
+  width:  380rpx;
+  height:  75rpx;
+  line-height:  75rpx;
+}
+.blue{
+  color: #1989FA;
+}
+.detail-time{
+  font-size: 28rpx;
+  color: #999;
+  padding: 8rpx 0;
+}
+.detail-item{
+  padding: 12px 20rpx;
+  background-color: #f7f7f7;
+  color: #333;
+}
+.item-remark{
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+.price{
+  color: #FD960D;
+}
+.totalPrice{
+  flex: 1;
+  text-align: right;
+  color: #FD960D;
+  font-size: 34rpx;
+}
+.bj-item{
+  display: flex;
+  justify-content: space-between;
+}
+.bj-list + .bj-list{
+  margin-top: 20rpx;
+}

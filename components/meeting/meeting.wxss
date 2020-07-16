@@ -1,0 +1,43 @@
+.meeting{
+  display: flex;
+  padding: 24rpx 32rpx;
+  position: relative;
+}
+.meeting-img{
+  width: 140rpx;
+  height: 120rpx;
+  margin-right: 20rpx;
+}
+.meeting-img image{
+  width: 100%;  
+  height: 100%;
+
+}
+.top-wrap{
+  display: flex;
+  justify-content: space-between;
+}
+.meeting-info{
+  flex: 1;
+}
+.meeting-price {
+  color: #FD960D;
+}
+
+
+.select-icon-wrap{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 80rpx solid transparent;
+  border-bottom: 80rpx solid #1989fa;
+}
+.select-icon{
+  color: #fff;
+  position: absolute!important;
+  left: -40rpx;
+  bottom: -70rpx;
+  transform: rotate(-8deg);
+}

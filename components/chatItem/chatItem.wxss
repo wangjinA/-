@@ -1,0 +1,66 @@
+.avatar-view image{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+.chat-item-content{
+  border-radius: 8rpx;
+  padding: 8px;
+  font-size: 28rpx;
+  max-width: 60%;
+  word-wrap: break-word;
+  margin-top: 8rpx;
+  margin-right: -1rpx;
+  margin-left: 14rpx;
+  background-color: #8fcbf7;
+  color: #213d52;
+}
+.chat-item-arrow{
+  width: 11rpx;
+  height: 20rpx;
+  margin-top: 25rpx;
+}
+.chat-item{
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  padding: 24rpx 0;
+  display: flex;
+}
+
+.chat-item.other{
+  flex-direction: row;
+}
+.chat-item.other .chat-item-content{
+  background-color: white;
+  color: #333333;
+  margin-right: 14rpx;
+  margin-left: -1rpx;
+}
+.chat-item-image{
+  width: 300rpx;
+  max-height: 300rpx;
+}
+.priceList{
+  background-color: #F0F5FF;
+  width: 320rpx;
+  padding: 20rpx;
+}
+.baojia-title{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #ebedf0;
+  padding-bottom: 8rpx;
+}
+.baojia-total{
+}
+.baojia-list{
+  display: flex;
+  align-items: baseline;
+  color: #999;
+  padding: 4rpx 0;
+}
+.baojia-name{
+  width: 100rpx;
+}

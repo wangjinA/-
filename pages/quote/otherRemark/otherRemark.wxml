@@ -1,0 +1,11 @@
+<view class="th-title">
+  其他说明
+</view>
+<van-field
+  bind:value="{{ remark }}"
+  placeholder="请填写报价说明，如会场搭建、茶歇等额外费用，以及可以提供给客户的优惠信息，更有助于成交"
+  bind:change="inputOnChange"
+  type="textarea"
+  autosize="{{ { maxHeight: 100, minHeight: 100 } }}"
+/>
+<footerButton isFixed="{{false}}" bind:click="commit">提交报价</footerButton>

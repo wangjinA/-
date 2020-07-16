@@ -1,0 +1,32 @@
+<view class="order-detail">
+	<view class="hotel-info">
+		<view class="hotel-img">
+			<image src="/images/hotel/hotel3.jpg"></image>
+		</view>
+		<view class="flex-col name-wrap">
+			<view class="hotel-name">南昌国际大酒店</view>
+			<view class="order-time">6月1号至6月8号 共7天</view>
+		</view>
+	</view>
+	<van-cell title="人数类型" value="100人 | 公司培训" size="small" />
+	<van-cell title="位置要求" value="南昌" size="small" />
+	<van-cell title="报价截至" value="2020-05-23" size="small" />
+	<van-cell title="其他说明" value="7月6日至10日100人左右培训场地，因疫情原因，场地需要尽量大一点，有住宿和用餐，住宿标间，需要南昌周边环境好一点，酒店活动地稍微大一点的" size="small" />
+  <view class="order-title">报价进度</view>
+  <van-steps
+    steps="{{ steps }}"
+    active="{{ active }}"
+    direction="vertical"
+    active-color="#FEAF11"
+  />
+  <view class="order-title">客户信息</view>
+	<van-cell title="公司名称" value="小沐公司" size="small" />
+	<van-cell title="联系人" value="沐女士" size="small" />
+	<van-cell title="手机号" value="15270848182" size="small" />
+  <van-field input-align="right" size="small" value="{{ message }}" label="备注" type="textarea" placeholder="仅自己可见" rows="1" autosize />
+  <!-- <view class="order-footer">
+    <van-button icon="phone-o"  round type="info">拨打客户电话</van-button>
+    <van-button icon="chat-o" plain  round type="info">发消息</van-button>
+  </view> -->
+	<footerMsg></footerMsg>
+</view>

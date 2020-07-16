@@ -1,0 +1,8 @@
+<swiper bindchange="swiperChange" circular autoplay="{{true}}" duration="{{500}}" style='height: 380rpx;'>
+  <block wx:for="{{banner}}" wx:key="*this">
+    <swiper-item wx:key="*this">
+      <image src="{{item}}" class="slide-image" class='img' />
+    </swiper-item>
+  </block>
+</swiper>
+<wjForm formList="{{hotelFormList}}"></wjForm>

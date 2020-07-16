@@ -1,0 +1,5 @@
+.popup-title{
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+}
