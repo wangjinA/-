@@ -52,6 +52,39 @@ Page({
       type: 'switch'
     }]
   },
+  commit() {
+    let wjForm = this.selectComponent('#wjForm')
+    let btData = this.selectComponent('#btForm').data.formData
+    let lxData = this.selectComponent('#lxForm').data.formData
+    let sxData = this.selectComponent('#sxForm').data.formData
+    let keys = Object.keys(lxData)
+    let hotelChamberType = keys.map(key => {
+      let val = lxData[key]
+      let type = parseInt(key.replace('r_', ''))
+      return {
+        numbers: val,
+        type
+      }
+    })
+    wjForm.getData()
+    .then(data => {
+      data.dayPrice = parseInt(data.dayPrice)
+      data.halfDayPrice = parseInt(data.halfDayPrice)
+      wx.loadingAPI(wx.$post('/hotel/addHotelChamertInfo', {
+        addHotelChamberVO: {
+          imgUrl: 'testimgurl',
+          ...data,
+          ...sxData,
+          hotelId: this.data.hotelId,
+          hotelChamberType,
+          hotelChamberTable: btData
+        }
+      }), '保存中')
+      .then(data=>{
+
+      })
+    })
+  },
   closeShuxing() {
     this.setData({
       showShuxing: false
@@ -71,7 +104,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.data.hotelId = options.hotelId
+    this.data.hotelId = options.hotelId || 1
     console.log(options)
     
   },

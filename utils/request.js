@@ -6,7 +6,7 @@ const request = function(options) {
     wx.request({
       url: host + url,
       data: {
-        type: wx.type && parseInt(wx.type),
+        // type: wx.type && parseInt(wx.type),
         ...data,
       },
       header: {
@@ -52,12 +52,14 @@ wx.$uploadFile = params => {
   let formData = Object.assign({
     token: wx.getStorageSync('token'),
   }, params.formData)
-
+  console.log(formData);
+  console.log(params.file.path);
+  
   return wx.uploadFile({
     url: host + '/api/user/uploadFile',
     filePath: params.file.path,
     name: 'file',
-    formData: formData
+    formData,
     // success(res) {
     //   // 上传完成需要更新 fileList
     //   const { fileList = [] } = this.data;

@@ -31,7 +31,10 @@ Component({
       console.log(file);
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
       wx.$uploadFile({
-        file
+        file,
+        formData: {
+          test: 1
+        }
       })
     },
   }

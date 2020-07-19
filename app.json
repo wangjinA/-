@@ -1,7 +1,9 @@
 {
   "pages": [
-    "pages/hotel/hotelInfo/hotelInfo",
+    "pages/addMeeting/addMeeting",
+    "pages/hotel/hotelImageMenage/hotelImageMenage",
     "pages/welcome/welcome",
+    "pages/hotel/hotelInfo/hotelInfo",
     "pages/field/field",
     "pages/user/userInfo/userInfo",
     "pages/hotel/hotelSearch/hotelSearch",
@@ -25,7 +27,6 @@
     "pages/mall/mall",
     "pages/release/eatDemand/eatDemand",
     "pages/release/hotelDemand/hotelDemand",
-    "pages/addMeeting/addMeeting",
     "pages/hotel/hotelDetail/hotelDetail",
     "pages/meetingInfo/meetingInfo",
     "pages/mallDetail/mallDetail",
@@ -36,7 +37,6 @@
     "pages/hotel/baseInfo/baseInfo",
     "pages/hotel/roomInfo/roomInfo",
     "pages/hotel/meetingInfo/meetingInfo",
-    "pages/hotel/hotelImageMenage/hotelImageMenage",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
     "pages/user/myRelease/myRelease",
     "pages/order/orderEnd/orderEnd"
