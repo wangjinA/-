@@ -3,17 +3,17 @@
 
 <wjPopup show="{{ showBaitai }}" title="摆台信息" bind:close="closeBaitai">
   <wjForm formList="{{baitaiFormList}}" id="btForm"></wjForm>
-  <wjButton width="92%">保存</wjButton>
+  <wjButton width="92%" bindTap="closeBaitai">保存</wjButton>
 </wjPopup>
 
 <wjPopup show="{{ showLeixing }}" title="类型信息" bind:close="closeLeixing">
   <wjForm formList="{{leixingFormList}}" id="lxForm"></wjForm>
-  <wjButton width="92%">保存</wjButton>
+  <wjButton width="92%" bindTap="closeLeixing">保存</wjButton>
 </wjPopup>
 
 <wjPopup show="{{ showShuxing }}" title="属性信息" bind:close="closeShuxing">
   <wjForm formList="{{shuxingFormList}}" id="sxForm"></wjForm>
-  <wjButton width="92%">保存</wjButton>
+  <wjButton width="92%" bindTap="closeShuxing">保存</wjButton>
 </wjPopup>
 
 <footerButton bind:click="commit">确认</footerButton>

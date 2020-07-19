@@ -8,18 +8,42 @@ Page({
 
   },
 
-  
+
   test() {
+    wx.chooseImage({
+      success(res) {
+        const tempFilePaths = res.tempFilePaths
+        wx.uploadFile({
+          // url: 'http://120.27.240.67:8888/api/user/uploadFile',
+          url: 'http://localhost:3000/uploadFile',
+          filePath: tempFilePaths[0],
+          name: 'file',
+          // header: {
+          //   'Content-Type': "multipart/form-data"
+          // },
+          formData: {
+            'user': 'test'
+          },
+          success(res) {
+            console.log(res);
+
+            const data = res.data
+            //do something
+          }
+        })
+      }
+    })
+    return;
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
-      success (res) {
+      success(res) {
         console.log(res);
         // tempFilePath可以作为img标签的src属性显示图片
         const tempFilePaths = res.tempFilePaths
         wx.uploadFile({
-          url:'http://120.27.240.67:8888/api/user/uploadFile',
+          url: 'http://120.27.240.67:8888/api/user/uploadFile',
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {
@@ -28,7 +52,7 @@ Page({
           },
           success(res) {
             console.log(res);
-            
+
           },
         });
       }

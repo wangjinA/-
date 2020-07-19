@@ -11,19 +11,16 @@ Page({
     formList: [],
     baitaiFormList: [{
       label: '面积',
-      required: true,
       key: 'areas',
       company: '㎡'
     }, {
       label: '所在楼层',
       placeholder: '请输入楼层',
-      required: true,
       key: 'floor',
       company: '楼'
     }, {
       label: '层高',
       placeholder: '请输入距离',
-      required: true,
       key: 'highly',
       company: 'm'
     }, {
@@ -54,12 +51,12 @@ Page({
   },
   commit() {
     let wjForm = this.selectComponent('#wjForm')
-    let btData = this.selectComponent('#btForm').data.formData
-    let lxData = this.selectComponent('#lxForm').data.formData
-    let sxData = this.selectComponent('#sxForm').data.formData
-    let keys = Object.keys(lxData)
+    let btForm = this.selectComponent('#btForm')
+    let lxForm = this.selectComponent('#lxForm')
+    let sxData = this.selectComponent('#sxForm')
+    let keys = Object.keys(lxForm.data.formData)
     let hotelChamberType = keys.map(key => {
-      let val = lxData[key]
+      let val = lxForm.data.formData[key]
       let type = parseInt(key.replace('r_', ''))
       return {
         numbers: val,
@@ -71,17 +68,25 @@ Page({
       data.dayPrice = parseInt(data.dayPrice)
       data.halfDayPrice = parseInt(data.halfDayPrice)
       wx.loadingAPI(wx.$post('/hotel/addHotelChamertInfo', {
-        addHotelChamberVO: {
-          imgUrl: 'testimgurl',
-          ...data,
-          ...sxData,
-          hotelId: this.data.hotelId,
-          hotelChamberType,
-          hotelChamberTable: btData
-        }
+        imgUrl: 'testimgurl',
+        ...data,
+        ...sxData.data.formData,
+        hotelId: this.data.hotelId,
+        hotelChamberType,
+        hotelChamberTable: btForm.data.formData
       }), '保存中')
       .then(data=>{
-
+        wjForm.clearData()
+        btForm.clearData()
+        lxForm.clearData()
+        sxData.clearData()
+        wx.showToast({
+          icon: 'success',
+          title: '保存成功',
+          complete() {
+            wx.navigateBack()
+          }
+        })
       })
     })
   },
