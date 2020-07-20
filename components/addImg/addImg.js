@@ -22,20 +22,52 @@ Component({
     fileList: []
   },
 
-  /**
-   * 组件的方法列表
-   */
   methods: {
+    clearData() {
+      this.setData({
+        fileList: []
+      })
+    },
+    getData(params = true) {
+      let list = this.data.fileList
+      if(typeof params === 'boolean'){
+        if(params === true && !list.length) {
+          wx.showToast({
+            icon: 'none',
+            title: '请选择图片',
+          })
+        }
+      }
+      if(typeof params === 'string' && !list.length) {
+        wx.showToast({
+          icon: 'none',
+          title: params || '请选择图片',
+        })
+        return false
+      }
+      return list
+    },
+    delImg(e) {
+      console.log(e);
+      this.data.fileList.splice(e.detail.index, 1)
+      this.setData({
+        fileList: this.data.fileList
+      })
+    },
     afterRead(event) {
       const { file } = event.detail;
       console.log(file);
-      // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
       wx.$uploadFile({
         file,
-        formData: {
-          test: 1
-        }
-      })
+      }).then(data => {
+        let url = data.data
+        this.data.fileList.push({
+          url
+        })
+        this.setData({
+          fileList: this.data.fileList
+        })
+      },)
     },
   }
 })

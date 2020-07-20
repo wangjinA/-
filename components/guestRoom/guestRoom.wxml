@@ -1,0 +1,24 @@
+<view class="guestRoom" bindtap="handlerClick" data-item="{{data}}">
+  <view class="guestRoom-img">
+    <image src="{{data.img}}"></image>
+  </view>
+  <view class="guestRoom-info">
+    <view class="top-wrap">
+      <view class="guestRoom-name">{{data.houseType}}</view>
+      <view class="guestRoom-price">
+        <text class="money-i size14">￥</text>
+        <text class="val">{{data.price}}</text>
+        <!-- <text class="unit size14">/全天</text> -->
+      </view>
+    </view>
+    <view class="size14 c6 flex" wx:if="{{data.describes}}">
+    {{data.describes}}
+    </view>
+    <!-- <view class="size14 c6 flex">
+      最多容纳：3000人
+    </view> -->
+  </view>
+  <view wx:if="{{showSelect}}" class="select-icon-wrap">
+    <van-icon name="success" custom-class="select-icon"/>
+  </view>
+</view>

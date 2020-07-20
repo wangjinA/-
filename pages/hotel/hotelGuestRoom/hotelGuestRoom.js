@@ -8,46 +8,68 @@ Page({
     formList: [],
     showShuxing: false
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  
+  commit() {
+    let wjForm = this.selectComponent('#wjForm')
+    let addImg = this.selectComponent('#addImg')
+    let imgList = addImg.getData('请添加客房图片')
+    if(!imgList) return;
+    wjForm.getData()
+    .then(data => {
+      wx.loadingAPI(wx.$post('/hotel/addHotelGuesttInfo', {
+        ...data,
+        hotelId: this.data.hotelId,
+        imgUrl: wx.$stringify(imgList)
+      }), '保存中')
+      .then(data=> {
+        wjForm.clearData()
+        addImg.clearData()
+        wx.showToast({
+          icon: 'success',
+          title: '保存成功',
+          complete() {
+            wx.navigateBack()
+          }
+        })
+      })
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   closeShuxing() {
     this.setData({
       showShuxing: false
     })
   },
-  onReady: function () {
+  
+  onLoad(options) {
+    this.data.hotelId = options.hotelId
+    console.log(options);
+    
+  },
+  onReady () {
     this.setData({
       formList: [{
         label: '房型',
         required: true,
-        key: 'hotelName',
+        key: 'houseType',
       }, {
         label: '价格',
         required: true,
-        key: 'hotelName',
-      }, {
-        label: '属性',
-        required: true,
-        key: 'hotelName',
-        type: 'event',
-        click: () => {
-          this.setData({
-            showShuxing: true
-          })
-        }
-      }, {
+        key: 'price',
+      }, 
+      // {
+      //   label: '属性',
+      //   required: true,
+      //   key: 'hotelName',
+      //   type: 'event',
+      //   click: () => {
+      //     this.setData({
+      //       showShuxing: true
+      //     })
+      //   }
+      // },
+       {
         label: '描述',
-        required: true,
-        key: 'hotelName',
+        key: 'describes',
       }]
     })
   },

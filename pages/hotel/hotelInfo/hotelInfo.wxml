@@ -10,7 +10,7 @@
       </view>
 		<view class="content" style="padding: 10rpx 28rpx;" >
       <block wx:for="{{yhList}}">
-        <meeting class="meeting" bindtap="goAddMeeting" />
+        <meeting class="meeting" bindtap="goAddMeeting" data="{{item}}" />
       </block>
 		</view>
 	</van-tab>
@@ -20,7 +20,7 @@
       </view>
 		<view class="content" style="padding: 10rpx 28rpx;" >
       <block wx:for="{{kfList}}">
-        <meeting class="meeting" bindtap="goAddGuestRoom" />
+        <guestRoom class="guestRoom" bindtap="goAddGuestRoom" data="{{item}}"/>
       </block>
 		</view>
 	</van-tab>

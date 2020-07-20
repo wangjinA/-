@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/welcome/welcome",
-    "pages/hotel/hotelImageMenage/hotelImageMenage",
+    "pages/hotel/baseInfo/baseInfo",
+    "pages/hotel/hotelInfo/hotelInfo",
     "pages/addMeeting/addMeeting",
+    "pages/hotel/hotelImageMenage/hotelImageMenage",
     "pages/user/userInfo/userInfo",
     "pages/index/index",
-    "pages/hotel/hotelInfo/hotelInfo",
     "pages/field/field",
     "pages/hotel/hotelSearch/hotelSearch",
     "pages/hotel/hotelCreate/hotelCreate",
@@ -34,7 +35,6 @@
     "pages/msg/msg",
     "pages/hotel/hotel",
     "pages/login/login",
-    "pages/hotel/baseInfo/baseInfo",
     "pages/hotel/roomInfo/roomInfo",
     "pages/hotel/meetingInfo/meetingInfo",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
@@ -87,6 +87,8 @@
   },
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
+    "guestRoom": "/components/guestRoom/guestRoom",
+    "meeting": "/components/meeting/meeting",
     "footerButton": "/components/footerButton/footerButton",
     "wjButton": "/components/wjButton/wjButton",
     "mySwiper": "/components/mySwiper/mySwiper",

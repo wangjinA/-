@@ -21,7 +21,7 @@
         mode="region"
         data-key="{{item.key}}"
         bindchange="bindRegionChange"
-        range="{{item.data}}"
+      range="{{item.data}}"
         value="{{formData[item.key]}}"
         >
         <van-cell required="{{item.required}}" size="large" title="{{item.label}}" value="{{formData[item.key] || '请选择'}}" is-link />
@@ -30,12 +30,12 @@
       <van-field 
         wx:if="{{item.address}}"
         title-width="{{item.addressLabelWidth || labelWidth}}" 
-        data-key="{{item.key+'Address'}}" 
+        data-key="{{item.addressKey || item.key+'Address'}}" 
         label="{{item.addressLabel || '详细地址'}}" 
         placeholder="{{'请输入'}}" 
         input-align="right"
         size="large" 
-        value="{{ formData[item.key+'Address'] }}" 
+        value="{{ formData[item.addressKey || item.key+'Address'] }}" 
         bindchange="inputChange" 
         type="{{item.inputType || 'text'}}"
         required="{{item.addressRequired}}"

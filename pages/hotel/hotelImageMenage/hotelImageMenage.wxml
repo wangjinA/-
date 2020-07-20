@@ -1,5 +1,5 @@
-<view bindtap="test">test</view>
-<addImg title="外观"></addImg>
-<addImg title="大堂"></addImg>
-<addImg title="餐厅"></addImg>
-<addImg title="其它"></addImg>
+<addImg title="外观" id="wg"></addImg>
+<addImg title="大堂" id="dt"></addImg>
+<addImg title="餐厅" id="ct"></addImg>
+<addImg title="其它" id="qt"></addImg>
+<footerButton bindtap="commit">保存</footerButton>

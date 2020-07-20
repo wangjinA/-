@@ -103,6 +103,22 @@ export const rs = value => { // 参会人数
   return getCommon(data, value)
 }
 
+export const imgType = value => {
+  let data = [{
+    name: '外观',
+    value: 1
+  }, {
+    name: '大堂',
+    value: 2
+  }, {
+    name: '餐厅',
+    value: 3
+  }, {
+    name: '其他',
+    value: 4
+  }]
+  return getCommon(data, value)
+}
 export const hyrs = value => {
   let data = [{
     label: '剧院式容纳人数',
@@ -166,3 +182,5 @@ export const hyrs = value => {
   }
   return data
 }
+
+export const defaultCity = ['江西省', '南昌市']

@@ -48,23 +48,25 @@ wx.$post = (url, data) => {
 }
 
 wx.$uploadFile = params => {
-
+  wx.showLoading({
+    title: '上传中',
+  })
   let formData = Object.assign({
     token: wx.getStorageSync('token'),
   }, params.formData)
-  console.log(formData);
-  console.log(params.file.path);
-  
-  return wx.uploadFile({
-    url: host + '/api/user/uploadFile',
-    filePath: params.file.path,
-    name: 'file',
-    formData,
-    // success(res) {
-    //   // 上传完成需要更新 fileList
-    //   const { fileList = [] } = this.data;
-    //   fileList.push({ ...file, url: res.data });
-    //   this.setData({ fileList });
-    // },
-  });
+  return new Promise((resolve, reject) => {
+    wx.uploadFile({
+      url: host + '/api/user/uploadFile',
+      filePath: params.file.path,
+      name: 'file',
+      formData,
+      success(res) {
+        resolve(wx.$parse(res.data))
+      },
+      fail: reject,
+      complete() {
+        wx.hideLoading()
+      }
+    });
+  })
 }

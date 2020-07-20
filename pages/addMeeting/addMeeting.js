@@ -54,6 +54,9 @@ Page({
     let btForm = this.selectComponent('#btForm')
     let lxForm = this.selectComponent('#lxForm')
     let sxData = this.selectComponent('#sxForm')
+    let addImg = this.selectComponent('#addImg')
+    let imgList = addImg.getData('请添加会议厅图片')
+    if(!imgList) return;
     let keys = Object.keys(lxForm.data.formData)
     let hotelChamberType = keys.map(key => {
       let val = lxForm.data.formData[key]
@@ -68,7 +71,7 @@ Page({
       data.dayPrice = parseInt(data.dayPrice)
       data.halfDayPrice = parseInt(data.halfDayPrice)
       wx.loadingAPI(wx.$post('/hotel/addHotelChamertInfo', {
-        imgUrl: 'testimgurl',
+        imgUrl: wx.$stringify(imgList),
         ...data,
         ...sxData.data.formData,
         hotelId: this.data.hotelId,
@@ -80,6 +83,7 @@ Page({
         btForm.clearData()
         lxForm.clearData()
         sxData.clearData()
+        addImg.clearData()
         wx.showToast({
           icon: 'success',
           title: '保存成功',
@@ -109,7 +113,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.data.hotelId = options.hotelId || 1
+    this.data.hotelId = options.hotelId
     console.log(options)
     
   },

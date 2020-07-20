@@ -28,7 +28,7 @@ export function getAllDate(startDate, endDate) {
   }
   return getAll(startDate, endDate)
 }
-export function formatTime(date = new Date(), notTime = false) {
+export function formatTime(date = new Date(), notTime = false, notYear = true) {
   let year = date.getFullYear()
   let month = date.getMonth() + 1
   let day = date.getDate()
@@ -37,7 +37,7 @@ export function formatTime(date = new Date(), notTime = false) {
   let minute = date.getMinutes()
   let second = date.getSeconds()
   let arr = [year, month, day]
-  if(year === new Date().getFullYear()){
+  if(year === new Date().getFullYear() && notYear){
     arr.shift()
   }
   let time = arr.map(formatNumber).join('-')
@@ -81,7 +81,7 @@ export function checkRequired(formData, formList) { // 提交判断required
     }
 
     if(item.addressRequired) {
-      let addressData = formData[item.key + 'Address']
+      let addressData = formData[item.addressKey || item.key + 'Address']
       if(!addressData) {
         isNull = true
         label = item.addressLabel || '详细地址'

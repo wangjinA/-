@@ -32,7 +32,7 @@ Page({
   },
   goAddGuestRoom() {
     wx.navigateTo({
-      url: '/pages/hotel/hotelGuestRoom/hotelGuestRoom',
+      url: '/pages/hotel/hotelGuestRoom/hotelGuestRoom?hotelId='+this.data.hotelId
     })
   },
   goAddHotelImage() {
@@ -68,7 +68,11 @@ Page({
       pageSize: 50,
     }).then(data => {
       this.setData({
-        yhList: data.data.list
+        yhList: data.data.list.map(item =>({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        }))
       })
     })
     wx.$get('/hotel/getHotelGuestlInfo', { // 客房信息信息
@@ -77,12 +81,16 @@ Page({
       pageSize: 50,
     }).then(data => {
       this.setData({
-        kfList: data.data.list
+        kfList: data.data.list.map(item =>({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        }))
       })
     })
   },
   onLoad (options) {
-    this.data.hotelId = options.id
+    this.data.hotelId = options.id || 2
     this.initData()
   },
 
@@ -97,7 +105,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.initData()
   },
 
   /**

@@ -1,0 +1,4 @@
+<view class="bannerImg" bindtap="goAddHotelImage">
+  <view class="add-icon iconfont icon-tianjiatupian"></view>
+  <view class="add-text">{{title}}</view>
+</view>

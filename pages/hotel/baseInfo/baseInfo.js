@@ -1,4 +1,4 @@
-import { formatSelectData } from "../../../utils/util";
+import { jdxj, defaultCity } from "../../../utils/config";
 
 // pages/hotel/baseInfo/baseInfo.js
 Page({
@@ -10,43 +10,39 @@ Page({
     formList: [{
       label: '酒店中文名称',
       placeholder: '请输入酒店名称',
+      required: true,
       key: 'hotelName',
     }, {
-      label: '酒店地址',
-      placeholder: '完整酒店地址',
-      key: 'hotelAddress',
-    }, {
-      label: '所在商圈',
-      placeholder: '请输入商圈名称',
-      key: 'shangquan',
+      label: '所在城市',
+      key: 'city',
+      type: 'city',
+      address: true,
+      required: true,
+      addressRequired: true,
+      addressKey: 'address'
     }, {
       label: '开业时间',
       placeholder: '请选择',
-      key: 'createTime',
-      type: 'date'
+      key: 'openingTime',
+      type: 'date',
+      required: true,
     }, {
       label: '最近装修时间',
       placeholder: '请选择',
-      key: 'updateTime',
-      type: 'date'
+      key: 'decorateTime',
+      type: 'date',
+      required: true,
     }, {
       label: '星级',
       placeholder: '请选择',
-      key: 'star',
+      key: 'starType',
       type: 'select',
-      data: [{
-        name: '三星/舒适',
-        value: '三星/舒适'
-      }, {
-        name: '四星/高档',
-        value: '四星/高档'
-      }, {
-        name: '五星/豪华',
-        value: '五星/豪华'
-      }, {
-        name: '五星/顶级',
-        value: '五星/顶级'
-      }]
+      data: jdxj(),
+      required: true,
+    }, {
+      label: '所在商圈',
+      placeholder: '请输入商圈名称',
+      key: 'businessCircle',
     }, {
       label: '最近地标建筑',
       key: 'zjdb',
@@ -101,17 +97,49 @@ Page({
       key: 'vrLink',
     }]
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  commit() {
+    console.log(1);
+    
+    let wjForm = this.selectComponent('#wjForm')
+    wjForm.getData()
+    .then(data => {
+      let params = {
+        ...data,
+        id: this.data.hotelId,
+        starType: jdxj(data.starType),
+        city: data.city.join(' ')
+      }
+      console.log(params);
+      
+      wx.loadingAPI(wx.$post('/hotel/updateHotelBasisInfo', params), '保存中')
+      .then(data => {
+        wx.showToast({
+          title: '保存成功',
+        })
+        this.init()
+      })
+    })
+    
+  },
+  init() {
+    wx.loadingAPI(wx.$get('/hotel/getHotelBasisInfo', {
+      hotelId: this.data.hotelId
+    })).then(data => {
+      let wjForm = this.selectComponent('#wjForm')
+      data.data.city = data.data.city ? data.data.city.split(' ') : defaultCity
+      data.data.starType = jdxj(data.data.starType)
+      data.data.decorateTime = data.data.decorateTime ? wx.formatTime(new Date(data.data.decorateTime), true, false) : ''
+      data.data.openingTime = data.data.openingTime ? wx.formatTime(new Date(data.data.openingTime), true, false) : ''
+      wjForm.setData({
+        formData: data.data
+      })
+    })
+  },
   onLoad: function (options) {
-
+    this.data.hotelId = options.hotelId || 2
+    this.init()
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
 
   },

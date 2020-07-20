@@ -1,4 +1,4 @@
-// components/wjForm/wjForm.js
+import { defaultCity } from '../../utils/config'
 import {
   formatTime
 } from '../../utils/util'
@@ -66,7 +66,7 @@ Component({
         // 地址选择器默认江西南昌
         if (item.type === 'city') {
           this.setFormData({
-            [item.key]: ['江西省', '南昌市']
+            [item.key]: defaultCity
           })
         }
         if (item.type === 'relation') {

@@ -38,7 +38,7 @@ Page({
       ...form.data.formData,
       ...contactsInfo.getData()
     }
-    params.city = params.city.join('')
+    params.city = params.city.join(' ')
     params.starType = jdxj(params.starType)
     console.log(form.data.formData)
     console.log(params);
