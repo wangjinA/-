@@ -1,5 +1,1 @@
-<addImg title="外观" id="wg"></addImg>
-<addImg title="大堂" id="dt"></addImg>
-<addImg title="餐厅" id="ct"></addImg>
-<addImg title="其它" id="qt"></addImg>
-<footerButton bindtap="commit">保存</footerButton>
+<addImg title="{{item.name}}" wx:for="{{imgTypes}}" id="{{item.id}}" bind:addImg="addImg" bind:delImg="delImg" data-type="{{item.value}}"></addImg>

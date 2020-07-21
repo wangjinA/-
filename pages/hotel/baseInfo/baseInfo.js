@@ -1,4 +1,8 @@
-import { jdxj, defaultCity } from "../../../utils/config";
+import {
+  jdxj,
+  defaultCity,
+  hylx
+} from "../../../utils/config";
 
 // pages/hotel/baseInfo/baseInfo.js
 Page({
@@ -53,85 +57,72 @@ Page({
     }, {
       label: '最常举办会议类型',
       placeholder: '请选择',
-      key: 'meetingType',
+      key: 'oftenMeetingType',
       type: 'select',
-      data: [{
-        name: '公司年会',
-        value: '公司年会'
-      }, {
-        name: '培训/讲座',
-        value: '培训/讲座'
-      }, {
-        name: '工作会/总结会',
-        value: '工作会/总结会'
-      }, {
-        name: '经销商会议/招商会/推介会',
-        value: '经销商会议/招商会/推介会'
-      }, {
-        name: '发布会/颁奖/庆典',
-        value: '发布会/颁奖/庆典'
-      }, {
-        name: '研讨/交流/论坛',
-        value: '研讨/交流/论坛'
-      }, {
-        name: '沙龙',
-        value: '沙龙'
-      }, {
-        name: '同学会/好友聚会',
-        value: '同学会/好友聚会'
-      }, {
-        name: '团队建设/拓展/休闲会议',
-        value: '团队建设/拓展/休闲会议'
-      }]
+      data: hylx()
     }, {
       label: '酒店简介卖点',
-      key: 'sellingPoint',
+      key: 'details',
       inputType: 'textarea'
     }, {
       label: '会议餐标',
       inputType: 'number',
       placeholder: '请输入数量',
-      key: 'parkingNum',
-    },  {
+      key: 'meetingMeal',
+    }, {
       label: 'VR展示链接',
       key: 'vrLink',
     }]
   },
   commit() {
-    console.log(1);
-    
     let wjForm = this.selectComponent('#wjForm')
     wjForm.getData()
-    .then(data => {
-      let params = {
-        ...data,
-        id: this.data.hotelId,
-        starType: jdxj(data.starType),
-        city: data.city.join(' ')
-      }
-      console.log(params);
-      
-      wx.loadingAPI(wx.$post('/hotel/updateHotelBasisInfo', params), '保存中')
       .then(data => {
-        wx.showToast({
-          title: '保存成功',
-        })
-        this.init()
+        let params = {
+          ...data,
+          id: this.data.hotelId,
+          starType: data.starType ? jdxj(data.starType) : '',
+          city: data.city.join(' '),
+          oftenMeetingType: data.oftenMeetingType ? hylx(data.oftenMeetingType) : ''
+        }
+        if (data.zjdb && data.zjdb.length) {
+          if (data.zjdb[0].name && data.zjdb[0].value) {
+            params.landmark = data.zjdb[0].name
+            params.distance = data.zjdb[0].value
+          }
+        }
+        console.log(params);
+
+        wx.loadingAPI(wx.$post('/hotel/updateHotelBasisInfo', params), '保存中')
+          .then(data => {
+            wx.showToast({
+              title: '保存成功',
+            })
+            this.init()
+          })
       })
-    })
-    
+
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelBasisInfo', {
       hotelId: this.data.hotelId
-    })).then(data => {
+    })).then(({
+      data
+    }) => {
       let wjForm = this.selectComponent('#wjForm')
-      data.data.city = data.data.city ? data.data.city.split(' ') : defaultCity
-      data.data.starType = jdxj(data.data.starType)
-      data.data.decorateTime = data.data.decorateTime ? wx.formatTime(new Date(data.data.decorateTime), true, false) : ''
-      data.data.openingTime = data.data.openingTime ? wx.formatTime(new Date(data.data.openingTime), true, false) : ''
+      data.city = data.city ? data.city.split(' ') : defaultCity
+      data.starType = jdxj(data.starType)
+      data.oftenMeetingType = hylx(data.oftenMeetingType)
+      data.decorateTime = data.decorateTime ? wx.formatTime(new Date(data.decorateTime), true, false) : ''
+      data.openingTime = data.openingTime ? wx.formatTime(new Date(data.openingTime), true, false) : ''
+      if (data.landmark) {
+        data.zjdb = [{
+          name: data.landmark,
+          value: data.distance,
+        }]
+      }
       wjForm.setData({
-        formData: data.data
+        formData: data
       })
     })
   },

@@ -1,5 +1,2 @@
-<wjForm formList="{{formList}}"></wjForm>
-
-<view style="padding: 40rpx 24rpx;">
-  <van-button type="primary" block bindtap="nextPage">确定</van-button>
-</view>
+<wjForm formList="{{formList}}" id="wjForm"></wjForm>
+<footerButton bind:click="submit">保存</footerButton>

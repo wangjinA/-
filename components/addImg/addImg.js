@@ -49,7 +49,7 @@ Component({
     },
     delImg(e) {
       console.log(e);
-      this.data.fileList.splice(e.detail.index, 1)
+      this.triggerEvent('delImg', this.data.fileList.splice(e.detail.index, 1))
       this.setData({
         fileList: this.data.fileList
       })
@@ -61,9 +61,11 @@ Component({
         file,
       }).then(data => {
         let url = data.data
-        this.data.fileList.push({
+        let fileItem = {
           url
-        })
+        }
+        this.triggerEvent('addImg', fileItem)
+        this.data.fileList.push(fileItem)
         this.setData({
           fileList: this.data.fileList
         })

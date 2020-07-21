@@ -1,10 +1,11 @@
 {
   "pages": [
-    "pages/welcome/welcome",
-    "pages/hotel/baseInfo/baseInfo",
-    "pages/hotel/hotelInfo/hotelInfo",
-    "pages/addMeeting/addMeeting",
     "pages/hotel/hotelImageMenage/hotelImageMenage",
+    "pages/hotel/hotelInfo/hotelInfo",
+    "pages/hotel/baseInfo/baseInfo",
+    "pages/hotel/roomInfo/roomInfo",
+    "pages/welcome/welcome",
+    "pages/addMeeting/addMeeting",
     "pages/user/userInfo/userInfo",
     "pages/index/index",
     "pages/field/field",
@@ -35,7 +36,6 @@
     "pages/msg/msg",
     "pages/hotel/hotel",
     "pages/login/login",
-    "pages/hotel/roomInfo/roomInfo",
     "pages/hotel/meetingInfo/meetingInfo",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
     "pages/user/myRelease/myRelease",

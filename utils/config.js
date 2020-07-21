@@ -102,23 +102,29 @@ export const rs = value => { // 参会人数
   }]
   return getCommon(data, value)
 }
-
-export const imgType = value => {
-  let data = [{
-    name: '外观',
-    value: 1
-  }, {
-    name: '大堂',
-    value: 2
-  }, {
-    name: '餐厅',
-    value: 3
-  }, {
-    name: '其他',
-    value: 4
-  }]
-  return getCommon(data, value)
+let imgTypeData = [{
+  name: '外观',
+  value: 1,
+  id: 'wg'
+}, {
+  name: '大堂',
+  value: 2,
+  id: 'dt'
+}, {
+  name: '餐厅',
+  value: 3,
+  id: 'ct'
+}, {
+  name: '其他',
+  value: 4,
+  id: 'qt'
+}]
+export const imgTypes = value => {
+  return getCommon(imgTypeData, value)
 }
+imgTypes.data = imgTypeData
+
+
 export const hyrs = value => {
   let data = [{
     label: '剧院式容纳人数',
@@ -181,6 +187,38 @@ export const hyrs = value => {
     }
   }
   return data
+}
+
+export const hylx = value => {
+  let data = [{
+    name: '公司年会',
+    value: 1
+  }, {
+    name: '培训/讲座',
+    value: 2
+  }, {
+    name: '工作会/总结会',
+    value: 3
+  }, {
+    name: '经销商会议/招商会/推介会',
+    value: 4
+  }, {
+    name: '发布会/颁奖/庆典',
+    value: 5
+  }, {
+    name: '研讨/交流/论坛',
+    value: 6
+  }, {
+    name: '沙龙',
+    value: 7
+  }, {
+    name: '同学会/好友聚会',
+    value: 8
+  }, {
+    name: '团队建设/拓展/休闲会议',
+    value: 9
+  }]
+  return getCommon(data, value)
 }
 
 export const defaultCity = ['江西省', '南昌市']

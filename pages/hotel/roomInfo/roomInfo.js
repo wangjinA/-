@@ -10,53 +10,72 @@ Page({
       inputType: 'number',
       placeholder: '请输入数量',
       company: '间',
-      key: 'meetingRoomNum',
+      key: 'chamberCount',
     }, {
       label: '客房总数',
       inputType: 'number',
       placeholder: '请输入数量',
       company: '间',
-      key: 'guestRoomNum',
+      key: 'guestCount',
     }, {
       label: '标准双床房总数',
       inputType: 'number',
       placeholder: '请输入数量',
       company: '间',
-      key: 'doubleBedRoomNum',
+      key: 'doubleBed',
       labelWidth: '230rpx'
     }, {
       label: '大床房总数',
       inputType: 'number',
       placeholder: '请输入数量',
       company: '间',
-      key: 'largeRoomNum',
-    }, {
-      label: '能否进车',
-      placeholder: '请输入数量',
-      key: 'parkingNum',
-      type: 'select',
-      data: [{
-        name: '是',
-        value: 1
-      }, {
-        name: '否',
-        value: 0
-      }]
+      key: 'bigDedCount',
     }, {
       label: '配套总车位数',
       inputType: 'number',
       placeholder: '请输入数量',
       company: '个',
-      key: 'parkingNum',
+      key: 'parkingSpace',
+    }, {
+      label: '能否进车',
+      key: 'intoCar',
+      type: 'switch',
     }]
 
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  submit() {
+    let wjForm = this.selectComponent('#wjForm')
+    wjForm.getData()
+      .then(data => {
+        wx.loadingAPI(wx.$post('/hotel/updateHotelAssortInfo', {
+          ...data,
+          intoCar: data.intoCar ? 1: 0,
+          hotelId: this.data.hotelId
+        }), '保存中')
+        .then(data => {
+          this.init()
+        })
+      })
+  },
+  init() {
+    wx.loadingAPI(wx.$get('/hotel/getHotelAssortInfo', {
+      hotelId: this.data.hotelId
+    })).then(({
+      data
+    }) => {
+      let wjForm = this.selectComponent('#wjForm')
+      wjForm.setData({
+        formData: {
+          ...data,
+          intoCar: !!data.intoCar
+        }
+      })
+    })
+  },
   onLoad: function (options) {
-
+    this.data.hotelId = options.hotelId || 2
+    this.init()
   },
 
   /**

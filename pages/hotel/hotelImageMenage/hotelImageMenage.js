@@ -1,22 +1,36 @@
-import { imgType } from '../../../utils/config'
+import { imgTypes } from '../../../utils/config'
+console.log(imgTypes);
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    imgTypes: imgTypes.data
   },
-  commit() {
-    let wg = this.selectComponent('#wg')
-    let dt = this.selectComponent('#dt')
-    let ct = this.selectComponent('#ct')
-    let qt = this.selectComponent('#qt')
-    imgType
+  addImg(e) {
+    let type = e.currentTarget.dataset.type
+    let imgItem = e.detail
+    wx.loadingAPI(wx.$post('/hotel/updateOrAddHotelImgUrltInfo', {
+      imgUrl: imgItem.url,
+      type,
+      hotelId: this.data.hotelId
+    }), '上传中')
   },
+  delImg(e) {
+    console.log(e);
+  },
+  init() {
+    wx.loadingAPI(wx.$get('/hotel/getHotelImgUrlInfo', {
+      hotelId: this.data.hotelId
+    })).then(data => {
 
+    })
+  },
   onLoad: function (options) {
-
+    this.data.hotelId = options.hotelId || 2
+    this.init()
   },
 
   /**
