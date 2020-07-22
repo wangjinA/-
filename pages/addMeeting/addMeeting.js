@@ -53,7 +53,7 @@ Page({
     let wjForm = this.selectComponent('#wjForm')
     let btForm = this.selectComponent('#btForm')
     let lxForm = this.selectComponent('#lxForm')
-    let sxData = this.selectComponent('#sxForm')
+    let sxForm = this.selectComponent('#sxForm')
     let addImg = this.selectComponent('#addImg')
     let imgList = addImg.getData('请添加会议厅图片')
     if(!imgList) return;
@@ -73,16 +73,17 @@ Page({
       wx.loadingAPI(wx.$post('/hotel/addHotelChamertInfo', {
         imgUrl: wx.$stringify(imgList),
         ...data,
-        ...sxData.data.formData,
+        ...sxForm.data.formData,
         hotelId: this.data.hotelId,
         hotelChamberType,
-        hotelChamberTable: btForm.data.formData
+        hotelChamberTable: btForm.data.formData,
+        hotelChamberId: this.data.hotelChamberId,
       }), '保存中')
       .then(data=>{
         wjForm.clearData()
         btForm.clearData()
         lxForm.clearData()
-        sxData.clearData()
+        sxForm.clearData()
         addImg.clearData()
         wx.showToast({
           icon: 'success',
@@ -93,6 +94,9 @@ Page({
         })
       })
     })
+  },
+  init() {
+
   },
   closeShuxing() {
     this.setData({
@@ -109,13 +113,40 @@ Page({
       showBaitai: false
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  init() {
+    let wjForm = this.selectComponent('#wjForm')
+    let btForm = this.selectComponent('#btForm')
+    let lxForm = this.selectComponent('#lxForm')
+    let sxForm = this.selectComponent('#sxForm')
+    let addImg = this.selectComponent('#addImg')
+    wx.loadingAPI(wx.$get('/hotel/getgetHotelChamerlInfoByHotelChamberId', {
+      hotelChamberId: this.data.hotelChamberId
+    })).then(({data}) => {
+      wjForm.setData({
+        formData: data
+      })
+      btForm.setData({
+        formData: data.hotelChamberTable
+      })
+      addImg.setData({
+        fileList: data.imgUrl ? wx.$parse(data.imgUrl) : []
+      })
+      sxForm.setData({
+        formData: {
+          columnStatus: data.columnStatus,
+          intoCar: data.intoCar
+        }
+      })
+      
+    })
+  },
   onLoad(options) {
     this.data.hotelId = options.hotelId
+    this.data.hotelChamberId = options.hotelChamberId
     console.log(options)
-    
+    if(options.hotelChamberId && options.hotelChamberId!="undefined") {
+      this.init()
+    }
   },
 
   /**

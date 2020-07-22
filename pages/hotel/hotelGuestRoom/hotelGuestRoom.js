@@ -19,7 +19,8 @@ Page({
       wx.loadingAPI(wx.$post('/hotel/addHotelGuesttInfo', {
         ...data,
         hotelId: this.data.hotelId,
-        imgUrl: wx.$stringify(imgList)
+        imgUrl: wx.$stringify(imgList),
+        hotelGuestId: this.data.hotelGuestId,
       }), '保存中')
       .then(data=> {
         wjForm.clearData()
@@ -39,11 +40,27 @@ Page({
       showShuxing: false
     })
   },
-  
+  init() {
+    let wjForm = this.selectComponent('#wjForm')
+    let addImg = this.selectComponent('#addImg')
+    wx.loadingAPI(wx.$get('/hotel/getHotelGuestlInfoById', {
+      hotelGuestId: this.data.hotelGuestId
+    })).then(({data}) => {
+      wjForm.setData({
+        formData: data
+      })
+      addImg.setData({
+        fileList: data.imgUrl ? wx.$parse(data.imgUrl) : []
+      })
+    })
+  },
   onLoad(options) {
     this.data.hotelId = options.hotelId
+    this.data.hotelGuestId = options.hotelGuestId
     console.log(options);
-    
+    if(options.hotelGuestId && options.hotelGuestId!="undefined") {
+      this.init()
+    }
   },
   onReady () {
     this.setData({

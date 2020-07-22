@@ -16,16 +16,50 @@ Page({
       imgUrl: imgItem.url,
       type,
       hotelId: this.data.hotelId
-    }), '上传中')
+    }), '上传中').then(data => {
+      wx.showToast({
+        title: '已上传',
+      })
+      this.init()
+    })
   },
   delImg(e) {
-    console.log(e);
+    let imgId = e.detail[0].imgId
+    wx.loadingAPI(wx.$get('/hotel/deleteUrlById', {
+      hotelId: this.data.hotelId,
+      imgId,
+    })).then(data => {
+      wx.showToast({
+        title: '已删除',
+      })
+      // this.init()
+    })
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelImgUrlInfo', {
       hotelId: this.data.hotelId
     })).then(data => {
-
+      let obj = {}
+      data.data.list.forEach(item => {
+        imgTypes.data.filter(f=>f.value == item.type)[0].type
+        let target = obj[imgTypes.data.filter(f=>f.value ==item.type)[0].id]
+        let push_item = {
+          url: item.imgUrl,
+          imgId: item.imgId
+        }
+        if(target){
+          target.push(push_item)
+        }else {
+          obj[imgTypes.data.filter(f=>f.value ==item.type)[0].id] = [push_item]
+        }
+      });
+      // obj = {wg: [{...}, {...}], dt: [{...}]} ←转换成这样的格式
+      Object.keys(obj).forEach(key => {
+        let form = this.selectComponent(`#${key}`)
+        form.setData({
+          fileList: obj[key]
+        })
+      })
     })
   },
   onLoad: function (options) {

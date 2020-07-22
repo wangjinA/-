@@ -1,6 +1,15 @@
-<view class="addHotelImage" bindtap="goAddHotelImage">
+<view class="addHotelImage" bindtap="goAddHotelImage" wx:if="{{!banner.length}}">
   <view class="add-icon iconfont icon-tianjiatupian"></view>
   <view class="add-text">添加酒店图片</view>
+</view>
+<view class="swiper-container" wx:if="{{banner.length}}">
+  <swiper class='banners' indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-color="#fff" indicator-active-color="#FD960D">
+    <block wx:for="{{banner}}" wx:key="*this">
+      <swiper-item>
+        <image src="{{item.imgUrl}}" class="banner" mode="aspectFill"></image>
+      </swiper-item>
+    </block>
+  </swiper>
 </view>
 <wjForm formList="{{formList}}"></wjForm>
 <van-tabs active="{{ 0 }}" bind:change="onChange" color="#FD960D">
@@ -10,7 +19,7 @@
       </view>
 		<view class="content" style="padding: 10rpx 28rpx;" >
       <block wx:for="{{yhList}}">
-        <meeting class="meeting" bindtap="goAddMeeting" data="{{item}}" />
+        <meeting class="meeting" bindtap="goAddMeeting" data-id="{{item.hotelChamberId}}" data="{{item}}" />
       </block>
 		</view>
 	</van-tab>
@@ -20,7 +29,7 @@
       </view>
 		<view class="content" style="padding: 10rpx 28rpx;" >
       <block wx:for="{{kfList}}">
-        <guestRoom class="guestRoom" bindtap="goAddGuestRoom" data="{{item}}"/>
+        <guestRoom class="guestRoom" bindtap="goAddGuestRoom" data-id="{{item.hotelGuestId}}" data="{{item}}"/>
       </block>
 		</view>
 	</van-tab>

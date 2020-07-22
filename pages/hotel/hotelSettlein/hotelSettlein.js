@@ -13,10 +13,16 @@ Page({
     if(!wx.checkRequired(data, contactsInfo.data.formList)){
       return;
     }
+    if(!data.fileList || !data.fileList.length){
+      return wx.showToast({
+        icon: 'none',title: '请上传名片'
+      })
+    }
     wx.loadingAPI(wx.$post('/api/user/applyEnter', {
       sysUser: {
         ...data,
-        hotelId: this.data.hotelId
+        hotelId: this.data.hotelId,
+        url: wx.$stringify(data.fileList)
       }
     }), '提交中')
       .then(res => {

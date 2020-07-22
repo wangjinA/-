@@ -1,48 +1,45 @@
 // pages/hotelInfo/hotelInfo.js
+const formList = [{
+  label: '基本信息',
+  key: 'hotelName',
+  type: 'link',
+  value: '',
+  url: '/pages/hotel/baseInfo/baseInfo',
+}, {
+  label: '配套信息',
+  key: 'hotelName',
+  type: 'link',
+  value: '',
+  url: '/pages/hotel/roomInfo/roomInfo',
+}]
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    banner: [
-      '/images/hotel/hotel1.jpg',
-      '/images/hotel/hotel2.png',
-      '/images/hotel/hotel3.jpg',
-      '/images/hotel/hotel4.jpg',
-      '/images/hotel/hotel5.jpg',
-    ],
-    formList: [{
-      label: '基本信息',
-      key: 'hotelName',
-      type: 'link',
-      value: '',
-      url: '/pages/hotel/baseInfo/baseInfo',
-    }, {
-      label: '配套信息',
-      key: 'hotelName',
-      type: 'link',
-      value: '',
-      url: '/pages/hotel/roomInfo/roomInfo',
-    }],
+    banner: [],
+    formList,
     fileList: [],
     tabs: ['会议厅'],
     yhList: [],
     kfList: [],
   },
-  goAddGuestRoom() {
+  goAddGuestRoom(e) {
+    let hotelGuestId = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/hotel/hotelGuestRoom/hotelGuestRoom?hotelId='+this.data.hotelId
+      url: `/pages/hotel/hotelGuestRoom/hotelGuestRoom?hotelId=${this.data.hotelId}&hotelGuestId=${hotelGuestId}`
+    })
+  },
+  goAddMeeting(e) {
+    let hotelChamberId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `/pages/addMeeting/addMeeting?hotelId=${this.data.hotelId}&hotelChamberId=${hotelChamberId}`
     })
   },
   goAddHotelImage() {
     wx.navigateTo({
       url: '/pages/hotel/hotelImageMenage/hotelImageMenage?hotelId='+this.data.hotelId,
-    })
-  },
-  goAddMeeting() {
-    wx.navigateTo({
-      url: '/pages/addMeeting/addMeeting?hotelId='+this.data.hotelId,
     })
   },
   afterRead(event) {
@@ -87,6 +84,26 @@ Page({
           img: wx.$parse(item.imgUrl)[0].url,
         }))
       })
+    })
+    wx.loadingAPI(wx.$get('/hotel/getHotelImgUrlInfo', {
+      hotelId: this.data.hotelId
+    })).then(data => {
+      if(data.data.list && data.data.list.length){
+        this.setData({
+          banner: data.data.list,
+          formList: [
+            {
+              label: '图片管理',
+              key: 'imgList',
+              type: 'link',
+              value: '',
+              url: '/pages/hotel/hotelImageMenage/hotelImageMenage?hotelId='+this.data.hotelId,
+            },
+            ...formList
+          ]
+        })
+
+      }
     })
   },
   onLoad (options) {

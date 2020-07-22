@@ -128,6 +128,21 @@ function parse(str) {
   }
 }
 
+function delAPI (title) {
+  return new Promise((resolve, reject) => {
+    wx.showModal({
+      title: '温馨提示',
+      content: content || '是否确认删除',
+      success (res) {
+        if (res.confirm) {
+          resolve()
+        } else if (res.cancel) {
+          reject()
+        }
+      }
+    })
+  })
+}
 
 wx.fixYear = fixYear
 wx.getAllDate = getAllDate
@@ -136,7 +151,7 @@ wx.$stringify = stringify
 wx.$parse = parse
 wx.formatTime = formatTime
 wx.loadingAPI = loadingAPI
-
+wx.delAPI = delAPI
 export default {
   formatTime,
   formatSelectData,
