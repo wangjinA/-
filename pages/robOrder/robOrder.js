@@ -12,18 +12,17 @@ Page({
     hyList: [],
   },
   init() {
-    wx.$get('/order/grabSingleDemand', {
+    wx.loadingAPI(wx.$get('/order/grabSingleDemand', {
       current: this.data.current,
       pageSize: this.data.pageSize,
-
-    }).then(data=> {
+    })).then(data=> {
       data.data.list.forEach(item => {
         item.meetingPeople = rs(wx.$parse(item.meetingPeople))
         item.meetingStartTime = wx.formatTime(new Date(item.meetingStartTime), true)
         item.meetingEndTime = wx.formatTime(new Date(item.meetingEndTime), true)
       })
+      this.data.pages = data.data.pages
       let hyList = [...this.data.hyList, ...data.data.list]
-      
       this.setData({
         hyList
       })
@@ -80,8 +79,12 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-
+  onReachBottom () {
+    if(this.data.current >= this.data.pages){
+      return
+    }
+    this.data.current++
+    this.init()
   },
 
   /**

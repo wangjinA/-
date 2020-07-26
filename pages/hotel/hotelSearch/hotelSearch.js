@@ -12,10 +12,9 @@ Page({
     current: 1,
   },
   toHotelSettlein(e) {
-    let id = e.currentTarget.dataset.id
-    
+    let {id, name} = e.currentTarget.dataset
     wx.navigateTo({
-      url: '/pages/hotel/hotelSettlein/hotelSettlein?id=id'+id,
+      url: `/pages/hotel/hotelSettlein/hotelSettlein?holtelId=${id}&hotelName=${name}`,
     })
   },
   onChange(e) {

@@ -1,4 +1,4 @@
-// pages/robOrderDetail/robOrder.js
+import { rs } from '../../utils/config'
 const app = getApp()
 Page({
 
@@ -39,7 +39,8 @@ Page({
       num: 1,
       price: '12000',
       show: false
-    }]
+    }],
+    data: {}
   },
   orderEnd() {
     wx.showModal({
@@ -74,8 +75,21 @@ Page({
     wx.loadingAPI(wx.$get('/order/getGrabSingleDemandInfo', {
       meetingId: this.data.id
     }))
-    .then(data => {
+    .then(({data}) => {
+      console.log(data);
       
+      data.meetingPeople_filter = data.meetingPeople && rs(wx.$parse(data.meetingPeople))
+      data.meetingStartTime_filter = wx.formatTime(new Date(data.meetingStartTime), true)
+      data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
+      data.singleDemandRoomsVos.forEach(item => {
+        item.rooms = wx.$parse(item.rooms)
+      })
+      // data.singleDemandVenueVos.forEach(item => {
+      //   item.containNumbers = 
+      // })
+      this.setData({
+        data
+      })
     })
   },
   onLoad: function (options) {

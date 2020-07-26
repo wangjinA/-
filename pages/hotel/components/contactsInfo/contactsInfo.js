@@ -6,8 +6,7 @@ Component({
   options: {
     addGlobalClass: true
   },
-  properties: {
-  },
+  properties: {},
   /**
    * 组件的初始数据
    */
@@ -40,8 +39,23 @@ Component({
   methods: {
     getData() {
       let form = this.selectComponent('#wjForm')
-      let img = this.selectComponent('#addImg')
-      return Object.assign(form.data.formData, {fileList: img.data.fileList})
+      return new Promise((resolve, reject) => {
+        form.getData()
+          .then(data => {
+            let img = this.selectComponent('#addImg')
+            if (img.data.fileList && img.data.fileList.length) {
+              resolve(Object.assign(data, {
+                fileList: img.data.fileList
+              }))
+            } else {
+              wx.showToast({
+                icon: 'none',
+                title: '请上传名片'
+              })
+              reject()
+            }
+          }).catch(reject)
+      })
     },
     clearData() {
       let form = this.selectComponent('#wjForm')

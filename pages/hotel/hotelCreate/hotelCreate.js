@@ -1,5 +1,7 @@
 // pages/hotel/hotelAdd/hotelAdd.js
-import { jdxj } from '../../../utils/config'
+import {
+  jdxj
+} from '../../../utils/config'
 Page({
 
   data: {
@@ -12,7 +14,8 @@ Page({
       key: 'city',
       required: true,
       type: 'city',
-      address: true
+      address: true,
+      addressRequired: true
     }, {
       label: '总机号码',
       required: true,
@@ -34,40 +37,52 @@ Page({
   commit() {
     let contactsInfo = this.selectComponent('#contactsInfo')
     let form = this.selectComponent('#wjForm')
-    let params = {
-      ...form.data.formData,
-      ...contactsInfo.getData()
-    }
-    params.city = params.city.join(' ')
-    params.starType = jdxj(params.starType)
-    console.log(form.data.formData)
-    console.log(params);
-    
-    wx.$post('/api/user/submitApply', params)
-      .then(data => {
-        form.clearData()
-        contactsInfo.clearData()
-        wx.showModal({
-          title: '温馨提示',
-          content: '提交成功，请耐心等待后台审核',
-          showCancel: false,
-          success(res) {
-            if (res.confirm) {
-              console.log('用户点击确定')
-              wx.navigateBack({
-                delta: 2
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
+    form.getData()
+      .then(formData => {
+        contactsInfo.getData()
+          .then(contactsData => {
+            let params = {
+              ...formData,
+              ...contactsData,
+              url: wx.$stringify(contactsData.fileList)
             }
-          }
-        })
-      }).catch(() => {
-        wx.showToast({
-          title: '提交失败',
-        })
+            params.city = params.city.join(' ')
+            params.starType = jdxj(params.starType)
+            console.log(form.data.formData)
+            console.log(params);
+
+            wx.$post('/api/user/submitApply', params)
+              .then(data => {
+                console.log(data);
+
+                form.clearData()
+                contactsInfo.clearData()
+                wx.showModal({
+                  title: '温馨提示',
+                  content: '提交成功，请耐心等待后台审核',
+                  showCancel: false,
+                  success(res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                      wx.navigateBack({
+                        delta: 2
+                      })
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }).catch(() => {
+                wx.showToast({
+                  icon: 'none',
+                  title: '提交失败',
+                })
+              })
+          })
+
       })
-    
+
+
   },
 
   /**

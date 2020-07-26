@@ -10,7 +10,10 @@ Page({
   getUserInfo(e) {
     const { type } = e.currentTarget.dataset
     wx.getUserInfo({
-      success: function(res) {
+      success(res) {
+        console.log(res);
+        console.log(wx.getStorageSync('wxcode'));
+        
         wx.$post('/api/wx/login', {
           code: wx.getStorageSync('wxcode'),
           encryptedData: res.encryptedData,

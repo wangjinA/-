@@ -5,49 +5,49 @@ Page({
    * 页面的初始数据
    */
   data: {
+    hotelName: ''
   },
 
   commit() {
     const contactsInfo = this.selectComponent('#contactsInfo')
-    let data = contactsInfo.getData()
-    if(!wx.checkRequired(data, contactsInfo.data.formList)){
-      return;
-    }
-    if(!data.fileList || !data.fileList.length){
-      return wx.showToast({
-        icon: 'none',title: '请上传名片'
-      })
-    }
-    wx.loadingAPI(wx.$post('/api/user/applyEnter', {
-      sysUser: {
-        ...data,
-        hotelId: this.data.hotelId,
-        url: wx.$stringify(data.fileList)
-      }
-    }), '提交中')
-      .then(res => {
-        wx.showModal({
-          title: '温馨提示',
-          content: '提交成功，请耐心等待后台审核',
-          showCancel: false,
-          success (res) {
-            if (res.confirm) {
-              console.log('用户点击确定')
-              wx.navigateBack({
-                delta: 2
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
+    contactsInfo.getData()
+    .then(data => {
+      wx.loadingAPI(wx.$post('/api/user/applyEnter', {
+        sysUser: {
+          ...data,
+          hotelId: this.data.hotelId,
+          url: wx.$stringify(data.fileList)
+        }
+      }), '提交中')
+        .then(res => {
+          wx.showModal({
+            title: '温馨提示',
+            content: '提交成功，请耐心等待后台审核',
+            showCancel: false,
+            success (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.navigateBack({
+                  delta: 2
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
             }
-          }
+          })
         })
-      })
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.data.hotelId = options.id
+    console.log(options);
+    
+    this.data.hotelId = options.hotelId
+    this.setData({
+      hotelName: options.hotelName
+    })
   },
 
   /**

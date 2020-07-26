@@ -3,7 +3,7 @@
   scrollable="false"
   text="只有本酒店的销售申请入驻才能通过，信息将直接展示给用户，请如实填写"
 />
-<view class="title" style="padding: 40rpx 16px; font-size: 32rpx;">申请入住 南昌香格里拉大酒店</view>
+<view class="title" style="padding: 40rpx 16px; font-size: 32rpx;">申请入住 {{hotelName}}</view>
 
 <contactsInfo id="contactsInfo"></contactsInfo>
 <footerButton bind:click="commit">提交审核</footerButton>

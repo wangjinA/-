@@ -1,7 +1,7 @@
 <!-- 最多10家报价 -->
 <view class="container"> 
     <view class="top">
-      <view class="name text-overflow">在{{item.city}}需要{{item.meetingPeople}}的场地</view>
+      <view class="name text-overflow">在{{data.city}}需要{{data.meetingPeople_filter}}的场地</view>
       <!-- <view class="type flex0">会议</view> -->
     </view>
     <view class="list">
@@ -9,7 +9,7 @@
         <view class="label last">预算</view>
         <view class="val c totalPrice">
           <text class="size12">￥</text>
-          <text class="bold">{{item.budget}}</text>
+          <text class="bold">{{data.budget || 0}}</text>
         </view>
       </view>
       <view class="item">
@@ -20,19 +20,19 @@
       </view>
       <view class="item">
         <view class="label">会议时间</view>
-        <view class="val">10-04周日（下午）</view>
+        <view class="val">{{data.meetingStartTime_filter}} - {{data.meetingEndTime_filter}}</view>
       </view>
       <view class="item">
         <view class="label">人数类型</view>
-        <view class="val">101人 | 其他会议活动</view>
+        <view class="val">{{data.meetingPeople_filter}} | 其他会议活动</view>
       </view>
       <view class="item">
         <view class="label">位置要求</view>
-        <view class="val">南昌</view>
+        <view class="val">{{data.city}}</view>
       </view>
       <view class="item">
         <view class="label">其他说明</view>
-        <view class="val">时间不能调整，只要这一天，有的可以联系我时间不能调整，只要这一天，有的可以联系我</view>
+        <view class="val">{{data.notes || '无'}}</view>
       </view>
     </view>
 </view>
@@ -90,12 +90,16 @@
       预算：<text class="price">￥50000</text>
     </view>
   </view>
-  <view wx:for="{{3}}">
+  <view wx:for="{{data.singleDemandRoomsVos}}">
     <view class="detail-time">
-      10月01日
+      {{item.dates}}
     </view>
     <view class="detail-item">
-      主会场，全天，200人，分组式
+      <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
+      <view class="size14 c9">
+        <text wx:if="{{item.networkFlag}}">需要网络 </text>
+        <text>{{item.notes}}</text>
+      </view>
     </view>
   </view>
   <view class="top">
@@ -104,12 +108,19 @@
       预算：<text class="price">￥50000</text>
     </view>
   </view>
-  <view wx:for="{{3}}">
+  <view wx:for="{{data.singleDemandVenueVos}}">
     <view class="detail-time">
-      10月01日
+      {{item.dates}}
     </view>
     <view class="detail-item">
-      主会场，全天，200人，分组式
+      <view>
+        {{item.venues || ''}}
+        {{item.dayLong ? '，' + item.dayLong : ''}} 
+        {{item.containNumbers ? '，' + item.containNumbers : ''}} 
+      </view>
+      <view class="size14 c9">
+      {{item.notes || ''}}
+</view>
     </view>
   </view>
 </view>
@@ -150,7 +161,7 @@
 
 <view class="container b0"> 
   <view class="time-wrap">
-    <view class="time">2020-06-02 20:16</view>
+    <view class="time">{{data.createTime}}</view>
     <view class="code">询价单号:WW202006029988</view>
   </view>
 </view>

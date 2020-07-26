@@ -19,7 +19,7 @@ const request = function(options) {
       dataType: 'json',
       responseType: 'text',
       success (res) {
-        if (res.statusCode == 500) {
+        if (res.statusCode == 500 || res.statusCode == 400) {
           reject(res)
         } else {
           if(res.header.token){

@@ -143,7 +143,19 @@ function delAPI (title) {
     })
   })
 }
-
+function getScope(arr) {
+  if(arr && arr.length) {
+    if(arr[0] == 0) {
+      return `${arr[1]}以下`
+    }
+    if(arr[1] == 0) {
+      return `${arr[0]}以上`
+    }
+    return `${arr[0]} - ${arr[1]}`
+  }
+  return arr
+}
+wx.$getScope = getScope
 wx.fixYear = fixYear
 wx.getAllDate = getAllDate
 wx.checkRequired = checkRequired
