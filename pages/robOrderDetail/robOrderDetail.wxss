@@ -83,6 +83,7 @@
   padding: 12px 20rpx;
   background-color: #f7f7f7;
   color: #333;
+  font-size: 28rpx;
 }
 .item-remark{
   font-size: 26rpx;
@@ -104,4 +105,7 @@
 }
 .bj-list + .bj-list{
   margin-top: 20rpx;
+}
+.item-budget{
+  color: #FD960D;
 }

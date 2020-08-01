@@ -16,4 +16,6 @@
   <wjButton width="92%" bindtap="closeShuxing">确认</wjButton>
 </wjPopup>
 
+<view class="delBtn" bindtap="del" wx:if="{{hotelChamberId}}">删除</view>
+
 <footerButton bind:click="commit">确认</footerButton>

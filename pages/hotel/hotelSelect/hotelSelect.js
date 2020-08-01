@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    list: []
   },
   newHotel() {
     wx.navigateTo({
@@ -20,10 +20,11 @@ Page({
     })
   },
   init() {
-    wx.loadingAPI(wx.$post('/hotel/getAuditHotelList', {
-      
-    })).then(data=>{
-
+    // 审核状态  0 待审核  1 已通过 2 失败
+    wx.loadingAPI(wx.$post('/api/user/getUserEnterHotelVoList')).then(data=>{
+      this.setData({
+        list: data.data.list
+      })
     })
   },
   onLoad (options) {

@@ -7,9 +7,11 @@ Page({
   data: {
     formList: [],
     activeNames: [0],
-    timeList: ['07月01日', '07月02日', '07月03日', '07月04日'],
+    list: [],
     showPopup: false,
-    meetingIndex: 0
+    meetingIndex: -1,
+    nextText: '',
+    cdList: []
   },
   copyPrev(e) {
     const { index } = e.target.dataset
@@ -17,8 +19,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: prevCom.data.formData,
-      formList: prevCom.data.formList
+      formData: {...prevCom.data.formData},
+      formList: [...prevCom.data.formList]
     })
   },
   onChange(event) {
@@ -27,27 +29,74 @@ Page({
       activeNames: event.detail,
     });
   },
-  next() {
-    wx.navigateTo({
-      url: '/pages/quote/roomQuote/roomQuote',
-    })
+  async next() {
+    let forms = this.selectAllComponents('#wjForm')
+    let hcbj = []
+    for (let i = 0; i < forms.length; i++) {
+      const formItem = forms[i];
+      try {
+        hcbj.push({
+          ...await formItem.getData(),
+          date: this.data.list[i].dates
+        })
+      } catch (error) {
+        return false
+      }
+    }
+    wx.hcbj = hcbj
+    
+    if(wx.kfShow){
+      wx.navigateTo({
+        url: '/pages/quote/roomQuote/roomQuote',
+      })
+    }else if(cyShow){
+      wx.navigateTo({
+        url: '/pages/quote/eatQuote/eatQuote',
+      })
+    }else {
+      wx.navigateTo({
+        url: '/pages/quote/otherRemark/otherRemark',
+      })
+    }
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  
+  onLoad (options) {
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  getCd() { // 获取场地
+    wx.loadingAPI(wx.$get('/hotel/getHotelChamerlInfo', { // 会议厅信息
+      hotelId: wx.hotelId,
+      current: 1,
+      pageSize: 50,
+    }).then(data => {
+      this.setData({
+        cdList: data.data.list.map(item =>({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        }))
+      })
+    }))
+  },
+  onReady () {
+    this.getCd()
+    let nextText = ''
+    if(wx.kfShow){
+      nextText = '客房报价'
+    }else if(wx.cyShow) {
+      nextText = '餐饮报价'
+    }else {
+      nextText = '其他说明'
+    }
     this.setData({
+      nextText,
+      list: wx.singleDemandVenueVos,
       formList: [{
         label: '选择场地',
         key: 'hc',
         type: 'event',
+        required: true,
         click: () => {
           this.setData({
             showPopup: true
@@ -55,6 +104,7 @@ Page({
         }
       }, {
         label: '报价',
+        required: true,
         key: 'price',
         inputType: 'number',
       }]
@@ -65,51 +115,61 @@ Page({
       showPopup: false
     })
   },
+  formClick(e) { // 通过点击form来判断当前选择场地的index
+    let index = e.currentTarget.dataset.index
+    this.data.currentIndex = index
+  },
   meetingClick(e) {
-    const { index } = e.currentTarget.dataset
+    const { index } = e.currentTarget.dataset // 选择场地的下标
+    const currentIndex = this.data.currentIndex // form表单的下标
     this.setData({
       meetingIndex: index,
       showPopup: false
     })
+    let meetingItem = this.data.cdList[index]
+    let formItem = this.selectAllComponents('#wjForm')[currentIndex]
+    formItem.data.formList.forEach(item =>{
+      if(item.key === 'hc'){
+        item.value = meetingItem.chamberName // 设置名称
+      }
+    })
+    formItem.data.formData.hc = meetingItem.hotelChamberId // 设置id
+
+    // 自动通过上午或者下午设置报价
+    let dayLong = this.data.list[currentIndex].dayLong
+    if(!dayLong || dayLong === '全天') { // 如果客户没有填写半天或者全天这个字段 默认设置全天价格
+      formItem.data.formData.price = meetingItem.dayPrice
+    }else { // 设置半天价格
+      formItem.data.formData.price = meetingItem.halfDayPrice
+    }
+
+
+    formItem.setData({
+      formList: formItem.data.formList,
+      formData: formItem.data.formData
+    })
+
   },
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
   onPullDownRefresh: function () {
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

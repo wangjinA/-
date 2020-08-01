@@ -1,15 +1,24 @@
 <van-collapse value="{{ activeNames }}" bind:change="onChange">
-  <van-collapse-item name="{{index}}" wx:for="{{timeList}}" custom-class="myCollapse">
+  <van-collapse-item name="{{index}}" wx:for="{{list}}" custom-class="myCollapse">
     <view slot="title" class="col-center">
-      <view style="margin-right: 7rpx;">{{item}}</view>
+      <view style="margin-right: 7rpx;">{{item.dates}}</view>
       <van-icon name="clock-o" color="#FD960D"/>
     </view>
     <view wx:if="{{index > 0}}" class="flex-center">
-      <van-button round size="small" type="info" data-index="{{index}}" bind:click="copyPrev">复制上一天需求</van-button>
+      <van-button round size="small" type="info" data-index="{{index}}" bind:click="copyPrev">复制上一天报价</van-button>
     </view>
-    <view class="title">双床房需要100间</view>
+    <view wx:if="{{item.budget}}">
+    预算：<text class="c size18">￥{{item.budget}}</text>
+    </view>
+    <view class="title">
+      <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
+      <view class="item-remark">
+        <text wx:if="{{item.networkFlag}}">需要网络 </text>
+        <text wx:if="{{item.notes}}" style="margin-left: 10rpx;">{{item.notes}}</text>
+      </view>
+    </view>
     <wjForm formList="{{formList}}" id="wjForm"></wjForm>
   </van-collapse-item>
 </van-collapse>
 
-<footerButton bind:click="next">下一步: 客房报价</footerButton>
+<footerButton bind:click="next">下一步: {{nextText}}</footerButton>

@@ -8,20 +8,41 @@ Page({
     remark: ''
   },
   commit() {
-    wx.showModal({
-      title: '温馨提示',
-      content: '您的报价提交成功，请耐心等待客户查看',
-      showCancel: false,
-      success (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-          wx.navigateTo({
-            url: '/pages/robOrderDetail/robOrderDetail?status=1',
-          })
-        } else if (res.cancel) {
-          console.log('用户点击取消')
+    return wx.loadingAPI(wx.$post('/order/gdeclarationDemand', {
+      meetingId: wx.meetingId,
+      notes: this.data.remark,
+      orderDemandChambers: wx.$stringify(wx.hcbj) || '',
+      orderDemandGuests: wx.$stringify(wx.kfbj) || '',
+      orderDemandRepasts: wx.$stringify(wx.cybj) || '',
+    }), '提交中')
+    .then(res=>{
+      wx.showModal({
+        title: '温馨提示',
+        content: '您的报价提交成功，请耐心等待客户查看',
+        showCancel: false,
+        success (res) {
+          if (res.confirm) {
+            let i = 2
+            if(wx.hcShow){
+              i++
+            }
+            if(wx.kfShow){
+              i++
+            }
+            if(wx.cyShow){
+              i++
+            }
+            wx.navigateBack({
+              delta: i,
+              complete: (res) => {},
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
         }
-      }
+      })
+    }).catch(err=>{
+
     })
   },
   inputOnChange(e) {

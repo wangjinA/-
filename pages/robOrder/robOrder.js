@@ -10,6 +10,7 @@ Page({
     pageSize: 10,
     type: 0, // 0会议 1婚宴
     hyList: [],
+    notMore: false
   },
   init() {
     wx.loadingAPI(wx.$get('/order/grabSingleDemand', {
@@ -81,7 +82,9 @@ Page({
    */
   onReachBottom () {
     if(this.data.current >= this.data.pages){
-      return
+      return this.setData({
+        notMore: true
+      })
     }
     this.data.current++
     this.init()

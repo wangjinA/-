@@ -44,8 +44,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: prevCom.data.formData,
-      formList: prevCom.data.formList
+      formData: {...prevCom.data.formData},
+      formList: [...prevCom.data.formList]
     })
   },
   onChange(event) {
@@ -65,7 +65,7 @@ Page({
       // }
       let formData = {...wjForms[i].data.formData}
       if(formData.containNumbers) {
-        formData.containNumbers = rs(formData.containNumbers)
+        formData.containNumbers = formData.containNumbers
       } 
       return {
         dates: item,
@@ -100,7 +100,7 @@ Page({
           })
           if(item.containNumbers) {
             console.log(item.containNumbers)
-            item.containNumbers = rs(item.containNumbers)
+            item.containNumbers = item.containNumbers
           } 
           formItem.setData({
             formData: item,

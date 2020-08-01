@@ -8,11 +8,12 @@ Page({
     formList: [{
       label: '报价',
       key: 'price',
+      required: true,
       inputType: 'number',
       company: '/人'
     }],
     activeNames: [0],
-    timeList: ['07月01日', '07月02日', '07月03日', '07月04日'],
+    list: [],
     meetingIndex: 0
   },
   copyPrev(e) {
@@ -21,11 +22,26 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: prevCom.data.formData,
-      formList: prevCom.data.formList
+      formData: {...prevCom.data.formData},
+      formList: [...prevCom.data.formList]
     })
   },
-  next() {
+  async next() {
+    let forms = this.selectAllComponents('#wjForm')
+    let cybj = []
+    for (let i = 0; i < forms.length; i++) {
+      const formItem = forms[i];
+      try {
+        cybj.push({
+          ...(await formItem.getData()),
+          date: this.data.list[i].dates
+        })
+      } catch (error) {
+        return false
+      }
+    }
+    wx.cybj = cybj
+    
     wx.navigateTo({
       url: '/pages/quote/otherRemark/otherRemark',
     })
@@ -46,7 +62,10 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady() {
+    this.setData({
+      list:wx.singleDemandRepastVos
+    })
   },
   closePopup() {
     this.setData({

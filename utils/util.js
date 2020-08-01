@@ -132,7 +132,7 @@ function delAPI (title) {
   return new Promise((resolve, reject) => {
     wx.showModal({
       title: '温馨提示',
-      content: content || '是否确认删除',
+      content: title || '是否确认删除',
       success (res) {
         if (res.confirm) {
           resolve()

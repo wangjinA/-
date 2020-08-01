@@ -22,9 +22,20 @@ Page({
         }).then(res => {
           wx.type = type
           if(type == 1){
-            wx.navigateTo({
-              url: '/pages/hotel/hotelSelect/hotelSelect',
-            })
+            console.log(res);
+            
+            if(res.data.userInfo.hotelId){
+              wx.switchTab({
+                url: '/pages/index/index',
+              })
+            }else{
+              wx.switchTab({
+                url: '/pages/hotel/hotelSearch/hotelSearch',
+              })
+            }
+            // wx.navigateTo({
+            //   url: '/pages/hotel/hotelSelect/hotelSelect',
+            // })
           }else {
             wx.switchTab({
               url: '/pages/index/index',

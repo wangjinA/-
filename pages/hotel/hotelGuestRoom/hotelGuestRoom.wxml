@@ -6,4 +6,5 @@
 
 <wjForm formList="{{formList}}" id="wjForm"></wjForm>
 <wjPopup show="{{ showShuxing }}" bind:close="closeShuxing" title="属性信息"></wjPopup>
+<view class="delBtn" bindtap="del" wx:if="{{hotelGuestId}}">删除</view>
 <footerButton bindtap="commit">保存</footerButton>

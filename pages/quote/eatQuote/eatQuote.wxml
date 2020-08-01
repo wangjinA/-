@@ -1,15 +1,23 @@
 <van-collapse value="{{ activeNames }}" bind:change="onChange">
-  <van-collapse-item name="{{index}}" wx:for="{{timeList}}" custom-class="myCollapse">
+  <van-collapse-item name="{{index}}" wx:for="{{list}}" custom-class="myCollapse">
     <view slot="title" class="col-center">
-      <view style="margin-right: 7rpx;">{{item}}</view>
+      <view style="margin-right: 7rpx;">{{item.dates}}</view>
       <van-icon name="clock-o" color="#FD960D"/>
     </view>
     <view wx:if="{{index > 0}}" class="flex-center">
-      <van-button round size="small" type="info" data-index="{{index}}" bind:click="copyPrev">复制上一天需求</van-button>
+      <van-button round size="small" type="info" data-index="{{index}}" bind:click="copyPrev">复制上一天报价</van-button>
     </view>
-    <view class="title">午餐200人自助</view>
-    <wjForm formList="{{formList}}" id="wjForm"></wjForm>
-    <view class="title">晚餐200人自助</view>
+    <view wx:if="{{item.budget}}">
+      预算：<text class="c size18">￥{{item.budget}}</text>
+      </view>
+    <view class="title">
+      <view>{{item.containNumbers || ''}}</view>
+      <view>{{item.tableType || ''}}</view>
+      <view wx:for="{{item.dining}}">{{item.name}} 需要 {{item.value}}</view>
+      <view class="item-remark" wx:if="{{item.notes}}">
+        {{item.notes}}
+      </view>
+    </view>
     <wjForm formList="{{formList}}" id="wjForm"></wjForm>
   </van-collapse-item>
 </van-collapse>

@@ -47,7 +47,8 @@ Page({
       label: '是否能进车',
       key: 'intoCar',
       type: 'switch'
-    }]
+    }],
+    hotelChamberId: ''
   },
   commit() {
     let wjForm = this.selectComponent('#wjForm')
@@ -91,6 +92,24 @@ Page({
           complete() {
             wx.navigateBack()
           }
+        })
+      })
+    })
+  },
+  del() {
+    wx.delAPI()
+    .then(res=>{
+      wx.$get('/hotel/deleteHotelChamerlInfoByHotelChamberId', {
+        hotelChamberId: this.data.hotelChamberId
+      }).then(res=>{
+        wx.showToast({
+          title: '删除成功',
+        })
+        wx.navigateBack()
+      }).catch(()=>{
+        wx.showToast({
+          icon: 'none',
+          title: '删除失败',
         })
       })
     })
@@ -142,9 +161,11 @@ Page({
   },
   onLoad(options) {
     this.data.hotelId = options.hotelId
-    this.data.hotelChamberId = options.hotelChamberId
     console.log(options)
     if(options.hotelChamberId && options.hotelChamberId!="undefined") {
+      this.setData({
+        hotelChamberId: options.hotelChamberId
+      })
       this.init()
     }
   },

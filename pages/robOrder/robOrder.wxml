@@ -26,4 +26,6 @@
       <van-button type="primary" round size="small" style="margin-left: auto;">点击抢单</van-button>
     </view>
   </view>
+  <view class="notMore" wx:if="{{!hyList.length}}">暂无数据</view>
+  <view class="notMore" wx:if="{{notMore}}">暂无数据</view>
 </view>

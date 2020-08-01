@@ -44,6 +44,7 @@ page{
   padding: 20rpx 0;
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
 }
 .small-title{
   padding: 32rpx 0;
@@ -132,4 +133,20 @@ page{
 }
 .myCollapse .collapse-item-index--van-cell{
   background-color: #F2F3F5;
+}
+.notMore{
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+}
+.delBtn{
+  margin: 0 32rpx;
+  margin-top: 40rpx;
+  padding: 20rpx 0;
+  color: #ee0a24;
+  border: 1rpx solid #ee0a24;
+  font-size: 28rpx;
+  text-align: center;
 }

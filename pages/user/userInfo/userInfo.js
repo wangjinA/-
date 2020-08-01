@@ -10,7 +10,7 @@ Page({
       key: 'contacts',
     }, {
       label: '公司名称',
-      key: 'gsmc',
+      key: 'companyName',
     },{
       label: '性别',
       key: 'sex',

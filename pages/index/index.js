@@ -26,7 +26,7 @@ Page({
         pageSize: 5
       }).then(data => {
         this.setData({
-          likeList: data.data.list
+          likeList: data.data.list || []
         })
       })
       wx.$post('/site/recommend') // 推荐商家

@@ -7,16 +7,20 @@ Page({
   data: {
     formList: [{
       label: '可提供房间数',
-      key: 'hc',
+      key: 'fjNum',
+      required: true,
       inputType: 'number',
+      required: true,
       company: '间'
     }, {
       label: '报价',
       key: 'price',
       inputType: 'number',
+      required: true,
     }],
     activeNames: [0],
-    timeList: ['07月01日', '07月02日', '07月03日', '07月04日'],
+    list: [],
+    nextText: '',
     meetingIndex: 0
   },
   copyPrev(e) {
@@ -25,8 +29,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: prevCom.data.formData,
-      formList: prevCom.data.formList
+      formData: {...prevCom.data.formData},
+      formList: [...prevCom.data.formList]
     })
   },
   onChange(event) {
@@ -35,19 +39,41 @@ Page({
       activeNames: event.detail,
     });
   },
-  next() {
-    wx.navigateTo({
-      url: '/pages/quote/eatQuote/eatQuote',
-    })
+  async next() {
+    let forms = this.selectAllComponents('#wjForm')
+    let kfbj = []
+    for (let i = 0; i < forms.length; i++) {
+      const formItem = forms[i];
+      try {
+        kfbj.push({
+          ...(await formItem.getData()),
+          date: this.data.list[i].dates
+        })
+      } catch (error) {
+        return false
+      }
+    }
+    wx.kfbj = kfbj
+    
+    if(wx.cyShow){
+      wx.navigateTo({
+        url: '/pages/quote/eatQuote/eatQuote',
+      })
+    }else {
+      wx.navigateTo({
+        url: '/pages/quote/otherRemark/otherRemark',
+      })
+    }
   },
   onLoad: function (options) {
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
+    this.setData({
+      list: wx.singleDemandRoomsVos,
+      nextText: wx.cyShow ? '餐饮报价' :'其他说明'
+    })
   },
   closePopup() {
     this.setData({

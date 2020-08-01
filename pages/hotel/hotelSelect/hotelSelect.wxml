@@ -1,13 +1,15 @@
+<!-- 审核状态  0 待审核  1 已通过 2 失败 -->
 <view class="hotel-list">
-  <view class="hotel-item" wx:for="{{5}}" bindtap="goHotelHome">
+  <view class="hotel-item" wx:for="12" bindtap="goHotelHome">
     <view class="hotel-info">
       <view class="hotel-name col-center">
         <view class="tag-wrap" style="margin-right: 8rpx;">
-          <van-tag plain type="{{index > 3 ? 'success' : 'warning' }}">
-            {{index > 3 ? '已通过' : '待审核' }}
+          <van-tag plain type="{{index==1 ? 'success' : 'warning' }}">
+            {{index == 0 ? '已拒绝' : '' }}
+            {{index == 1 ? '已通过'  : ''}}
           </van-tag>
         </view>
-        <text>南昌保利皇冠假日酒店</text>
+        <text>{{index == 0 ? '南昌保利皇冠假日酒店' :  '南昌维也纳'}}</text>
       </view>
       <view class="hotel-address size14 c9">南昌湾里区红弯大道66号</view>
     </view>

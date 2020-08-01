@@ -53,8 +53,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: prevCom.data.formData,
-      formList: prevCom.data.formList
+      formData: {...prevCom.data.formData},
+      formList: [...prevCom.data.formList]
     })
   },
   onChange(event) {

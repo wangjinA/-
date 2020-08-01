@@ -1,5 +1,10 @@
 // pages/release/release.js
-import { hyjgqj, rnzs, jdxj, rs } from '../../utils/config'
+import {
+  hyjgqj,
+  rnzs,
+  jdxj,
+  rs
+} from '../../utils/config'
 let keys = ['hcxq', 'kfxq', 'cyxq']
 const app = getApp()
 import {
@@ -137,7 +142,7 @@ Page({
   commitWedding() { // 提交婚宴
     let formItem = this.selectComponent('#weddingForm')
     let formData = formItem.data.formData
-    if(!wx.checkRequired.call(this, formData, this.data.weddingFormList)){
+    if (!wx.checkRequired.call(this, formData, this.data.weddingFormList)) {
       return;
     }
     let params = {
@@ -145,75 +150,62 @@ Page({
       startTime: wx.fixYear(formData.date[0]),
       endTime: wx.fixYear(formData.date[1]),
     }
-    
+
     params.place = params.place.join('')
     params.tablesNumber = wx.$stringify(rnzs(params.tablesNumber)) // 容纳桌数
     params.priceRange = wx.$stringify(hyjgqj(params.priceRange)) // 价格区间
     params.hotelStar = jdxj(params.hotelStar) // 酒店星级
     params.detailedAddress = params.placeAddress
-    
+
     console.log(params)
     wx.loadingAPI(wx.$post('/demand/addWeddingBanquet', params), '发布中')
-    .then(res=> {
-      wx.showToast({
-        title: '发布成功',
+      .then(res => {
+        wx.showToast({
+          title: '发布成功',
+        })
+        formItem.clearData()
       })
-      formItem.clearData()
-    })
-    .catch(error => {
-      wx.showToast({
-        icon: 'none',
-        title: '发布失败',
+      .catch(error => {
+        wx.showToast({
+          icon: 'none',
+          title: '发布失败',
+        })
       })
-    })
 
   },
   commitMeeting() { // 提交会议
-    
     let form = this.selectComponent('#meetingForm')
     form.getData()
-    .then(formData => {
-      formData.minpeopleNumber = formData.meetingPeople[0] // 最小
-    formData.maxpeopleNumber = formData.meetingPeople[1] // 最大 后端要拿这个字段做筛选
-    formData.meetingPeople = wx.$stringify(rs(formData.meetingPeople))
-    console.log(formData.meetingPeople)
-    let params = {
-      ...formData,
-      meetingStartTime: wx.fixYear(formData.date[0]),
-      meetingEndTime: wx.fixYear(formData.date[1]),
-      minpeopleNumber: formData.meetingPeople,
-      demandMeetingVenue: this.data.hcxqData || [], // 会场
-      demandMeetingRepasts: this.data.cyxqData || [], // 餐饮
-      demandMeetingRooms: this.data.kfxqData || [], // 客房
-    }
-    console.log(params)
-    wx.loadingAPI(wx.$post('/demand/addDemand', params), '发布中')
-    .then(res=> {
-      wx.showToast({
-        title: '发布成功',
+      .then(formData => {
+        formData.minpeopleNumber = formData.meetingPeople[0] // 最小
+        formData.maxpeopleNumber = formData.meetingPeople[1] // 最大 后端要拿这个字段做筛选
+        formData.meetingPeople = wx.$stringify(rs(formData.meetingPeople))
+        console.log(formData.meetingPeople)
+        let params = {
+          ...formData,
+          meetingStartTime: wx.fixYear(formData.date[0]),
+          meetingEndTime: wx.fixYear(formData.date[1]),
+          minpeopleNumber: formData.meetingPeople,
+          demandMeetingVenue: this.data.hcxqData || [], // 会场
+          demandMeetingRepasts: this.data.cyxqData || [], // 餐饮
+          demandMeetingRooms: this.data.kfxqData || [], // 客房
+        }
+        console.log(params)
+        wx.loadingAPI(wx.$post('/demand/addDemand', params), '发布中')
+          .then(res => {
+            wx.showToast({
+              title: '发布成功',
+            })
+            form.clearData()
+            this.clearXqData()
+          })
+          .catch(error => {
+            wx.showToast({
+              icon: 'none',
+              title: '发布失败',
+            })
+          })
       })
-      form.clearData()
-      this.clearXqData()
-    })
-    .catch(error => {
-      wx.showToast({
-        icon: 'none',
-        title: '发布失败',
-      })
-    })
-    })
-  },
-  clearXqData() {
-    // 清除三个需求的关联数据
-    let form = this.selectComponent('#meetingForm')
-    let formList = form.data.formList
-    formList.filter(item => keys.find(k=>k == item.key)).forEach(item => item.value = '')
-    form.setData({ // 清除【请填写】
-      formList
-    })
-    keys.map(item => item + 'Data').forEach(key =>{ //
-      delete this.data[key]
-    })
   },
   goXq(type) { // 跳转会场需求
     let urls = [
@@ -252,6 +244,17 @@ Page({
         }
       })
     }
+  },
+  clearXqData() { // 清除三个需求的关联数据
+    let form = this.selectComponent('#meetingForm')
+    let formList = form.data.formList
+    formList.filter(item => keys.find(k => k == item.key)).forEach(item => item.value = '')
+    form.setData({ // 清除【请填写】
+      formList
+    })
+    keys.map(item => item + 'Data').forEach(key => { //
+      delete this.data[key]
+    })
   },
   onReady() {
     this.setData({

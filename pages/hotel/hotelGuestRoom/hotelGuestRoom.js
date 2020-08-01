@@ -6,7 +6,8 @@ Page({
    */
   data: {
     formList: [],
-    showShuxing: false
+    showShuxing: false,
+    hotelGuestId: ''
   },
   
   commit() {
@@ -54,11 +55,32 @@ Page({
       })
     })
   },
+  del() {
+    wx.delAPI()
+    .then(()=>{
+      wx.$get('/hotel/deleteHotelGuestlInfoById',{
+        hotelGuestId: this.data.hotelGuestId 
+      }).then(()=>{
+        wx.showToast({
+          title: '删除成功',
+        })
+        wx.navigateBack()
+      }).catch(()=>{
+        wx.showToast({
+          icon: 'none',
+          title: '删除失败',
+        })
+      })
+    })
+  },
   onLoad(options) {
     this.data.hotelId = options.hotelId
     this.data.hotelGuestId = options.hotelGuestId
     console.log(options);
     if(options.hotelGuestId && options.hotelGuestId!="undefined") {
+      this.setData({
+        hotelGuestId: options.hotelGuestId
+      })
       this.init()
     }
   },

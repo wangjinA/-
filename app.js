@@ -1,6 +1,7 @@
 import './utils/request.js'
 import './utils/util.js'
-wx.type = 2
+wx.type = 1
+wx.hotelId = 2
 App({
   onLaunch: function () {
     wx.login({

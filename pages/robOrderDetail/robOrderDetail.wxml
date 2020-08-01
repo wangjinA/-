@@ -38,7 +38,7 @@
 </view>
 
 
-<view class="container" wx:if="{{ user == 0}}"> 
+<view class="container"> 
   <view class="top">
     <view class="name text-overflow">报价列表</view>
   </view>
@@ -68,63 +68,84 @@
   </view>
 </view>
 
-<view class="container"> 
-  <view class="top">
-    <view class="name text-overflow">会场</view>
-    <view class="name text-overflow">
-      预算：<text class="price">￥50000</text>
-    </view>
-  </view>
-  <view wx:for="{{3}}">
-    <view class="detail-time">
-      10月01日
-    </view>
-    <view class="detail-item">
-      <view>主会场，全天，200人，分组式</view>
-      <view class="item-remark">晚上也要用</view>
-    </view>
-  </view>
-  <view class="top">
-    <view class="name text-overflow">客房</view>
-    <view class="name text-overflow">
-      预算：<text class="price">￥50000</text>
-    </view>
-  </view>
-  <view wx:for="{{data.singleDemandRoomsVos}}">
-    <view class="detail-time">
-      {{item.dates}}
-    </view>
-    <view class="detail-item">
-      <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
-      <view class="size14 c9">
-        <text wx:if="{{item.networkFlag}}">需要网络 </text>
-        <text>{{item.notes}}</text>
+<view class="container">
+  <block wx:if="{{data.hcShow && data.singleDemandVenueVos && data.singleDemandVenueVos.length}}">
+    <view class="top">
+      <view class="name text-overflow">会场</view>
+      <view class="name text-overflow" wx:if="{{data.hcTotal}}">
+        预算：<text class="price">￥{{data.hcTotal}}</text>
       </view>
     </view>
-  </view>
-  <view class="top">
-    <view class="name text-overflow">餐饮</view>
-    <view class="name text-overflow">
-      预算：<text class="price">￥50000</text>
+    <view wx:for="{{data.singleDemandVenueVos}}">
+      <block wx:if="{{item._show}}">
+        <view class="detail-time">{{item.dates}}</view>
+        <view class="detail-item">
+          <view wx:if="{{item.budget}}">
+          预算：<text class="item-budget">￥{{item.budget}}</text>
+          </view>
+          <view>
+            {{item.venues || ''}}
+            {{item.dayLong ? '，' + item.dayLong : ''}} 
+            {{item.containNumbers ? '，' + item.containNumbers : ''}} 
+          </view>
+          <view class="item-remark" wx:if="{{item.notes}}">{{item.notes}}</view>
+        </view>
+      </block>
     </view>
-  </view>
-  <view wx:for="{{data.singleDemandVenueVos}}">
-    <view class="detail-time">
-      {{item.dates}}
-    </view>
-    <view class="detail-item">
-      <view>
-        {{item.venues || ''}}
-        {{item.dayLong ? '，' + item.dayLong : ''}} 
-        {{item.containNumbers ? '，' + item.containNumbers : ''}} 
+  </block>
+  <block wx:if="{{data.kfShow && data.singleDemandRoomsVos && data.singleDemandRoomsVos.length}}">
+    <view class="top">
+      <view class="name text-overflow">客房</view>
+      <view class="name text-overflow" wx:if="{{data.kfTotal}}">
+        预算：<text class="price">￥{{data.kfTotal}}</text>
       </view>
-      <view class="size14 c9">
-      {{item.notes || ''}}
-</view>
     </view>
-  </view>
+    <view wx:for="{{data.singleDemandRoomsVos}}">
+      <block wx:if="{{item._show}}">
+        <view class="detail-time">{{item.dates}}</view>
+        <view class="detail-item">
+          <view wx:if="{{item.budget}}">
+          预算：<text>￥{{item.budget}}</text>
+          </view>
+          <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
+          <view class="item-remark">
+            <text wx:if="{{item.networkFlag}}">需要网络 </text>
+            <text wx:if="{{item.notes}}">{{item.notes}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </block>
+  <block wx:if="{{data.cyShow && data.singleDemandRepastVos && data.singleDemandRepastVos.length}}">
+    <view class="top">
+      <view class="name text-overflow">餐饮</view>
+      <view class="name text-overflow" wx:if="{{data.cyTotal}}">
+        预算：<text class="price">￥{{data.cyTotal}}</text>
+      </view>
+    </view>
+    <view wx:for="{{data.singleDemandRepastVos}}">
+      <block wx:if="{{item._show}}">
+        <view class="detail-time">{{item.dates}}</view>
+        <view class="detail-item">
+          <view wx:if="{{item.budget}}">
+          预算：<text>￥{{item.budget}}</text>
+          </view>
+          <view>{{item.containNumbers || ''}}</view>
+          <view>{{item.tableType || ''}}</view>
+          <view wx:for="{{item.dining}}">{{item.name}} 需要 {{item.value}}</view>
+          <view class="item-remark" wx:if="{{item.notes}}">
+            {{item.notes}}
+          </view>
+        </view>
+      </block>
+    </view>
+  </block>
+  
+  
 </view>
-<view class="container" wx:if="{{ status == 1 }}">
+
+<!-- <view class="container" wx:if="{{ status == 1 }}"> -->
+<view class="container" >
   <view class="top">
     <view class="name text-overflow">报价详情</view>
   </view>
@@ -140,21 +161,21 @@
     <view class="name text-overflow">客户信息</view>
   </view>
   <view class="list">
-    <view class="item">
+    <view class="item" wx:if="{{data.userInfo.companyName}}">
       <view class="label">公司名称</view>
-      <view class="val">南昌****集团</view>
+      <view class="val">{{data.userInfo.companyName}}</view>
     </view>
-    <view class="item">
+    <view class="item" wx:if="{{data.userInfo.contacts}}">
       <view class="label">联系人</view>
-      <view class="val">沐雨**</view>
+      <view class="val">{{data.userInfo.contacts}}</view>
     </view>
-    <view class="item">
+    <view class="item" wx:if="{{data.userInfo.phone}}">
       <view class="label">手机号</view>
-      <view class="val">152****8182</view>
+      <view class="val">{{data.userInfo.phone}}}</view>
     </view>
-    <view class="item">
+    <view class="item" wx:if="{{data.userInfo.finitude}}">
       <view class="label">邮箱</view>
-      <view class="val">116******45@qq.com</view>
+      <view class="val">{{data.userInfo.finitude}}</view>
     </view>
   </view>
 </view>
@@ -162,18 +183,18 @@
 <view class="container b0"> 
   <view class="time-wrap">
     <view class="time">{{data.createTime}}</view>
-    <view class="code">询价单号:WW202006029988</view>
+    <!-- <view class="code">询价单号:WW202006029988</view> -->
   </view>
 </view>
 
-<view class="footer-wrap" wx:if="{{ status == 0 && user == 1}}">
+<view class="footer-wrap" wx:if="{{ status == 0 && type == 1}}">
   <view class="footer">
     <view class="baojiarenshu size14">
       <text class="blue">4</text>
       <text >人已报价</text>
     </view>
     <van-button icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
-  	<van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button>
+  	<!-- <van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button> -->
   </view>
 </view>
 
