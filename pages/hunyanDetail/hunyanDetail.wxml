@@ -1,17 +1,17 @@
 <!-- 最多10家报价 -->
 <view class="container"> 
     <view class="top">
-      <view class="name text-overflow">在{{data.city}}需要{{data.meetingPeople_filter}}的场地</view>
+      <view class="name text-overflow">需要价格在{{data.priceRange}},能容纳{{data.tablesNumber}}</view>
       <!-- <view class="type flex0">会议</view> -->
     </view>
     <view class="list">
-      <view class="item">
+      <!-- <view class="item">
         <view class="label last">预算</view>
         <view class="val c totalPrice">
           <text class="size12">￥</text>
           <text class="bold">{{data.budget || 0}}</text>
         </view>
-      </view>
+      </view> -->
       <!-- <view class="item">
         <view class="label last">订单状态</view>
         <view class="val size16" style="margin-left: auto">
@@ -19,16 +19,20 @@
         </view>
       </view> -->
       <view class="item">
-        <view class="label">会议时间</view>
-        <view class="val">{{data.meetingStartTime_filter}} - {{data.meetingEndTime_filter}}</view>
+        <view class="label">价格区间</view>
+        <view class="val c">{{data.priceRange}}</view>
       </view>
       <view class="item">
-        <view class="label">人数类型</view>
-        <view class="val">{{data.meetingPeople_filter}} | 其他会议活动</view>
+        <view class="label">会议时间</view>
+        <view class="val">{{data.startTime}} - {{data.endTime}}</view>
+      </view>
+      <view class="item">
+        <view class="label">容纳桌数</view>
+        <view class="val">{{data.tablesNumber}}</view>
       </view>
       <view class="item">
         <view class="label">位置要求</view>
-        <view class="val">{{data.city}}</view>
+        <view class="val">{{data.place}} {{data.detailedAddress}}</view>
       </view>
       <view class="item">
         <view class="label">其他说明</view>

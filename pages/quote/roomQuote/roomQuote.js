@@ -7,7 +7,7 @@ Page({
   data: {
     formList: [{
       label: '可提供房间数',
-      key: 'fjNum',
+      key: 'guestNumber',
       required: true,
       inputType: 'number',
       required: true,

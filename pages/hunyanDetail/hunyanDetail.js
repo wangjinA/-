@@ -1,5 +1,5 @@
 import {
-  rs
+  hyjgqj,rnzs
 } from '../../utils/config'
 const app = getApp()
 Page({
@@ -75,80 +75,32 @@ Page({
     })
   },
   init() {
-    wx.loadingAPI(wx.$get('/order/getGrabSingleDemandInfo', {
-        meetingId: this.data.id
+    wx.loadingAPI(wx.$get('/order/getWeddingBanquet', {
+        weddingBanquetId: this.data.id
       }))
       .then(({
         data
       }) => {
-        console.log(data);
-        data.meetingPeople_filter = data.meetingPeople && rs(wx.$parse(data.meetingPeople))
-        data.meetingStartTime_filter = wx.formatTime(new Date(data.meetingStartTime), true)
-        data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
-        data.userInfo = data.sysUserVo
-        data.hcTotal = 0
-        data.kfTotal = 0
-        data.cyTotal = 0
-        data.singleDemandVenueVos.forEach(item => { // 会议
-          data.hcTotal += item.budget || 0
-          item._show = !!(
-            item.containNumbers ||
-            item.dayLong ||
-            item.notes ||
-            item.venues ||
-            item.venueType
-          )
-        })
-        data.singleDemandRoomsVos.forEach(item => { // 客房
-          data.kfTotal += item.kfTotal || 0
-          item.rooms = wx.$parse(item.rooms)
-          item._show = !!(
-            item.budget ||
-            item.networkFlag == 1 ||
-            item.notes ||
-            (item.rooms && item.rooms.length)
-          )
-        })
-        data.singleDemandRepastVos.forEach(item => { // 餐饮
-          data.cyTotal += item.cyTotal || 0
-          item.dining = wx.$parse(item.dining)
-          item._show = !!(
-            item.containNumbers ||
-            (item.dining && item.dining.length) ||
-            item.notes ||
-            item.tableType
-          )
-        })
-        data.hcShow = !!(data.singleDemandVenueVos.filter(item => item._show).length)
-        data.kfShow = !!(data.singleDemandRoomsVos.filter(item => item._show).length)
-        data.cyShow = !!(data.singleDemandRepastVos.filter(item => item._show).length)
-        wx.singleDemandVenueVos = data.singleDemandVenueVos.filter(item => item._show)
-        wx.singleDemandRoomsVos = data.singleDemandRoomsVos.filter(item => item._show)
-        wx.singleDemandRepastVos = data.singleDemandRepastVos.filter(item => item._show)
-        wx.hcTotal = data.hcTotal // 单个需求总报价
-        wx.kfTotal = data.kfTotal
-        wx.cyTotal = data.cyTotal
-
-        wx.hcShow = data.hcShow // 是否显示
-        wx.kfShow = data.kfShow
-        wx.cyShow = data.cyShow
+        data.priceRange = hyjgqj(wx.$parse(data.priceRange))
+        data.tablesNumber = rnzs(wx.$parse(data.tablesNumber))
+        data.startTime = wx.formatTime(new Date(data.startTime), true)
+        data.endTime = wx.formatTime(new Date(data.endTime), true)
         this.setData({
           data
         })
-
       })
-      
+
   },
   getBaojiaList() {
-    wx.$get('/order/getUserSelfDemandInfo', {
-      meetingId: this.data.id
-    })
+    // wx.$get('/order/getUserSelfDemandInfo', {
+    //   meetingId: this.data.id
+    // })
   },
   onLoad: function (options) {
     this.data.id = options.id
     wx.meetingId = options.id
     this.init()
-    this.getBaojiaList()
+    // this.getBaojiaList()
     this.setData({
       status: options.status || 0
     })
@@ -166,7 +118,7 @@ Page({
       wx.navigateTo({
         url: '/pages/quote/eatQuote/eatQuote',
       })
-    }else {
+    } else {
       wx.showToast({
         icon: 'none',
         title: '未找到具体需求',
@@ -184,8 +136,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
 
-  onShow() {
-  },
+  onShow() {},
 
   /**
    * 生命周期函数--监听页面隐藏

@@ -1,0 +1,27 @@
+<view class="huiyi" data-id="{{data.meetingId}}" bindtap="toDetail">
+  <view class="top">
+    <view class="name text-overflow">在{{data.city}}需要{{data.meetingPeople}}的场地</view>
+    <!-- <view class="type flex0">会议</view> -->
+  </view>
+  <view class="middle">
+    <view class="date cs">
+    <van-icon name="underway-o" />
+      <text class="text-overflow">{{data.meetingStartTime}} - {{data.meetingEndTime}}</text>
+    </view>
+    <view class="address cs">
+      <van-icon name="location-o" />
+      <text class="text-overflow">{{data.city}}</text>
+    </view>
+    <view class="tips cs " wx:if="{{data.notes}}">
+      <van-icon name="label-o" />
+      <text class="text-overflow">{{data.notes}}</text>
+    </view>
+  </view>
+  <view class="bottom">
+    <view class="yusuan" wx:if="{{data.budget}}">
+      <text class="yusuan-label size14">预算：</text>
+      <text class="price c">￥{{data.budget}}</text>
+    </view>
+    <van-button type="primary" round size="small" style="margin-left: auto;">点击抢单</van-button>
+  </view>
+</view>

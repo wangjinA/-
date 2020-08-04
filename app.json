@@ -2,6 +2,7 @@
   "pages": [
     "pages/welcome/welcome",
     "pages/robOrder/robOrder",
+    "pages/hunyanDetail/hunyanDetail",
     "pages/hotel/hotelInfo/hotelInfo",
     "pages/quote/roomQuote/roomQuote",
     "pages/quote/hotelQuote/hotelQuote",
@@ -87,6 +88,8 @@
   },
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
+    "huiyi": "/components/huiyi/huiyi",
+    "hunyan": "/components/hunyan/hunyan",
     "guestRoom": "/components/guestRoom/guestRoom",
     "meeting": "/components/meeting/meeting",
     "footerButton": "/components/footerButton/footerButton",

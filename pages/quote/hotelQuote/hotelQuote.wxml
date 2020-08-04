@@ -11,7 +11,7 @@
     <view wx:if="{{item.budget}}">
       预算：<text class="c size18">￥{{item.budget}}</text>
       </view>
-    <view class="title">
+    <view class="quote-title">
         <view>
           {{item.venues || ''}}
           {{item.dayLong ? '，' + item.dayLong : ''}} 

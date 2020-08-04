@@ -37,7 +37,8 @@ Page({
       try {
         hcbj.push({
           ...await formItem.getData(),
-          date: this.data.list[i].dates
+          date: this.data.list[i].dates,
+          hotelId: wx.hotelId
         })
       } catch (error) {
         return false
@@ -94,7 +95,7 @@ Page({
       list: wx.singleDemandVenueVos,
       formList: [{
         label: '选择场地',
-        key: 'hc',
+        key: 'chamberId',
         type: 'event',
         required: true,
         click: () => {
@@ -129,11 +130,11 @@ Page({
     let meetingItem = this.data.cdList[index]
     let formItem = this.selectAllComponents('#wjForm')[currentIndex]
     formItem.data.formList.forEach(item =>{
-      if(item.key === 'hc'){
+      if(item.key === 'chamberId'){
         item.value = meetingItem.chamberName // 设置名称
       }
     })
-    formItem.data.formData.hc = meetingItem.hotelChamberId // 设置id
+    formItem.data.formData.chamberId = meetingItem.hotelChamberId // 设置id
 
     // 自动通过上午或者下午设置报价
     let dayLong = this.data.list[currentIndex].dayLong

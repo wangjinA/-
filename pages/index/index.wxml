@@ -3,7 +3,7 @@
 		<swiper class='banners' indicator-dots="true" autoplay="true" interval="3000" duration="1000" indicator-color="#fff" indicator-active-color="#FD960D">
 			<block wx:for="{{banner}}" wx:key="*this">
 				<swiper-item>
-					<image src="{{item}}" class="banner" mode="aspectFill"></image>
+					<image src="{{item.imgUrl}}" class="banner" mode="aspectFill"></image>
 				</swiper-item>
 			</block>
 		</swiper>
@@ -25,7 +25,7 @@
 			custom-class="test"
 		/>
 	</view> -->
-	<van-notice-bar left-icon="/images/notice.png" text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。" />
+	<van-notice-bar left-icon="/images/notice.png" text="{{noticeList[noticeIndex].content}}" />
 	<view class="h-hotel-info" wx:if="{{ type == 1 }}">
 		<view class="h-hotel-name">{{hotelInfo.hotelName}}</view>
 		<view class="hotel-edit more" data-id="{{hotelInfo.id}}"  bindtap="goHotelInfo">

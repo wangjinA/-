@@ -10,7 +10,7 @@
     <view wx:if="{{item.budget}}">
     预算：<text class="c size18">￥{{item.budget}}</text>
     </view>
-    <view class="title">
+    <view class="quote-title">
       <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
       <view class="item-remark">
         <text wx:if="{{item.networkFlag}}">需要网络 </text>

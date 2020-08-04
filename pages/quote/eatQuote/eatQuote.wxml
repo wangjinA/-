@@ -10,7 +10,7 @@
     <view wx:if="{{item.budget}}">
       预算：<text class="c size18">￥{{item.budget}}</text>
       </view>
-    <view class="title">
+    <view class="quote-title">
       <view>{{item.containNumbers || ''}}</view>
       <view>{{item.tableType || ''}}</view>
       <view wx:for="{{item.dining}}">{{item.name}} 需要 {{item.value}}</view>

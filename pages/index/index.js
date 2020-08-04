@@ -13,13 +13,32 @@ Page({
     ],
     likeList: [],
     recommendList: [],
-    hotelInfo: {}
+    hotelInfo: {},
+    noticeList: [],
+    noticeIndex: 0
+  },
+  replay(e) { // 每当滚动栏重新开始滚动时触发
+    console.log(e);
+    console.log('每当滚动栏重新开始滚动时触发');
+
   },
   init() {
     wx.$post('/banner/getAllBanner')
       .then(res => {
-
+        this.setData({
+          banner: res.data.list.filter(item => item.type == wx.type)
+        })
       })
+    wx.$get('/notice/selectNoticePage', {
+      current: 1,
+      pageSize: 10,
+    }).then(res => {
+      console.log(res);
+      this.setData({
+        noticeList: res.data.list.filter(item => item.type == wx.type)
+      })
+      this.noticeToggle()
+    })
     if (wx.type == 2) {
       wx.$post('/site/guessLike', { // 猜你喜欢
         current: 1,
@@ -45,6 +64,22 @@ Page({
         })
     }
   },
+  noticeToggle() {
+    clearInterval(this.$timer)
+    this.data.noticeIndex = 0
+    if(this.data.noticeList.length > 1) {
+      this.$timer = setInterval(() => {
+        let noticeIndex = this.data.noticeIndex;
+        noticeIndex++
+        if (this.data.noticeIndex >= this.data.noticeList.length) {
+          noticeIndex = 0
+        }
+        this.setData({
+          noticeIndex
+        })
+      }, 10000);
+    }
+  },
   toHotelDetail() {
     wx.navigateTo({
       url: '/pages/hotel/hotelDetail/hotelDetail',
@@ -58,7 +93,7 @@ Page({
   goHotelInfo(e) {
     let id = e.currentTarget.dataset.id
     console.log(id);
-    
+
     wx.navigateTo({
       url: '/pages/hotel/hotelInfo/hotelInfo?id=' + id,
     })
