@@ -47,7 +47,7 @@ Page({
       try {
         kfbj.push({
           ...(await formItem.getData()),
-          date: this.data.list[i].dates
+          dates: this.data.list[i].dates
         })
       } catch (error) {
         return false

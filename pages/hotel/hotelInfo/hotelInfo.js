@@ -107,7 +107,7 @@ Page({
     })
   },
   onLoad (options) {
-    this.data.hotelId = options.id || 2
+    this.data.hotelId = options.id
     this.initData()
   },
 

@@ -50,8 +50,9 @@
       </view>
       <view class="hotel-price-rob">
         <block wx:if="{{!item.show}}">
-          <text class="size12 c9">第{{item.num}}次报价：</text>
-          <text class="totalPrice">￥{{item.price}}</text>
+          <!-- <text class="size12 c9">第{{item.num}}次报价：</text> -->
+          <text class="size12 c9">报价：</text>
+          <text class="totalPrice">￥{{item.quotationPrice}}</text>
         </block>
         <block wx:else>
           <van-button type="info" size="small" catchtap="useBj">确认报价</van-button>
@@ -189,8 +190,8 @@
 
 <view class="footer-wrap" wx:if="{{ status == 0 && type == 1}}">
   <view class="footer">
-    <view class="baojiarenshu size14">
-      <text class="blue">4</text>
+    <view class="baojiarenshu size14" wx:if="{{bjList.length}}">
+      <text class="blue">{{bjList.length}}</text>
       <text >人已报价</text>
     </view>
     <van-button icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>

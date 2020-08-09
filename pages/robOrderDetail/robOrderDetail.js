@@ -43,7 +43,7 @@ Page({
       price: '12000',
       show: false
     }],
-    data: {}
+    data: {},
   },
   orderEnd() {
     wx.showModal({
@@ -142,6 +142,10 @@ Page({
   getBaojiaList() {
     wx.$get('/order/getUserSelfDemandInfo', {
       meetingId: this.data.id
+    }).then(res => {
+      this.setData({
+        bjList: res.data.hotelQuteInfoVoList
+      })
     })
   },
   onLoad: function (options) {

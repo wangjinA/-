@@ -37,7 +37,7 @@ Page({
       try {
         hcbj.push({
           ...await formItem.getData(),
-          date: this.data.list[i].dates,
+          dates: this.data.list[i].dates,
           hotelId: wx.hotelId
         })
       } catch (error) {

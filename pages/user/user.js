@@ -55,9 +55,15 @@ Page({
   },
   userToggle() {
     if(wx.type == 2) {
-      wx.navigateTo({
-        url: '/pages/hotel/hotelSelect/hotelSelect',
-      })
+      if(wx.userInfo.hotelId){
+      this.setUser(1)
+        wx.switchTab({
+          url: '/pages/index/index',
+        })
+      }
+      // wx.navigateTo({
+      //   url: '/pages/hotel/hotelSelect/hotelSelect',
+      // })
     }else {
       this.setUser(2)
       wx.switchTab({

@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/welcome/welcome",
     "pages/robOrder/robOrder",
+    "pages/welcome/welcome",
     "pages/hunyanDetail/hunyanDetail",
     "pages/hotel/hotelInfo/hotelInfo",
     "pages/quote/roomQuote/roomQuote",

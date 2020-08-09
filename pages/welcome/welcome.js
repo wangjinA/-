@@ -21,9 +21,10 @@ Page({
           type
         }).then(res => {
           wx.type = type
+          wx.userInfo = res.data.userInfo
+          wx.hotelInfo = res.data.hotelInfo
           if(type == 1){
             console.log(res);
-            
             if(res.data.userInfo.hotelId){
               wx.switchTab({
                 url: '/pages/index/index',
