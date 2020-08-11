@@ -2,6 +2,13 @@ import {
   rs
 } from '../../utils/config'
 const app = getApp()
+// 1  有效 - 可以报价
+// 2  无效
+// 3  用户确认酒店报价
+// 4  酒店确认订单完成
+// 5  等待客户上传消费单
+// 6  酒店再次确定 - 完成结束
+// 7  酒店拒绝消费单
 Page({
 
   /**
@@ -9,7 +16,6 @@ Page({
    */
   data: {
     type: wx.type,
-    status: 0,
     steps: [{
         text: '第2次报价￥23000（点击可查看明细）',
         desc: '等待客户查看',
@@ -44,6 +50,8 @@ Page({
       show: false
     }],
     data: {},
+    status: 0,
+    statusText: ''
   },
   orderEnd() {
     wx.showModal({
@@ -62,6 +70,21 @@ Page({
   },
   useBj() {
     console.log('使用这个报价')
+  },
+  // 用户确认报价
+  okBaojia(e) {
+    const orderdemandId = e.currentTarget.dataset.orderdemandId
+    this.setOrderStatus(orderdemandId, 3)
+  },
+  // 酒店确认会议完成
+  jdok() {
+    this.setOrderStatus(11, 4)
+  },
+  setOrderStatus(orderDemandId, status) {
+    wx.loadingAPI(wx.$post('/demandorder/updateOrderDemandStatus', {
+      orderDemandId,
+      status
+    }))
   },
   showBj(e) {
     const index = e.currentTarget.dataset.index
@@ -132,7 +155,25 @@ Page({
         wx.hcShow = data.hcShow // 是否显示
         wx.kfShow = data.kfShow
         wx.cyShow = data.cyShow
+
+        let statusText = this.data.statusText
+        switch(data.status){
+          case 3:
+            statusText = '确认报价'
+            break;
+          case 4:
+          statusText = '酒店确认完成'
+          break;
+          case 5:
+            statusText = '订单已完成'
+            break;
+          case 6:
+          statusText = '酒店拒绝'
+          break;
+        }
         this.setData({
+          statusText,
+          status: data.status,
           data
         })
 

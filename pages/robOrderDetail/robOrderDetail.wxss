@@ -1,57 +1,68 @@
-.container{
+.container {
   padding: 0 28rpx;
   border-bottom: 8rpx solid #F8F8F8;
   padding-bottom: 20rpx;
 }
-.item + .item{
+
+.item+.item {
   margin-top: 10rpx;
 }
-.top{
+
+.top {
   display: flex;
   justify-content: space-between;
   height: 80rpx;
   align-items: center;
 }
-.name{
+
+.name {
   font-weight: 700;
 }
-.type{
+
+.type {
   font-size: 24rpx;
   color: #368CFD;
-  background-color: rgba(54,140,253, .1);
+  background-color: rgba(54, 140, 253, .1);
   width: 60rpx;
   height: 35rpx;
   text-align: center;
   line-height: 35rpx;
   border-radius: 5rpx;
 }
-.item{
+
+.item {
   display: flex;
   align-items: baseline;
   font-size: 28rpx;
 }
-.label{
+
+.label {
   width: 120rpx;
   margin-right: 24rpx;
   flex-shrink: 0;
 }
-.last{
+
+.last {
   text-align-last: justify;
 }
-.time-wrap{
+
+.time-wrap {
   font-size: 22rpx;
   color: #999;
   justify-content: space-between;
   display: flex;
   padding: 20rpx 0;
 }
-.b0{
+
+.b0 {
   border-bottom: 0;
 }
-.footer-wrap{
+
+.footer-wrap {
   height: 120rpx;
 }
-.footer{
+
+.footer {
   position: fixed;
   left: 0;
   right: 0;
@@ -66,46 +77,91 @@
   box-shadow: 0 -2rpx 15rpx 0 #eaeaea;
   z-index: 99;
 }
-.footer .van-button{
-  width:  380rpx;
-  height:  75rpx;
-  line-height:  75rpx;
+
+.footer .van-button {
+  width: 380rpx;
+  height: 75rpx;
+  line-height: 75rpx;
 }
-.blue{
+
+.blue {
   color: #1989FA;
 }
-.detail-time{
+
+.detail-time {
   font-size: 28rpx;
   color: #999;
   padding: 8rpx 0;
 }
-.detail-item{
+
+.detail-item {
   padding: 12px 20rpx;
   background-color: #f7f7f7;
   color: #333;
   font-size: 28rpx;
 }
-.item-remark{
+
+.item-remark {
   font-size: 26rpx;
   color: #999;
   margin-top: 10rpx;
 }
-.price{
+
+.price {
   color: #FD960D;
 }
-.totalPrice{
+
+.totalPrice {
   flex: 1;
   text-align: right;
   color: #FD960D;
   font-size: 34rpx;
 }
-.bj-item{
+
+.bj-item {
   display: flex;
   justify-content: space-between;
 }
-.bj-list + .bj-list{
+
+.bj-list+.bj-list {
   margin-top: 20rpx;
 }
-.item-budget{
+
+.item-budget {
   color: #FD960D;
+}
+
+.baojia-detail {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  color: #fff;
+  padding: 30rpx;
+  overflow-y: auto;
+}
+.baojia-title{
+  color: #FD960D;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+}
+.baojia-info{
+  padding-left: 15rpx;
+}
+.bj-date{
+  padding: 10rpx 0;
+  color: #b6b1ac;
+}
+.bj-con{
+  padding-left: 20rpx;
+  margin-bottom: 10rpx;
+}
+.baojia-close{
+  position: fixed;
+  right: 30rpx;
+  top: 30rpx;
 }
