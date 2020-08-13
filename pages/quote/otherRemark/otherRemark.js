@@ -11,9 +11,9 @@ Page({
     return wx.loadingAPI(wx.$post('/order/gdeclarationDemand', {
       meetingId: wx.meetingId,
       notes: this.data.remark,
-      orderDemandChambers: wx.$stringify(wx.hcbj) || '',
-      orderDemandGuests: wx.$stringify(wx.kfbj) || '',
-      orderDemandRepasts: wx.$stringify(wx.cybj) || '',
+      orderDemandChambers: wx.$stringify(wx.hcbj) || '[]',
+      orderDemandGuests: wx.$stringify(wx.kfbj) || '[]',
+      orderDemandRepasts: wx.$stringify(wx.cybj) || '[]',
     }), '提交中')
     .then(res=>{
       wx.showModal({

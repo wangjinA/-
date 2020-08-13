@@ -50,7 +50,7 @@ Page({
       wx.navigateTo({
         url: '/pages/quote/roomQuote/roomQuote',
       })
-    }else if(cyShow){
+    }else if(wx.cyShow){
       wx.navigateTo({
         url: '/pages/quote/eatQuote/eatQuote',
       })

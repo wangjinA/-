@@ -1,4 +1,8 @@
 // pages/order/order.js
+import {
+  hyjgqj,
+  rnzs
+} from '../../utils/config'
 Page({
   
   data: {
@@ -6,17 +10,34 @@ Page({
     current: 1,
     pageSize: 8,
     type: 1,
-    activeIndex: 0
+    activeIndex: 0,
+    list: [],
   },
-  getData() {
+  init() {
     if(wx.type == 1){
-      wx.$get('/demandorder/getMyOrderDemand', {
+      wx.loadingAPI(wx.$get('/demandorder/getMyOrderDemand', {
         current: this.data.current,
         pageSize: this.data.pageSize,
         type: this.data.activeIndex + 1, // 类型 1已报价 2 已完成
+      })).then(res=>{
+        this.data.pages = res.data.pages
+        let list = res.data.list
+        list.forEach(item => {
+          item.priceRange = hyjgqj(wx.$parse(item.priceRange))
+          item.tablesNumber = rnzs(wx.$parse(item.tablesNumber))
+          item.startTime = wx.formatTime(new Date(item.startTime), true)
+          item.endTime = wx.formatTime(new Date(item.endTime), true)
+        })
+        if (this.data.current != 1) {
+          list = [...this.data.list, ...list]
+        } else {
+        }
+        this.setData({
+          list
+        })
       })
     }else {
-      wx.$post('/demandorder/getMyOrderDemand', {
+      wx.$post('/demandorder/getUserDemand', {
         current: this.data.current,
         pageSize: this.data.pageSize,
         type: this.data.activeIndex + 1, // 类型 1已报价 2 已完成
@@ -29,11 +50,12 @@ Page({
     this.setData({
       activeIndex: index
     })
-    this.getData()
+    this.init()
   },
-  goDetail() {
+  goDetail(e) {
+    let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/robOrderDetail/robOrderDetail',
+      url: '/pages/robOrderDetail/robOrderDetail?id=' + id,
     })
   },
   goChat() {
@@ -49,7 +71,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.getData()
+    this.init()
   },
 
   /**
@@ -80,13 +102,15 @@ Page({
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  onReachBottom() {
+    if (this.data.current >= this.data.pages) {
+      return this.setData({
+        notMore: true
+      })
+    }
+    this.data.current++
+    this.init()
   },
-
   /**
    * 用户点击右上角分享
    */

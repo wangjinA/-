@@ -37,7 +37,7 @@
     </view>
 </view>
 
-
+<!-- 三个报价 -->
 <view class="container"> 
   <view class="top">
     <view class="name text-overflow">报价列表</view>
@@ -61,35 +61,49 @@
       </view>
     </view>
     <view wx:if="{{item.show}}" class="baojia-detail">
-      <view class="baojia-title">会场</view>
-      <view class="baojia-info">
-        <view wx:for="{{item.orderDemandChamberList}}">
-          <view class="bj-date">{{item.dates}}</view>
+      <block v-if="{{item.orderDemandChamberList.length}}">
+        <view class="baojia-title">会场</view>
+        <view class="baojia-info">
+          <view wx:for="{{item.orderDemandChamberList}}">
+            <view class="bj-date">{{item.dates}}</view>
+            <view class="bj-con">
+              <view>场地：{{item.hotelChamber.chamberName}}</view>
+              <view>报价：{{item.price}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block v-if="{{item.orderDemandGuestList.length}}">
+        <view class="baojia-title">客房</view>
+        <view class="baojia-info">
+          <view wx:for="{{item.orderDemandGuestList}}">
+            <view class="bj-date">{{item.dates}}</view>
+              <view class="bj-con">
+              <view>可提供房间数：{{item.guestNumber}}</view>
+              <view>报价：{{item.price}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block v-if="{{item.orderDemandRepastList.length}}">
+        <view class="baojia-title">餐饮</view>
+        <view class="baojia-info">
+          <view wx:for="{{item.orderDemandRepastList}}">
+            <view class="bj-date">{{item.dates}}</view>
+            <view class="bj-con">
+              <view>报价：{{item.price}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block v-if="{{item.notes}}">
+        <view class="baojia-title">其他说明</view>
+        <view class="baojia-info">
           <view class="bj-con">
-            <view>场地：{{item.chamberId}}</view>
-            <view>报价：{{item.price}}</view>
+            <view>{{item.notes}}</view>
           </view>
         </view>
-      </view>
-      <view class="baojia-title">客房</view>
-      <view class="baojia-info">
-        <view wx:for="{{item.orderDemandGuestList}}">
-          <view class="bj-date">{{item.dates}}</view>
-            <view class="bj-con">
-            <view>可提供房间数：{{item.guestNumber}}</view>
-            <view>报价：{{item.price}}</view>
-          </view>
-        </view>
-      </view>
-      <view class="baojia-title">餐饮</view>
-      <view class="baojia-info">
-        <view wx:for="{{item.orderDemandRepastList}}">
-          <view class="bj-date">{{item.dates}}</view>
-            <view class="bj-con">
-            <view>报价：{{item.price}}</view>
-          </view>
-        </view>
-      </view>
+      </block>
       <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}"/>
       <footerButton bindtap="okBaojia" data-orderdemandId="{{item.orderdemandId}}" wx:if="{{status==1}}">接受报价</footerButton>
     </view>
@@ -206,7 +220,7 @@
     </view>
     <view class="item" wx:if="{{data.userInfo.phone}}">
       <view class="label">手机号</view>
-      <view class="val">{{data.userInfo.phone}}}</view>
+      <view class="val">{{data.userInfo.phone}}</view>
     </view>
     <view class="item" wx:if="{{data.userInfo.finitude}}">
       <view class="label">邮箱</view>
@@ -228,12 +242,13 @@
       <text class="blue">{{bjList.length}}</text>
       <text >人已报价</text>
     </view>
-    <van-button icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
+    <van-button style="margin-left:auto;" icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
   	<!-- <van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button> -->
   </view>
 </view>
 
-<footerButton bindtap="jdok"  wx:if="{{status==3}}">订单完成</footerButton>
+<footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderDemandId}}">订单完成</footerButton>
+<footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton>
 <!-- <view class="footer-wrap">
   <view class="footer">
   <view class="baojiarenshu size14">

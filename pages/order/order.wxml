@@ -1,10 +1,11 @@
 <van-tabs active="{{ activeIndex }}" bind:change="onChange" color="#FD960D">
 	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item }}">
-		<view class="content">
+    <huiyi class="huiyi" data="{{item}}" wx:for="{{list}}" data-id="{{item.meetingId}}" bindtap="goDetail"></huiyi>
+		<!-- <view class="content">
 			<view class="order-item" wx:for="{{2}}" bindtap="goDetail">
-				<!-- <view class="hotel-img">
+				<view class="hotel-img">
           <image src="/images/hotel/hotel1.jpg"></image>
-        </view> -->
+        </view>
         <view class="flex1">
 					<view class="order-top-wrap">
 						<view class="order-name">需要200人的会场</view>
@@ -31,6 +32,6 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 	</van-tab>
 </van-tabs>

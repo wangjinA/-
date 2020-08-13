@@ -149,7 +149,7 @@
 </view>
 
 <!-- <view class="container" wx:if="{{ status == 1 }}"> -->
-<view class="container" >
+<!-- <view class="container" >
   <view class="top">
     <view class="name text-overflow">报价详情</view>
   </view>
@@ -159,27 +159,27 @@
     direction="vertical"
     active-color="#FEAF11"
   />
-</view>
+</view> -->
 <view class="container"> 
   <view class="top">
     <view class="name text-overflow">客户信息</view>
   </view>
   <view class="list">
-    <view class="item" wx:if="{{data.userInfo.companyName}}">
+    <view class="item" wx:if="{{userInfo.companyName}}">
       <view class="label">公司名称</view>
-      <view class="val">{{data.userInfo.companyName}}</view>
+      <view class="val">{{userInfo.companyName}}</view>
     </view>
-    <view class="item" wx:if="{{data.userInfo.contacts}}">
+    <view class="item" wx:if="{{userInfo.contacts}}">
       <view class="label">联系人</view>
-      <view class="val">{{data.userInfo.contacts}}</view>
+      <view class="val">{{userInfo.contacts}}</view>
     </view>
-    <view class="item" wx:if="{{data.userInfo.phone}}">
+    <view class="item" wx:if="{{userInfo.phone}}">
       <view class="label">手机号</view>
-      <view class="val">{{data.userInfo.phone}}}</view>
+      <view class="val">{{userInfo.phone}}}</view>
     </view>
-    <view class="item" wx:if="{{data.userInfo.finitude}}">
+    <view class="item" wx:if="{{userInfo.finitude}}">
       <view class="label">邮箱</view>
-      <view class="val">{{data.userInfo.finitude}}</view>
+      <view class="val">{{userInfo.finitude}}</view>
     </view>
   </view>
 </view>

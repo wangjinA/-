@@ -43,7 +43,8 @@ Page({
       price: '12000',
       show: false
     }],
-    data: {}
+    data: {},
+    userInfo: {}
   },
   orderEnd() {
     wx.showModal({
@@ -81,12 +82,15 @@ Page({
       .then(({
         data
       }) => {
-        data.priceRange = hyjgqj(wx.$parse(data.priceRange))
-        data.tablesNumber = rnzs(wx.$parse(data.tablesNumber))
-        data.startTime = wx.formatTime(new Date(data.startTime), true)
-        data.endTime = wx.formatTime(new Date(data.endTime), true)
+        let detail = data.weddingBanque
+        let userInfo = data.customerInfo
+        detail.priceRange = hyjgqj(wx.$parse(detail.priceRange))
+        detail.tablesNumber = rnzs(wx.$parse(detail.tablesNumber))
+        detail.startTime = wx.formatTime(new Date(detail.startTime), true)
+        detail.endTime = wx.formatTime(new Date(detail.endTime), true)
         this.setData({
-          data
+          data:detail,
+          userInfo
         })
       })
 

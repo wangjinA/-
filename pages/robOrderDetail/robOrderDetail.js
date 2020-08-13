@@ -51,7 +51,8 @@ Page({
     }],
     data: {},
     status: 0,
-    statusText: ''
+    statusText: '',
+    isUser: false,
   },
   orderEnd() {
     wx.showModal({
@@ -73,18 +74,28 @@ Page({
   },
   // 用户确认报价
   okBaojia(e) {
-    const orderdemandId = e.currentTarget.dataset.orderdemandId
-    this.setOrderStatus(orderdemandId, 3)
+    const orderdemandid = e.currentTarget.dataset.orderdemandid
+    console.log(e.currentTarget.dataset);
+
+    this.setOrderStatus(orderdemandid, 3)
   },
   // 酒店确认会议完成
   jdok() {
-    this.setOrderStatus(11, 4)
+    this.setOrderStatus(this.data.data.orderDemandId, 4)
+  },
+  // 上传消费单
+  shangchuan() {
+    wx.navigateTo({
+      url: '/pages/xfd/xfd?id='+ this.data.meetingId,
+    })
   },
   setOrderStatus(orderDemandId, status) {
     wx.loadingAPI(wx.$post('/demandorder/updateOrderDemandStatus', {
       orderDemandId,
       status
-    }))
+    })).then(() => {
+      this.init()
+    })
   },
   showBj(e) {
     const index = e.currentTarget.dataset.index
@@ -157,28 +168,33 @@ Page({
         wx.cyShow = data.cyShow
 
         let statusText = this.data.statusText
-        switch(data.status){
+        switch (data.status) {
           case 3:
             statusText = '确认报价'
             break;
           case 4:
-          statusText = '酒店确认完成'
-          break;
+            statusText = '酒店确认完成'
+            break;
           case 5:
             statusText = '订单已完成'
             break;
           case 6:
-          statusText = '酒店拒绝'
-          break;
+            statusText = '酒店拒绝'
+            break;
+        }
+        let isUser = false
+        if(data.userInfo && wx.userInfo && data.userInfo.id == wx.userInfo.id){
+          isUser = true
         }
         this.setData({
+          isUser,
           statusText,
           status: data.status,
           data
         })
 
       })
-      
+    this.getBaojiaList()
   },
   getBaojiaList() {
     wx.$get('/order/getUserSelfDemandInfo', {
@@ -190,14 +206,11 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.data.id = options.id
-    wx.meetingId = options.id
+    this.data.id = options.id || 19
+    wx.meetingId = options.id || 19
     this.init()
-    this.getBaojiaList()
-    this.setData({
-      status: options.status || 0
-    })
   },
+  // 立即抢单
   qiangdan() {
     if (this.data.data.hcShow)
       wx.navigateTo({
@@ -211,10 +224,10 @@ Page({
       wx.navigateTo({
         url: '/pages/quote/eatQuote/eatQuote',
       })
-    }else {
+    } else {
       wx.showToast({
         icon: 'none',
-        title: '未找到具体需求',
+        title: '未找到详细需求，无法报价',
       })
     }
   },
@@ -230,6 +243,9 @@ Page({
    */
 
   onShow() {
+    if (this.data.id) {
+      this.init()
+    }
   },
 
   /**

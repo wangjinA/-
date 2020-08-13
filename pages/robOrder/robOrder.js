@@ -1,5 +1,9 @@
 // pages/robOrder/robOrder.js
-import { rs,hyjgqj,rnzs } from '../../utils/config'
+import {
+  rs,
+  hyjgqj,
+  rnzs
+} from '../../utils/config'
 Page({
 
   /**
@@ -24,42 +28,42 @@ Page({
     this.init()
   },
   init() {
-    if(this.data.activeIndex === 0) {
+    if (this.data.activeIndex === 0) {
       this.getHuiyi()
-    }else {
+    } else {
       this.getHunyan()
     }
   },
   getHunyan() {
     wx.$get('/order/grabSingleWedding', {
-      current: this.data.current,
-      pageSize: this.data.pageSize,
-    })
-    .then(res=>{
+        current: this.data.current,
+        pageSize: this.data.pageSize,
+      })
+      .then(res => {
         this.data.pages = res.data.pages
-      let list = res.data.list
-      list.forEach(item => {
+        let list = res.data.list
+        list.forEach(item => {
           item.priceRange = hyjgqj(wx.$parse(item.priceRange))
           item.tablesNumber = rnzs(wx.$parse(item.tablesNumber))
           item.startTime = wx.formatTime(new Date(item.startTime), true)
           item.endTime = wx.formatTime(new Date(item.endTime), true)
         })
         let hunyanList = null
-        if(this.data.current === 1){
+        if (this.data.current === 1) {
           hunyanList = list
-        }else {
+        } else {
           hunyanList = [...this.data.hunyanList, ...list]
         }
         this.setData({
           hunyanList
         })
-    })
+      })
   },
-  getHuiyi () {
+  getHuiyi() {
     wx.loadingAPI(wx.$get('/order/grabSingleDemand', {
       current: this.data.current,
       pageSize: this.data.pageSize,
-    })).then(res=> {
+    })).then(res => {
       let list = res.data.list
       this.data.pages = res.data.pages
       list.forEach(item => {
@@ -68,9 +72,9 @@ Page({
         item.meetingEndTime = wx.formatTime(new Date(item.meetingEndTime), true)
       })
       let huiyiList = null
-      if(this.data.current === 1){
+      if (this.data.current === 1) {
         huiyiList = list
-      }else {
+      } else {
         huiyiList = [...this.data.huiyiList, ...list]
       }
       this.setData({
@@ -96,7 +100,7 @@ Page({
   onLoad: function (options) {
 
   },
-  
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -135,8 +139,8 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom () {
-    if(this.data.current >= this.data.pages){
+  onReachBottom() {
+    if (this.data.current >= this.data.pages) {
       return this.setData({
         notMore: true
       })
