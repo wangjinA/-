@@ -2,8 +2,9 @@
   "pages": [
     "pages/welcome/welcome",
     "pages/robOrderDetail/robOrderDetail",
-    "pages/index/index",
+    "pages/order/orderEnd/orderEnd",
     "pages/xfd/xfd",
+    "pages/index/index",
     "pages/robOrder/robOrder",
     "pages/order/order",
     "pages/hunyanDetail/hunyanDetail",
@@ -40,16 +41,14 @@
     "pages/login/login",
     "pages/hotel/meetingInfo/meetingInfo",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
-    "pages/user/myRelease/myRelease",
-    "pages/order/orderEnd/orderEnd"
+    "pages/user/myRelease/myRelease"
   ],
   "tabBar": {
     "color": "#8a8a8a",
     "selectedColor": "#FD960D",
     "borderStyle": "white",
     "backgroundColor": "#fafafa",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/index/index",
         "iconPath": "images/tabbar/home.png",
         "selectedIconPath": "images/tabbar/home1.png",
@@ -123,6 +122,8 @@
     "van-collapse-item": "/vant/collapse-item/index",
     "van-switch": "/vant/switch/index",
     "van-tag": "/vant/tag/index",
-    "van-stepper": "/vant/stepper/index"
+    "van-stepper": "/vant/stepper/index",
+    "van-grid": "/vant/grid/index",
+    "van-grid-item": "/vant/grid-item/index"
   }
 }

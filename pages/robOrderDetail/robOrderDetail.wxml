@@ -13,7 +13,7 @@
         </view>
       </view>
       <view class="item" wx:if="{{statusText}}">
-        <view class="label last">订单状态</view>
+        <view class="label">订单状态</view>
         <view class="val size16" style="margin-left: auto">
           <text class="bold" >{{statusText}}</text>
         </view>
@@ -35,6 +35,28 @@
         <view class="val">{{data.notes || '无'}}</view>
       </view>
     </view>
+</view>
+<!-- 消费单 -->
+<view class="container" wx:if="{{status==5 }}">
+  <view class="top">
+    <view class="name text-overflow">消费单信息</view>
+  </view>
+  <van-grid column-num="3" border="{{ false }}">
+    <van-grid-item use-slot wx:for="{{ data.orderDemandConfirm.userInvoice }}" bindtap="previewXfd" data-index="{{index}}">
+      <image
+        style="width: 100%; height: 180rpx;"
+        src="{{item.url}}"
+      />
+    </van-grid-item>
+  </van-grid>
+  <view class="item">
+    <view class="label">总消费</view>
+    <view class="val c totalPrice">
+      <text class="size12">￥</text>
+      <text class="price">{{data.orderDemandConfirm.price || 0}}</text>
+    </view>
+  </view>
+
 </view>
 
 <!-- 三个报价 -->
@@ -154,7 +176,7 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-          预算：<text>￥{{item.budget}}</text>
+          预算：<text class="item-budget">￥{{item.budget}}</text>
           </view>
           <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
           <view class="item-remark">
@@ -177,7 +199,7 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-          预算：<text>￥{{item.budget}}</text>
+          预算：<text class="item-budget">￥{{item.budget}}</text>
           </view>
           <view>{{item.containNumbers || ''}}</view>
           <view>{{item.tableType || ''}}</view>
@@ -247,8 +269,9 @@
   </view>
 </view>
 
-<footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderDemandId}}">订单完成</footerButton>
+<footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderDemandId && type==1}}">会议完成</footerButton>
 <footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton>
+<footerButton bindtap="orderOver"  wx:if="{{status==5 && data.orderDemandId && type==1}}">确认订单完成</footerButton>
 <!-- <view class="footer-wrap">
   <view class="footer">
   <view class="baojiarenshu size14">

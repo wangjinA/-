@@ -25,13 +25,18 @@ Page({
         meetingId: this.data.meetingId,
         ...data
       })).then(res=>{
-        
+        if(res.msg === '成功'){
+          wx.showToast({
+            title: '提交成功',
+          })
+          wx.navigateBack()
+        }
       })
     })
     
   },
   onLoad: function (options) {
-    this.data.meetingId = options.id
+    this.data.meetingId = options.id || 22
   },
 
   /**

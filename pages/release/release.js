@@ -313,7 +313,7 @@ Page({
         inputType: 'textarea',
         key: 'locationDemand',
       }, {
-        label: '预算',
+        label: '总预算',
         inputType: 'number',
         key: 'budget',
       }, {

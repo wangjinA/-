@@ -5,7 +5,7 @@ const app = getApp()
 // 1  有效 - 可以报价
 // 2  无效
 // 3  用户确认酒店报价
-// 4  酒店确认订单完成
+// 4  酒店确认会议结束
 // 5  等待客户上传消费单
 // 6  酒店再次确定 - 完成结束
 // 7  酒店拒绝消费单
@@ -55,18 +55,11 @@ Page({
     isUser: false,
   },
   orderEnd() {
-    wx.showModal({
-      title: '温馨提示',
-      content: '确认订单完成，提交后不可更改！',
-      success(res) {
-        if (res.confirm) {
-          wx.navigateTo({
-            url: '/pages/order/orderEnd/orderEnd',
-          })
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
+    wx.delAPI('确认订单完成，提交后不可更改！')
+    .then(()=>{
+      wx.navigateTo({
+        url: '/pages/order/orderEnd/orderEnd',
+      })
     })
   },
   useBj() {
@@ -75,18 +68,29 @@ Page({
   // 用户确认报价
   okBaojia(e) {
     const orderdemandid = e.currentTarget.dataset.orderdemandid
-    console.log(e.currentTarget.dataset);
-
-    this.setOrderStatus(orderdemandid, 3)
+    wx.delAPI('确认使用该报价！')
+    .then(()=>{
+      this.setOrderStatus(orderdemandid, 3)
+    })
   },
   // 酒店确认会议完成
   jdok() {
-    this.setOrderStatus(this.data.data.orderDemandId, 4)
+    wx.delAPI('确认会议结束，提交后不可更改！')
+    .then(()=>{
+      this.setOrderStatus(this.data.data.orderDemandId, 4)
+    })
   },
   // 上传消费单
   shangchuan() {
     wx.navigateTo({
       url: '/pages/xfd/xfd?id='+ this.data.meetingId,
+    })
+  },
+  // 订单结束
+  orderOver() {
+    wx.delAPI('确认订单完成，提交后不可更改！')
+    .then(()=>{
+      this.setOrderStatus(this.data.data.orderDemandId, 6)
     })
   },
   setOrderStatus(orderDemandId, status) {
@@ -108,6 +112,15 @@ Page({
       bjList: this.data.bjList
     })
   },
+  // 查看消费单
+  previewXfd(e) {
+    const index = e.currentTarget.dataset.index
+    let imgs = this.data.data.orderDemandConfirm.userInvoice
+    wx.previewImage({
+      current: imgs[index].url, // 当前显示图片的http链接
+      urls: imgs.map(item => item.url) // 需要预览的图片http链接列表
+  })
+  },
   init() {
     wx.loadingAPI(wx.$get('/order/getGrabSingleDemandInfo', {
         meetingId: this.data.id
@@ -120,6 +133,7 @@ Page({
         data.meetingStartTime_filter = wx.formatTime(new Date(data.meetingStartTime), true)
         data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
         data.userInfo = data.sysUserVo
+        data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
         data.hcTotal = 0
         data.kfTotal = 0
         data.cyTotal = 0
@@ -130,11 +144,12 @@ Page({
             item.dayLong ||
             item.notes ||
             item.venues ||
-            item.venueType
+            item.venueType || 
+            item.budget
           )
         })
         data.singleDemandRoomsVos.forEach(item => { // 客房
-          data.kfTotal += item.kfTotal || 0
+          data.kfTotal += item.budget || 0
           item.rooms = wx.$parse(item.rooms)
           item._show = !!(
             item.budget ||
@@ -144,13 +159,14 @@ Page({
           )
         })
         data.singleDemandRepastVos.forEach(item => { // 餐饮
-          data.cyTotal += item.cyTotal || 0
+          data.cyTotal += item.budget || 0
           item.dining = wx.$parse(item.dining)
           item._show = !!(
             item.containNumbers ||
             (item.dining && item.dining.length) ||
             item.notes ||
-            item.tableType
+            item.tableType || 
+            item.budget
           )
         })
         data.hcShow = !!(data.singleDemandVenueVos.filter(item => item._show).length)
@@ -168,6 +184,14 @@ Page({
         wx.cyShow = data.cyShow
 
         let statusText = this.data.statusText
+        
+        // 1  有效 - 可以报价
+        // 2  无效
+        // 3  用户确认酒店报价
+        // 4  酒店确认订单完成
+        // 5  等待客户上传消费单
+        // 6  酒店再次确定 - 完成结束
+        // 7  酒店拒绝消费单
         switch (data.status) {
           case 3:
             statusText = '确认报价'
@@ -176,10 +200,13 @@ Page({
             statusText = '酒店确认完成'
             break;
           case 5:
-            statusText = '订单已完成'
+            statusText = '已上传消费单'
             break;
           case 6:
-            statusText = '酒店拒绝'
+            statusText = '订单已完成'
+            break;
+          case 7:
+            statusText = '酒店拒绝消费单'
             break;
         }
         let isUser = false
@@ -206,9 +233,9 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.data.id = options.id || 19
-    wx.meetingId = options.id || 19
-    this.init()
+    this.data.id = options.id
+    wx.meetingId = options.id
+    // this.init()
   },
   // 立即抢单
   qiangdan() {
