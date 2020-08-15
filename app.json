@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/welcome/welcome",
+    "pages/hunyanBaojia/hunyanBaojia",
     "pages/robOrderDetail/robOrderDetail",
     "pages/order/orderEnd/orderEnd",
     "pages/xfd/xfd",
@@ -122,8 +123,6 @@
     "van-collapse-item": "/vant/collapse-item/index",
     "van-switch": "/vant/switch/index",
     "van-tag": "/vant/tag/index",
-    "van-stepper": "/vant/stepper/index",
-    "van-grid": "/vant/grid/index",
-    "van-grid-item": "/vant/grid-item/index"
+    "van-stepper": "/vant/stepper/index"
   }
 }

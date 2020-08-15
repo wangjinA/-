@@ -14,12 +14,16 @@ Page({
         console.log(res);
         console.log(wx.getStorageSync('wxcode'));
         
-        wx.$post('/api/wx/login', {
+        wx.loadingAPI(wx.$post('/api/wx/login', {
           code: wx.getStorageSync('wxcode'),
           encryptedData: res.encryptedData,
           iv: res.iv,
           type
-        }).then(res => {
+        }), '登录中')
+         .then(res => {
+           if(res.msg != '成功'){
+             throw res.msg
+           }
           wx.type = type
           wx.userInfo = res.data.userInfo
           wx.hotelInfo = res.data.hotelInfo
@@ -30,7 +34,7 @@ Page({
                 url: '/pages/index/index',
               })
             }else{
-              wx.switchTab({
+              wx.navigateTo({
                 url: '/pages/hotel/hotelSearch/hotelSearch',
               })
             }
@@ -42,6 +46,13 @@ Page({
               url: '/pages/index/index',
             })
           }
+        }).catch(err=>{
+          console.log(err);
+          
+          wx.showToast({
+            icon: 'none',
+            title: '登录失败',
+          })
         })
       }
     })

@@ -7,7 +7,7 @@ Page({
   data: {
     formList: [{
       label: '报价',
-      key: 'dinnerPrice',
+      key: 'price',
       required: true,
       inputType: 'number',
       company: '/人'

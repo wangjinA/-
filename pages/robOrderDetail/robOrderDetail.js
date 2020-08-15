@@ -133,7 +133,11 @@ Page({
         data.meetingStartTime_filter = wx.formatTime(new Date(data.meetingStartTime), true)
         data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
         data.userInfo = data.sysUserVo
-        data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
+        if(data.orderDemandConfirm){
+          data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
+        }else {
+          data.orderDemandConfirm = {}
+        }
         data.hcTotal = 0
         data.kfTotal = 0
         data.cyTotal = 0

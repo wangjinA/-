@@ -17,7 +17,7 @@
   <view class="hotel-item" wx:for="{{hotelList}}">
     <view class="hotel-info">
       <view class="hotel-name bold">{{item.hotelName}}</view>
-      <view class="hotel-address size14 c9">{{item.city}}{{item.address}}</view>
+      <view class="hotel-address size14 c9">{{item.city || ''}}{{item.address || ''}}</view>
     </view>
   <van-button round type="info" size="small" data-name="{{item.hotelName}}" data-id="{{item.id}}" bind:click="toHotelSettlein">加入</van-button>
   </view>
