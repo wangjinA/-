@@ -1,4 +1,6 @@
-<view class="order-footer">
-	<van-button icon="phone-o" round type="info">拨打客户电话</van-button>
-	<van-button icon="chat-o" plain round type="info" bindtap="sendMsgBtn">发消息</van-button>
+<view class="order-footer-container">
+	<view class="order-footer">
+		<van-button icon="phone-o" round type="info" bindtap="callPhone">拨打电话</van-button>
+		<van-button icon="chat-o" plain round type="info" bindtap="sendMsgBtn">发消息</van-button>
+	</view>
 </view>

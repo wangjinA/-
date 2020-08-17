@@ -14,10 +14,10 @@ Page({
     //   data: formatSelectData(['主会场', '主会场2'])
     // },
     {
-      label: '是否全天',
+      label: '会议时间',
       key: 'dayLong',
       type: 'select',
-      data: formatSelectData(['全天', '上午', '下午'])
+      data: formatSelectData(['全天', '上午', '下午', '晚上'])
     }, {
       label: '容纳人数',
       key: 'containNumbers',

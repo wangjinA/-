@@ -15,11 +15,13 @@ Page({
       company: '间',
       placeholder: '所需房间数',
       data: ['双床房', '单人房'],
-    }, {
-      label: '是否需要网络',
-      key: 'networkFlag',
-      type: 'switch',
-    }, {
+    }, 
+    // {
+    //   label: '是否需要网络',
+    //   key: 'networkFlag',
+    //   type: 'switch',
+    // }, 
+    {
       label: '预算',
       key: 'budget',
       inputType: 'number'

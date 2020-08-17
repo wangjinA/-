@@ -29,7 +29,7 @@ Page({
           wx.hotelInfo = res.data.hotelInfo
           if(type == 1){
             console.log(res);
-            if(res.data.userInfo.hotelId){
+            if(res.data.userInfo && res.data.userInfo.hotelId){
               wx.switchTab({
                 url: '/pages/index/index',
               })

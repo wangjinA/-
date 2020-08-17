@@ -47,8 +47,8 @@ Page({
       label: '宴会地点',
       key: 'place',
       type: 'city',
-      address: true,
-      addressRequired: true,
+      // address: true,
+      // addressRequired: true,
       required: true
     }, {
       label: '价格区间',

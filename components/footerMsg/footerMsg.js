@@ -4,7 +4,7 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    phone: String
   },
 
   /**
@@ -14,10 +14,19 @@ Component({
 
   },
 
-  /**
-   * 组件的方法列表
-   */
+
   methods: {
+    callPhone() {
+      wx.makePhoneCall({
+        phoneNumber: this.data.phone,
+        success: function () {
+          console.log("拨打电话成功！")
+        },
+        fail: function () {
+          console.log("拨打电话失败！")
+        }
+      })
+    },
     sendMsgBtn() {
       wx.navigateTo({
         url: '/pages/chat/chat',

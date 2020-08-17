@@ -17,21 +17,55 @@ Page({
       count: 2
     }],
     showMeetingDetail: false,
-    holteId: 0
+    showRoomDetail: false,
+    holteId: 0,
+    data: {},
+    kfList: [],
+    hyList: [],
+    meetingData: {},
+    roomData: {}
   }, 
   goMap() {
     wx.navigateTo({
       url: '/pages/map/map',
     })
   },
-  clickMeeting() {
+  clickMeeting(e) {
+    let id = e.currentTarget.dataset.id
+    wx.loadingAPI(wx.$get('/hotel/getgetHotelChamerlInfoByHotelChamberId', {
+      hotelChamberId: id
+    })).then(({data}) => {
+      this.setData({
+        meetingData: {
+          ...data,
+          imgUrl: data.imgUrl ? wx.$parse(data.imgUrl) : []
+        }
+      })
+    })
     this.setData({
       showMeetingDetail: true
     })
   },
-  closeMeetingDetail() {
+  clickRoom(e) {
+    let id = e.currentTarget.dataset.id
+    wx.loadingAPI(wx.$get('/hotel/getHotelGuestlInfoById', {
+      hotelGuestId: id
+    })).then(({data}) => {
+      this.setData({
+        roomData: {
+          ...data,
+        imgUrl: data.imgUrl ? wx.$parse(data.imgUrl) : []
+        },
+      })
+    })
     this.setData({
-      showMeetingDetail: false
+      showRoomDetail: true
+    })
+  },
+  closeDetail() {
+    this.setData({
+      showMeetingDetail: false,
+      showRoomDetail: false,
     })
   },
   swiperChange: function (e) {
@@ -44,12 +78,45 @@ Page({
   },
   getDetail() {
     wx.$get('/site/searchHotelDetail', {
-      holteId: this.data.holteId
+      holteId: this.data.hotelId
+    }).then(res=>{
+      this.setData({
+        data: res.data
+      })
+    })
+  },
+  getOhterInfo() {
+    wx.$get('/hotel/getHotelChamerlInfo', { // 会议厅信息
+      hotelId: this.data.hotelId,
+      current: 1,
+      pageSize: 50,
+    }).then(data => {
+      this.setData({
+        hyList: data.data.list.map(item =>({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        }))
+      })
+    })
+    wx.$get('/hotel/getHotelGuestlInfo', { // 客房信息信息
+      hotelId: this.data.hotelId,
+      current: 1,
+      pageSize: 50,
+    }).then(data => {
+      this.setData({
+        kfList: data.data.list.map(item =>({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        }))
+      })
     })
   },
   onLoad (options) {
-    this.data.holteId = options.id
+    this.data.hotelId = options.id || 2
     this.getDetail()
+    this.getOhterInfo()
   }, 
   onReady: function () {
 

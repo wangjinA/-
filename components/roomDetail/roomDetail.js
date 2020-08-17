@@ -13,13 +13,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-    banner: [
-      '/images/hotel/hotel1.jpg',
-      '/images/hotel/hotel2.png',
-      '/images/hotel/hotel3.jpg',
-      '/images/hotel/hotel4.jpg',
-      '/images/hotel/hotel5.jpg',
-    ],
     current: 0,
   },
 

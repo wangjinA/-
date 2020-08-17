@@ -13,3 +13,6 @@
   box-shadow: 0 -2rpx 15rpx 0 #eaeaea;
   z-index: 99;
 }
+.order-footer-container{
+  height: 120rpx;
+}

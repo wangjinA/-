@@ -12,17 +12,19 @@ Page({
       label: '用餐',
       key: 'dining',
       type: 'relation',
-      data: ['早餐', '午餐' , '晚餐'],
+      data: ['午餐' , '晚餐'],
       rightData: ['自助餐', '西餐' , '中餐'],
       type: 'relation',
       isAdd: '新增用餐',
-    }, {
-      label: '桌型',
-      key: 'tableType',
-      type: 'select',
-      data: formatSelectData(['圆桌', '方桌'])
-    }, {
-      label: '容纳人数',
+    }, 
+    // {
+    //   label: '桌型',
+    //   key: 'tableType',
+    //   type: 'select',
+    //   data: formatSelectData(['圆桌', '方桌'])
+    // }, 
+    {
+      label: '人数',
       key: 'containNumbers',
       type: 'select',
       data: rs()

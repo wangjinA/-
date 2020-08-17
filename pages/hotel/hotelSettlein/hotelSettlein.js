@@ -13,11 +13,9 @@ Page({
     contactsInfo.getData()
     .then(data => {
       wx.loadingAPI(wx.$post('/api/user/applyEnter', {
-        sysUser: {
-          ...data,
-          hotelId: this.data.hotelId,
-          url: wx.$stringify(data.fileList)
-        }
+        ...data,
+        hotelId: this.data.hotelId,
+        url: wx.$stringify(data.fileList)
       }), '提交中')
         .then(res => {
           wx.showModal({

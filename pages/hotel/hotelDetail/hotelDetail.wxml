@@ -1,23 +1,23 @@
 <view class="swiperContainer">
 	<swiper bindchange="swiperChange" circular autoplay="{{autoplay}}" duration="{{duration}}" style='height: 380rpx;'>
-		<block wx:for="{{banner}}" wx:key="*this">
+		<block wx:for="{{data.hotelImgUrlList}}" wx:key="*this">
 			<swiper-item wx:key="*this">
-				<image src="{{item}}" class="slide-image" class='img' />
+				<image src="{{item.imgUrl}}" class="img"/>
 			</swiper-item>
 		</block>
 	</swiper>
-	<view class="imageCount">{{current+1}}/{{banner.length}}</view>
+	<view class="imageCount" wx:if="{{data.hotelImgUrlList.length>1}}">{{current+1}}/{{data.hotelImgUrlList.length}}</view>
 </view>
 <view class="container">
 	<view class="hotel-name-wrap">
-		<view class="hotel-name">南昌豪华大酒店</view>
+		<view class="hotel-name">{{data.hotelName}}</view>
 		<van-rate class="van-rate" size="14" value="{{ 3 }}" count="{{ 5 }}" readonly />
 	</view>
 	<view class="title">详细地址</view>
 	<view class="address">
 		<view class="address-text c6">
 			<van-icon name="location" size="14" color="#fd960d" />
-			南昌市八一大道孺子路78号
+			{{data.city}}{{data.address}}
 		</view>
 		<view class="more" bindtap="goMap">
 			<text>查看地图</text>
@@ -29,22 +29,22 @@
 		<view class="info-item">
 			<van-icon name="cluster-o" size="22" color="#333" />
 			<view class="info-label">会议厅</view>
-			<view class="info-val">19个</view>
+			<view class="info-val">{{hyList.length}}个</view>
 		</view>
 		<view class="info-item">
+			<van-icon name="hotel-o" size="22" color="#333" />
+			<view class="info-label">客房</view>
+			<view class="info-val">{{kfList.length}}间</view>
+		</view>
+		<view class="info-item" wx:if="{{data.areas}}">
 			<van-icon name="expand-o" size="22" color="#333" />
 			<view class="info-label">最大面积</view>
-			<view class="info-val">2700m²</view>
+			<view class="info-val">{{data.areas}}</view>
 		</view>
 		<view class="info-item">
 			<van-icon name="friends-o" size="22" color="#333" />
 			<view class="info-label">最多容纳</view>
 			<view class="info-val">4000人</view>
-		</view>
-		<view class="info-item">
-			<van-icon name="hotel-o" size="22" color="#333" />
-			<view class="info-label">客房</view>
-			<view class="info-val">1200间</view>
 		</view>
 		<view class="info-item">
 			<van-icon name="home-o" size="22" color="#333" />
@@ -54,30 +54,39 @@
 	</view>
 	<van-divider hairline />
 	<view class="title">
-		详情/设施
+		酒店简介
 	</view>
 	<view class="info-text-section">
 		<view class="section-text-info c9 size14">
-			开业时间：2006 最近装修：2019
-			南昌国际大酒店位于江西南昌国际金融中心..南昌国际大酒店位于江西南昌国际金融中心..南昌国际大酒店位于江西南昌国际金融中心..南昌国际大酒店位于江西南昌国际金融中心..南昌国际大酒店位于江西南昌国际金融中心..南昌国际大酒店位于江西南昌国际金融中心..
+			{{data.details}}
 		</view>
 	</view>
-	<view class="flex-center">
+	<!-- <view class="flex-center">
 		<van-button custom-style="margin: 40rpx 0; height:60rpx;line-height:60rpx; padding: 0 50rpx;" plain type="primary" round>
 			查看更多
 		</van-button>
-	</view>
+	</view> -->
 	<van-tabs active="{{ 0 }}" bind:change="onChange" color="#FD960D">
-		<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item.title }}({{item.count}})">
+		<van-tab title="会议厅({{hyList.length || ''}})">
 			<view style="padding: 24rpx 0;">
-				<block wx:for="{{10}}">
-					<meeting class="meeting" bindtap="clickMeeting" />
+				<block wx:for="{{hyList}}">
+					<meeting class="meeting" bindtap="clickMeeting" data-id="{{item.hotelChamberId}}" data="{{item}}" />
 				</block>
+			</view>
+		</van-tab>
+		<van-tab title="客房({{kfList.length || ''}})">
+			<view style="padding: 24rpx 0;">
+				<block wx:for="{{kfList}}">
+        	<guestRoom class="guestRoom" bindtap="clickRoom" data-id="{{item.hotelGuestId}}" data="{{item}}"/>
+      	</block>
 			</view>
 		</van-tab>
 	</van-tabs>
 </view>
-<footerMsg />
-<van-popup show="{{ showMeetingDetail }}" round closeable position="bottom" custom-style="height: 80%" bind:close="closeMeetingDetail" catch>
-  <meetingDetail/>
+<footerMsg phone="{{data.phone}}"/>
+<van-popup show="{{ showMeetingDetail }}" round closeable position="bottom" custom-style="height: 80%" bind:close="closeDetail" catch>
+  <meetingDetail data="{{meetingData}}"/>
+</van-popup>
+<van-popup show="{{ showRoomDetail }}" round closeable position="bottom" custom-style="height: 80%" bind:close="closeDetail" catch>
+  <roomDetail data="{{roomData}}"/>
 </van-popup>

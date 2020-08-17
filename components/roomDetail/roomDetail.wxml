@@ -1,0 +1,35 @@
+<view class="swiperContainer">
+	<swiper bindchange="swiperChange" circular autoplay="{{true}}" duration="{{500}}" style='height: 380rpx;'>
+		<block wx:for="{{data.imgUrl}}" wx:key="*this">
+			<swiper-item wx:key="*this">
+				<image src="{{item.url}}" class="slide-image" class='img' />
+			</swiper-item>
+		</block>
+	</swiper>
+	<view class="imageCount" wx:if="{{data.imgUrl.length}}">{{current+1}}/{{data.imgUrl.length}}</view>
+</view>
+<van-cell title="价格" size="large">
+	<view class="meeting-price" style="color: #FD960D;">
+		<text class="money-i size14">￥</text>
+		<text class="val">{{data.price}}</text>
+	</view>
+</van-cell>
+<view class="me-container">
+	<view class="title">客房信息</view>
+	<view class="me-info-list">
+		<view class="me-info-item">
+			<view class="me-info-label">房型</view>
+			<view class="me-info-val">{{data.houseType}}</view>
+		</view>
+		<view class="me-info-item">
+			<view class="me-info-label">描述</view>
+			<view class="me-info-val">
+				{{data.describes}}
+			</view>
+		</view>
+		<!-- <view class="me-info-item bold size16">
+			<view class="me-info-label">最多可容纳</view>
+			<view class="me-info-val">3000人</view>
+		</view> -->
+	</view>
+</view>

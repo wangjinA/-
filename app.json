@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/welcome/welcome",
+    "pages/hotel/hotelDetail/hotelDetail",
     "pages/hunyanBaojia/hunyanBaojia",
     "pages/robOrderDetail/robOrderDetail",
     "pages/order/orderEnd/orderEnd",
@@ -33,7 +34,6 @@
     "pages/mall/mall",
     "pages/release/eatDemand/eatDemand",
     "pages/release/hotelDemand/hotelDemand",
-    "pages/hotel/hotelDetail/hotelDetail",
     "pages/meetingInfo/meetingInfo",
     "pages/mallDetail/mallDetail",
     "pages/chat/chat",
@@ -89,6 +89,7 @@
   },
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
+    "roomDetail": "/components/roomDetail/roomDetail",
     "huiyi": "/components/huiyi/huiyi",
     "hunyan": "/components/hunyan/hunyan",
     "guestRoom": "/components/guestRoom/guestRoom",
