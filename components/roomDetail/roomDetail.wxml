@@ -2,7 +2,7 @@
 	<swiper bindchange="swiperChange" circular autoplay="{{true}}" duration="{{500}}" style='height: 380rpx;'>
 		<block wx:for="{{data.imgUrl}}" wx:key="*this">
 			<swiper-item wx:key="*this">
-				<image src="{{item.url}}" class="slide-image" class='img' />
+				<image src="{{item.url}}" mode="aspectFill" class="slide-image" class='img' />
 			</swiper-item>
 		</block>
 	</swiper>

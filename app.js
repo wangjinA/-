@@ -4,20 +4,7 @@ wx.type = 1
 wx.hotelId = 2
 App({
   onLaunch: function () {
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        wx.login({
-          success(res) {
-            if (res.code) {
-              wx.setStorageSync('wxcode', res.code)
-            } else {
-              console.log('登录失败！' + res.errMsg)
-            }
-          }
-        })
-      }
-    })
+    
     //调用API从本地缓存中获取数据
     const that = this;
     var logs = wx.getStorageSync('logs') || []

@@ -1,6 +1,6 @@
 <view class="meeting" bindtap="handlerClick" data-item="{{data}}">
   <view class="meeting-img">
-    <image src="{{data.img}}"></image>
+    <image src="{{data.img}}" mode="aspectFill"></image>
   </view>
   <view class="meeting-info">
     <view class="top-wrap">

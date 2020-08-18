@@ -8,59 +8,72 @@ Page({
 
   },
   getUserInfo(e) {
-    const { type } = e.currentTarget.dataset
-    wx.getUserInfo({
-      success(res) {
-        console.log(res);
-        console.log(wx.getStorageSync('wxcode'));
-        
-        wx.loadingAPI(wx.$post('/api/wx/login', {
-          code: wx.getStorageSync('wxcode'),
-          encryptedData: res.encryptedData,
-          iv: res.iv,
-          type
-        }), '登录中')
-         .then(res => {
-           if(res.msg != '成功'){
-             throw res.msg
-           }
-          wx.type = type
-          wx.userInfo = res.data.userInfo
-          wx.hotelInfo = res.data.hotelInfo
-          if(type == 1){
-            console.log(res);
-            if(res.data.userInfo && res.data.userInfo.hotelId){
-              wx.switchTab({
-                url: '/pages/index/index',
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.login({
+          success(res) {
+            if (res.code) {
+              wx.setStorageSync('wxcode', res.code)
+              const {
+                type
+              } = e.currentTarget.dataset
+              wx.getUserInfo({
+                success(res) {
+                  console.log(res);
+                  console.log(wx.getStorageSync('wxcode'));
+                  wx.loadingAPI(wx.$post('/api/wx/login', {
+                      code: wx.getStorageSync('wxcode'),
+                      encryptedData: res.encryptedData,
+                      iv: res.iv,
+                      type
+                    }), '登录中')
+                    .then(res => {
+                      if (res.msg != '成功') {
+                        throw res.msg
+                      }
+                      wx.type = type
+                      wx.userInfo = res.data.userInfo
+                      wx.hotelInfo = res.data.hotelInfo
+                      if (type == 1) {
+                        console.log(res);
+                        if (res.data.userInfo && res.data.userInfo.hotelId) {
+                          wx.switchTab({
+                            url: '/pages/index/index',
+                          })
+                        } else {
+                          wx.navigateTo({
+                            url: '/pages/hotel/hotelSearch/hotelSearch',
+                          })
+                        }
+                      } else {
+                        wx.switchTab({
+                          url: '/pages/index/index',
+                        })
+                      }
+                    }).catch(err => {
+                      console.log(err);
+
+                      wx.showToast({
+                        icon: 'none',
+                        title: '登录失败',
+                      })
+                    })
+                }
               })
-            }else{
-              wx.navigateTo({
-                url: '/pages/hotel/hotelSearch/hotelSearch',
-              })
+            } else {
+              console.log('登录失败！' + res.errMsg)
             }
-            // wx.navigateTo({
-            //   url: '/pages/hotel/hotelSelect/hotelSelect',
-            // })
-          }else {
-            wx.switchTab({
-              url: '/pages/index/index',
-            })
           }
-        }).catch(err=>{
-          console.log(err);
-          
-          wx.showToast({
-            icon: 'none',
-            title: '登录失败',
-          })
         })
       }
     })
-    
+
+
   },
-  getPhoneNumber (e) {
+  getPhoneNumber(e) {
     console.log(e)
-    if(e.detail.iv){ // 用户同意手机号授权
+    if (e.detail.iv) { // 用户同意手机号授权
       request('POST', '/api/mini/wxPhoneLogin', {
         codeKey: wx.getStorageSync('codeKey'),
         iv: e.detail.iv,
@@ -69,56 +82,54 @@ Page({
         this.setToken(res)
       })
     } else { // 用户拒绝手机号授权
-      
+
     }
   },
-  setToken (res) {
+  setToken(res) {
     wx.setStorageSync('token', res.data.access_token)
     wx.setStorageSync('tokenType', res.data.token_type)
     util.successToast('登录成功', 1500)
-    
+
     request('GET', '/api/mini/me')
-    .then(res => {
-      let authentication = res.data.authentication
-      if (authentication == 0) {
-        util.modal('是否前往完善个人信息？')
-        .then(_ => {
-          wx.redirectTo({
-            url: '/pages/agreement/agreement?status=' + authentication
-          })
-        })
-        .catch(_ => {
+      .then(res => {
+        let authentication = res.data.authentication
+        if (authentication == 0) {
+          util.modal('是否前往完善个人信息？')
+            .then(_ => {
+              wx.redirectTo({
+                url: '/pages/agreement/agreement?status=' + authentication
+              })
+            })
+            .catch(_ => {
+              wx.switchTab({
+                url: '/pages/index/index'
+              })
+            })
+        } else if (authentication == 4) {
+          util.modal('认证信息未通过，是否继续认证？')
+            .then(_ => {
+              wx.redirectTo({
+                url: '/pages/agreement/agreement?status=' + authentication
+              })
+            })
+            .catch(_ => {
+              wx.switchTab({
+                url: '/pages/index/index'
+              })
+            })
+        } else {
           wx.switchTab({
             url: '/pages/index/index'
           })
-        })
-      } else if (authentication == 4){
-        util.modal('认证信息未通过，是否继续认证？')
-          .then(_ => {
-            wx.redirectTo({
-              url: '/pages/agreement/agreement?status=' + authentication
-            })
-          })
-          .catch(_ => {
-            wx.switchTab({
-              url: '/pages/index/index'
-            })
-          })
-      }else {
-        wx.switchTab({
-          url: '/pages/index/index'
-        })
-      }
-    })
+        }
+      })
 
     request('GET', '/api/mini/qiniu')
-    .then(res => {
-      wx.setStorageSync('qiniuToken', res.data.token)
-    })
+      .then(res => {
+        wx.setStorageSync('qiniuToken', res.data.token)
+      })
   },
-  onLoad: function (options) {
-
-  },
+  onLoad: function (options) {},
 
   /**
    * 生命周期函数--监听页面初次渲染完成

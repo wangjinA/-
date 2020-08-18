@@ -33,15 +33,17 @@ Page({
     })
   },
   toMyRelease() {
-    
+
   },
   copyCode(e) {
-    const { code } = e.currentTarget.dataset
+    const {
+      code
+    } = e.currentTarget.dataset
     wx.setClipboardData({
       data: code,
-      success (res) {
+      success(res) {
         wx.getClipboardData({
-          success (res) {
+          success(res) {
             console.log(res.data) // data
           }
         })
@@ -54,17 +56,21 @@ Page({
     })
   },
   userToggle() {
-    if(wx.type == 2) {
-      if(wx.userInfo.hotelId){
-      this.setUser(1)
+    if (wx.type == 2) {
+      if (wx.userInfo.hotelId) {
+        this.setUser(1)
         wx.switchTab({
           url: '/pages/index/index',
+        })
+      } else {
+        wx.navigateTo({
+          url: '/pages/hotel/hotelSearch/hotelSearch',
         })
       }
       // wx.navigateTo({
       //   url: '/pages/hotel/hotelSelect/hotelSelect',
       // })
-    }else {
+    } else {
       this.setUser(2)
       wx.switchTab({
         url: '/pages/index/index',
@@ -73,7 +79,9 @@ Page({
   },
   setUser(type) {
     wx.type = type
-    this.setData({ type })
+    this.setData({
+      type
+    })
   },
   goGetScore() {
     wx.navigateTo({
@@ -86,7 +94,7 @@ Page({
     })
   },
   openSignin() {
-    if(this.data.userInfo.sign) return;
+    if (this.data.userInfo.sign) return;
     wx.loadingAPI(wx.$get('/api/user/signin'), '签到中')
       .then(data => {
         this.setData({
