@@ -1,12 +1,12 @@
 <view class="swiperContainer">
 	<swiper bindchange="swiperChange" circular autoplay="{{autoplay}}" duration="{{duration}}" style='height: 380rpx;'>
-		<block wx:for="{{data.hotelImgUrlList}}" wx:key="*this">
+		<block wx:for="{{bannerList}}" wx:key="*this">
 			<swiper-item wx:key="*this">
-				<image src="{{item.imgUrl}}" class="img"/>
+				<image src="{{item}}" data-url="{{item}}" class="img" bindtap="previewImage" mode="aspectFill"/>
 			</swiper-item>
 		</block>
 	</swiper>
-	<view class="imageCount" wx:if="{{data.hotelImgUrlList.length>1}}">{{current+1}}/{{data.hotelImgUrlList.length}}</view>
+	<view class="imageCount" wx:if="{{bannerList.length>1}}">{{current+1}}/{{bannerList.length}}</view>
 </view>
 <view class="container">
 	<view class="hotel-name-wrap">
@@ -29,12 +29,12 @@
 		<view class="info-item">
 			<van-icon name="cluster-o" size="22" color="#333" />
 			<view class="info-label">会议厅</view>
-			<view class="info-val">{{hyList.length}}个</view>
+			<view class="info-val">{{data.chamberCount}}个</view>
 		</view>
 		<view class="info-item">
 			<van-icon name="hotel-o" size="22" color="#333" />
 			<view class="info-label">客房</view>
-			<view class="info-val">{{kfList.length}}间</view>
+			<view class="info-val">{{data.guestCount}}间</view>
 		</view>
 		<view class="info-item" wx:if="{{data.areas}}">
 			<van-icon name="expand-o" size="22" color="#333" />
@@ -44,13 +44,13 @@
 		<view class="info-item">
 			<van-icon name="friends-o" size="22" color="#333" />
 			<view class="info-label">最多容纳</view>
-			<view class="info-val">4000人</view>
+			<view class="info-val">{{data.maxPeople}}人</view>
 		</view>
-		<view class="info-item">
+		<!-- <view class="info-item">
 			<van-icon name="home-o" size="22" color="#333" />
 			<view class="info-label">双标间</view>
 			<view class="info-val">800间</view>
-		</view>
+		</view> -->
 	</view>
 	<van-divider hairline />
 	<view class="title">
@@ -67,18 +67,20 @@
 		</van-button>
 	</view> -->
 	<van-tabs active="{{ 0 }}" bind:change="onChange" color="#FD960D">
-		<van-tab title="会议厅({{hyList.length || ''}})">
+		<van-tab title="会议厅({{hyList.length || '0'}})">
 			<view style="padding: 24rpx 0;">
 				<block wx:for="{{hyList}}">
 					<meeting class="meeting" bindtap="clickMeeting" data-id="{{item.hotelChamberId}}" data="{{item}}" />
 				</block>
+				<view class="notMore" wx:if="{{!hyList.length}}">暂无数据</view>
 			</view>
 		</van-tab>
-		<van-tab title="客房({{kfList.length || ''}})">
+		<van-tab title="客房({{kfList.length || '0'}})">
 			<view style="padding: 24rpx 0;">
 				<block wx:for="{{kfList}}">
         	<guestRoom class="guestRoom" bindtap="clickRoom" data-id="{{item.hotelGuestId}}" data="{{item}}"/>
       	</block>
+				<view class="notMore" wx:if="{{!kfList.length}}">暂无数据</view>
 			</view>
 		</van-tab>
 	</van-tabs>

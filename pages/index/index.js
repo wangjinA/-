@@ -80,9 +80,10 @@ Page({
       }, 10000);
     }
   },
-  toHotelDetail() {
+  toHotelDetail(e) {
+    let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/hotel/hotelDetail/hotelDetail',
+      url: '/pages/hotel/hotelDetail/hotelDetail?id='+id,
     })
   },
   toField() {

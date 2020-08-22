@@ -82,7 +82,7 @@
 			<view class="more" bindtap="toField">查看更多></view>
 		</view>
 		<view class="recom flex">
-			<view class="recom-item" wx:for="{{recommendList}}" bindtap="toHotelDetail">
+			<view class="recom-item" wx:for="{{recommendList}}" data-id="{{item.id}}" bindtap="toHotelDetail">
 				<image src="{{item.imgUrl}}" mode="aspectFill"></image>
 				<view class="recom-item-name text-overflow1">{{item.hotelName}}</view>
 			</view>

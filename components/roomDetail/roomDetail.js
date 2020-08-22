@@ -28,5 +28,11 @@ Component({
         })
       }
     },
+    previewImage(e) {
+      wx.previewImage({
+          current: e.currentTarget.dataset.url, // 当前显示图片的http链接
+          urls: this.data.data.imgUrl.map(item=>item.url) // 需要预览的图片http链接列表
+      })
+  },
   }
 })

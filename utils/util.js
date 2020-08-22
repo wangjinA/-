@@ -105,11 +105,13 @@ function loadingAPI(result, title='加载中') {
   wx.showLoading({
     title,
   })
-  return result.then(res => {
+  result.then(res => {
     wx.hideLoading()
-    return res
   })
-  .catch(() => wx.hideLoading())
+  .catch(err => {
+    wx.hideLoading()
+  })
+  return result
 }
 
 

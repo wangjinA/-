@@ -56,7 +56,7 @@ Page({
 
                       wx.showToast({
                         icon: 'none',
-                        title: '登录失败',
+                        title: err || '登录失败',
                       })
                     })
                 }

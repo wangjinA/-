@@ -28,3 +28,6 @@
 <!-- <button class="ls-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" lang="zh_CN" >微信登录授权(推荐)</button>
 <button class="ls-btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" lang="zh_CN" >获取用户信息</button> -->
 <view class="user-select-tips">请选择您的身份</view>
+<!-- <view>
+  {{test}}
+</view> -->
