@@ -24,7 +24,8 @@ Page({
     {
       label: '预算',
       key: 'budget',
-      inputType: 'number'
+      inputType: 'number',
+      company: '元/间'
     }, {
       label: '备注',
       key: 'notes',

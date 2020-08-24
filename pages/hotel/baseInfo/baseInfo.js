@@ -47,14 +47,21 @@ Page({
       label: '所在商圈',
       placeholder: '请输入商圈名称',
       key: 'businessCircle',
-    }, {
+    }, 
+    // {
+    //   label: '最近地标建筑',
+    //   key: 'zjdb',
+    //   type: 'relation',
+    //   data: ['地铁站', '火车站', '机场'],
+    //   placeholder: '最近直线距离',
+    //   company: '米'
+    // }, 
+    
+    {
       label: '最近地标建筑',
       key: 'zjdb',
-      type: 'relation',
-      data: ['地铁站', '火车站', '机场'],
-      placeholder: '最近直线距离',
-      company: '米'
-    }, {
+    }, 
+    {
       label: '最常举办会议类型',
       placeholder: '请选择',
       key: 'oftenMeetingType',
@@ -69,6 +76,13 @@ Page({
       inputType: 'number',
       placeholder: '请输入数量',
       key: 'meetingMeal',
+      company: '元/桌起'
+    }, {
+      label: '婚宴餐标',
+      inputType: 'number',
+      placeholder: '请输入数量',
+      key: 'meetingMeal',
+      company: '元/桌起'
     }, {
       label: 'VR展示链接',
       key: 'vrLink',

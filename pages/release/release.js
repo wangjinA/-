@@ -41,6 +41,7 @@ Page({
     weddingFormList: [{ // 婚宴需求
       label: '宴会日期',
       type: 'timeScope',
+      // timeType: 'multiple',
       key: 'date',
       required: true
     }, {
@@ -308,15 +309,13 @@ Page({
         key: 'meetingPeople',
         required: true,
         data: rs()
-      }, {
-        label: '位置要求',
-        inputType: 'textarea',
-        key: 'locationDemand',
-      }, {
-        label: '总预算',
-        inputType: 'number',
-        key: 'budget',
-      }, {
+      }, 
+      // {
+      //   label: '位置要求',
+      //   inputType: 'textarea',
+      //   key: 'locationDemand',
+      // }, 
+      {
         label: '会场需求',
         type: 'event',
         key: 'hcxq',
@@ -334,6 +333,11 @@ Page({
         key: 'cyxq',
         placeholder: '请选择',
         click: () => this.goXq(2)
+      }, {
+        label: '总预算',
+        inputType: 'number',
+        key: 'budget',
+        company: '元'
       }, {
         label: '备注',
         inputType: 'textarea',

@@ -27,11 +27,12 @@ Page({
       label: '会场类型',
       key: 'venues',
       type: 'select',
-      data: formatSelectData(['剧院式','U字形', '...'])
+      data: formatSelectData(["宴会式", "酒会式", "剧院式", "课桌式", "岛屿式", "U型", "鱼骨式"])
     }, {
       label: '预算',
       key: 'budget',
-      inputType: 'number'
+      inputType: 'number',
+      company: '元'
     }, 
     // {
     //   label: '面积需求',

@@ -53,10 +53,6 @@ Page({
       placeholder: '请输入',
       key: 'hotelName',
     }, {
-      label: '宴会式容纳人数',
-      placeholder: '请输入',
-      key: 'hotelName',
-    }, {
       label: '宴会式最多容纳桌数',
       placeholder: '请输入',
       key: 'hotelName',

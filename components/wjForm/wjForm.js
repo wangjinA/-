@@ -14,7 +14,7 @@ Component({
   },
   observers: {
     formData(data) {
-      console.log('formdata改变了!!!');
+      // console.log('formdata改变了!!!');
       console.log(data)
     },
     formList(list) {
@@ -29,7 +29,7 @@ Component({
     formList: Array,
     timeScopeDefaultDate: {
       type: Array,
-      value: [...timeScopeDefaultDate]
+      value: []
     }
   },
 
@@ -37,12 +37,14 @@ Component({
    * 组件的初始数据
    */
   data: {
-    calendarShow: false,
+    calendarShow: false, // 显示日历
+    calendarType: 'range', // 日历类型， range范围，multiple多选
     currentCalendarKey: '',
     formData: {},
     customItem: '全部',
     labelWidth: '200rpx',
     showRelation: false,
+
     pickerView: {
       selectData: [],
       rightSelectData: [], // 右边也是选择器的时候
@@ -233,15 +235,25 @@ Component({
         [key]: e.detail.value
       })
     },
+    // 时间范围确认
     calendarConfirm(event) {
-      const [start, end] = event.detail;
+      console.log(event);
+      
+      // const [start, end] = event.detail;
       // console.log(formatTime(start))
       // console.log(formatTime(end))
+      // if(event.detail.length > 14){
+      //   wx.showToast({
+      //     icon: 'none',
+      //     title: '最多选择14天',
+      //   })
+      // }
       this.setData({
         calendarShow: false,
       });
       this.setFormData({
-        [this.data.currentCalendarKey]: [formatTime(start, true), formatTime(end, true)]
+        // [this.data.currentCalendarKey]: [formatTime(start, true), formatTime(end, true)]
+        [this.data.currentCalendarKey]: event.detail.map(item => formatTime(item, true))
       })
     },
     calendarClose() {
@@ -250,24 +262,40 @@ Component({
       })
     },
     openCalendar(e) {
-      let key = e.target.dataset.key
-      this.setCalendarSelect(key)
+      let {key, type} = e.target.dataset
+      // if(type === 'range'){
+        this.setCalendarSelect(key, type)
+      // }
       this.setData({
         currentCalendarKey: key,
-        calendarShow: true
+        calendarShow: true,
+        calendarType: type
       })
     },
-    setCalendarSelect(key) { // 解决：在多个日历的情况下，使用同一个日历组件，上一个选择完毕之后，下一个仍然是上一个选择好的日期
-      if (key !== this.data.currentCalendarKey) {
-        let calendar = this.selectComponent('#calendar')
-        let currentCalendarData = this.data.formData[key]
+    setCalendarSelect(key, type) { // 解决：在多个日历的情况下，使用同一个日历组件，上一个选择完毕之后，下一个仍然是上一个选择好的日期
+      let calendar = this.selectComponent('#calendar')
+      let currentCalendarData = this.data.formData[key]
+      if(type === 'range'){
+        // if (key !== this.data.currentCalendarKey) {
+          this.setData({
+            timeScopeDefaultDate: currentCalendarData ? currentCalendarData.map(item => {
+              if (item.length === 5) {
+                item = `${new Date().getFullYear()}-${item}`
+              }
+              return new Date(item).getTime()
+            }) : [...timeScopeDefaultDate]
+          }, _ => {
+            calendar.reset()
+          })
+        // }
+      }else {
         this.setData({
           timeScopeDefaultDate: currentCalendarData ? currentCalendarData.map(item => {
             if (item.length === 5) {
               item = `${new Date().getFullYear()}-${item}`
             }
             return new Date(item).getTime()
-          }) : [...timeScopeDefaultDate]
+          }) : []
         }, _ => {
           calendar.reset()
         })

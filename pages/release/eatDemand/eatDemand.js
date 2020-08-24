@@ -21,7 +21,7 @@ Page({
     //   label: '桌型',
     //   key: 'tableType',
     //   type: 'select',
-    //   data: formatSelectData(['圆桌', '方桌'])
+    //   data: formatSelectData(['圆桌式', '自助式'])
     // }, 
     {
       label: '人数',
@@ -31,7 +31,8 @@ Page({
     }, {
       label: '预算',
       key: 'budget',
-      inputType: 'number'
+      inputType: 'number',
+      company: '元/人'
     }, {
       label: '备注',
       key: 'notes',

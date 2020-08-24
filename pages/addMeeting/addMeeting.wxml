@@ -1,7 +1,7 @@
 <addImg title="添加会议厅图片" id="addImg"></addImg>
 <wjForm formList="{{formList}}" id="wjForm"></wjForm>
 
-<wjPopup show="{{ showBaitai }}" title="摆台信息" bind:close="closeBaitai">
+<wjPopup show="{{ showBaitai }}" title="尺寸信息" bind:close="closeBaitai">
   <wjForm formList="{{baitaiFormList}}" id="btForm"></wjForm>
   <wjButton width="92%" bindtap="closeBaitai">确认</wjButton>
 </wjPopup>

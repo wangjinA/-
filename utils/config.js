@@ -137,6 +137,11 @@ export const hyrs = value => {
     company: '人',
     type: 2, 
   }, {
+    label: '酒会容纳人数',
+    labelWidth: '320rpx',
+    company: '人',
+    type: 9, 
+  }, {
     label: '宴会式容纳人数',
     labelWidth: '320rpx',
     company: '人',
@@ -161,21 +166,6 @@ export const hyrs = value => {
     labelWidth: '320rpx',
     company: '人',
     type: 7, 
-  }, {
-    label: '董事会型容纳人数',
-    labelWidth: '320rpx',
-    company: '人',
-    type: 8, 
-  }, {
-    label: '酒会容纳人数',
-    labelWidth: '320rpx',
-    company: '人',
-    type: 9, 
-  }, {
-    label: '宴会圆形卓起订桌数',
-    labelWidth: '320rpx',
-    company: '人',
-    type:  10,
   }]
   if(value){
     let item = data.filter(item => item.label === value)[0]

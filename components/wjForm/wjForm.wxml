@@ -49,10 +49,11 @@
     <van-cell required="{{item.required}}" wx:elif="{{item.type === 'event'}}"size="large" title="{{item.label}}" value="{{item.value || item.placeholder}}" is-link bindtap="{{item.key}}"/>
     <!-- 时间范围选择 -->
     <van-cell required="{{item.required}}" wx:elif="{{item.type === 'timeScope'}}" 
-      data-key="{{item.key}}" 
+      data-key="{{item.key}}"
+      data-type="{{item.timeType || 'range'}}"
       size="large" 
       title="{{item.label}}" 
-      value="{{formData[item.key]? formData[item.key][0] + ' - ' + formData[item.key][1] : '请选择' }}" 
+      value="{{item.timeType !== 'multiple' ? (formData[item.key]? formData[item.key][0] + ' - ' + formData[item.key][1] : '请选择' ) : formData[item.key]}}" 
       is-link 
       bindtap="openCalendar"
       />
@@ -113,8 +114,10 @@
 
 <!-- <cover-view> -->
   <van-calendar
+    max-range="{{14}}"
+    allow-same-day="{{true}}"
     show="{{ calendarShow }}"
-    type="range"
+    type="{{calendarType}}"
     bind:close="calendarClose"
     bind:confirm="calendarConfirm"
     color="#FD960D"
@@ -133,13 +136,16 @@
       </block>
       <view class="flex-center" wx:else>
         <view style="width: 70%">
-          <van-field
+          
+          <cover-view >
+            <van-field
             value="{{ formData[pickerView.currentKey][pickerView.currentIndex].value }}"
             placeholder="{{pickerView.placeholder}}"
             border="{{ false }}"
             bind:change="pickerViewInputChange"
             input-align="{{ pickerView.company ? 'right' : 'left' }}"
           />
+          </cover-view>
         </view>
         <view wx:if="pickerView.company">{{ pickerView.company }}</view>
       </view>
