@@ -141,64 +141,32 @@ Page({
     return isDate
   },
   commitWedding() { // 提交婚宴
-    let formItem = this.selectComponent('#weddingForm')
-    let formData = formItem.data.formData
-    if (!wx.checkRequired.call(this, formData, this.data.weddingFormList)) {
-      return;
-    }
-    let params = {
-      ...formData,
-      startTime: wx.fixYear(formData.date[0]),
-      endTime: wx.fixYear(formData.date[1]),
-    }
-
-    params.place = params.place.join('')
-    params.tablesNumber = wx.$stringify(rnzs(params.tablesNumber)) // 容纳桌数
-    params.priceRange = wx.$stringify(hyjgqj(params.priceRange)) // 价格区间
-    params.hotelStar = jdxj(params.hotelStar) // 酒店星级
-    params.detailedAddress = params.placeAddress
-
-    console.log(params)
-    wx.loadingAPI(wx.$post('/demand/addWeddingBanquet', params), '发布中')
-      .then(res => {
-        wx.showToast({
-          title: '发布成功',
-        })
-        formItem.clearData()
-      })
-      .catch(error => {
-        wx.showToast({
-          icon: 'none',
-          title: '发布失败',
-        })
-      })
-
-  },
-  commitMeeting() { // 提交会议
-    let form = this.selectComponent('#meetingForm')
-    form.getData()
-      .then(formData => {
-        formData.minpeopleNumber = formData.meetingPeople[0] // 最小
-        formData.maxpeopleNumber = formData.meetingPeople[1] // 最大 后端要拿这个字段做筛选
-        formData.meetingPeople = wx.$stringify(rs(formData.meetingPeople))
-        console.log(formData.meetingPeople)
+    this.checkUserInfo()
+      .then(() => {
+        let formItem = this.selectComponent('#weddingForm')
+        let formData = formItem.data.formData
+        if (!wx.checkRequired.call(this, formData, this.data.weddingFormList)) {
+          return;
+        }
         let params = {
           ...formData,
-          meetingStartTime: wx.fixYear(formData.date[0]),
-          meetingEndTime: wx.fixYear(formData.date[1]),
-          minpeopleNumber: formData.meetingPeople,
-          demandMeetingVenue: this.data.hcxqData || [], // 会场
-          demandMeetingRepasts: this.data.cyxqData || [], // 餐饮
-          demandMeetingRooms: this.data.kfxqData || [], // 客房
+          startTime: wx.fixYear(formData.date[0]),
+          endTime: wx.fixYear(formData.date[1]),
         }
+
+        params.place = params.place.join('')
+        params.tablesNumber = wx.$stringify(rnzs(params.tablesNumber)) // 容纳桌数
+        params.priceRange = wx.$stringify(hyjgqj(params.priceRange)) // 价格区间
+        params.hotelStar = jdxj(params.hotelStar) // 酒店星级
+        params.detailedAddress = params.placeAddress
+
         console.log(params)
-        wx.loadingAPI(wx.$post('/demand/addDemand', params), '发布中')
+        wx.loadingAPI(wx.$post('/demand/addWeddingBanquet', params), '发布中')
           .then(res => {
             wx.showToast({
               title: '发布成功',
             })
-            form.clearData()
-            this.clearXqData()
+            formItem.clearData()
           })
           .catch(error => {
             wx.showToast({
@@ -207,6 +175,46 @@ Page({
             })
           })
       })
+  },
+  commitMeeting() { // 提交会议
+    this.checkUserInfo()
+      .then(() => {
+        let form = this.selectComponent('#meetingForm')
+        form.getData()
+          .then(formData => {
+            formData.minpeopleNumber = formData.meetingPeople[0] // 最小
+            formData.maxpeopleNumber = formData.meetingPeople[1] // 最大 后端要拿这个字段做筛选
+            formData.meetingPeople = wx.$stringify(rs(formData.meetingPeople))
+            console.log(formData.meetingPeople)
+            let params = {
+              ...formData,
+              meetingStartTime: wx.fixYear(formData.date[0]),
+              meetingEndTime: wx.fixYear(formData.date[1]),
+              minpeopleNumber: formData.meetingPeople,
+              demandMeetingVenue: this.data.hcxqData || [], // 会场
+              demandMeetingRepasts: this.data.cyxqData || [], // 餐饮
+              demandMeetingRooms: this.data.kfxqData || [], // 客房
+            }
+            console.log(params)
+            wx.loadingAPI(wx.$post('/demand/addDemand', params), '发布中')
+              .then(res => {
+                wx.showToast({
+                  title: '发布成功',
+                })
+                form.clearData()
+                this.clearXqData()
+              })
+              .catch(error => {
+                wx.showToast({
+                  icon: 'none',
+                  title: '发布失败',
+                })
+              })
+          })
+      })
+  },
+  checkUserInfo() {
+    return wx.$post('/api/user/check')
   },
   goXq(type) { // 跳转会场需求
     let urls = [
@@ -260,90 +268,91 @@ Page({
   onReady() {
     this.setData({
       meetingformList: [{
-        label: '开会城市',
-        type: 'select',
-        key: 'city',
-        required: true,
-        data: [{
-          name: '南昌',
-          value: '南昌',
+          label: '开会城市',
+          type: 'select',
+          key: 'city',
+          required: true,
+          data: [{
+            name: '南昌',
+            value: '南昌',
+          }, {
+            name: '九江',
+            value: '九江',
+          }, {
+            name: '上饶',
+            value: '上饶',
+          }, {
+            name: '抚州',
+            value: '抚州',
+          }, {
+            name: '宜春',
+            value: '宜春',
+          }, {
+            name: '吉安',
+            value: '吉安',
+          }, {
+            name: '赣州',
+            value: '赣州',
+          }, {
+            name: '景德镇',
+            value: '景德镇',
+          }, {
+            name: '萍乡',
+            value: '萍乡',
+          }, {
+            name: '新余',
+            value: '新余',
+          }, {
+            name: '鹰潭',
+            value: '鹰潭',
+          }]
         }, {
-          name: '九江',
-          value: '九江',
+          label: '会议日期',
+          type: 'timeScope',
+          key: 'date',
+          required: true,
         }, {
-          name: '上饶',
-          value: '上饶',
+          label: '参会人数',
+          type: 'select',
+          key: 'meetingPeople',
+          required: true,
+          data: rs()
+        },
+        // {
+        //   label: '位置要求',
+        //   inputType: 'textarea',
+        //   key: 'locationDemand',
+        // }, 
+        {
+          label: '会场需求',
+          type: 'event',
+          key: 'hcxq',
+          placeholder: '请选择',
+          click: () => this.goXq(0)
         }, {
-          name: '抚州',
-          value: '抚州',
+          label: '客房需求',
+          type: 'event',
+          key: 'kfxq',
+          placeholder: '请选择',
+          click: () => this.goXq(1)
         }, {
-          name: '宜春',
-          value: '宜春',
+          label: '餐饮需求',
+          type: 'event',
+          key: 'cyxq',
+          placeholder: '请选择',
+          click: () => this.goXq(2)
         }, {
-          name: '吉安',
-          value: '吉安',
+          label: '总预算',
+          inputType: 'number',
+          key: 'budget',
+          company: '元'
         }, {
-          name: '赣州',
-          value: '赣州',
-        }, {
-          name: '景德镇',
-          value: '景德镇',
-        }, {
-          name: '萍乡',
-          value: '萍乡',
-        }, {
-          name: '新余',
-          value: '新余',
-        }, {
-          name: '鹰潭',
-          value: '鹰潭',
-        }]
-      }, {
-        label: '会议日期',
-        type: 'timeScope',
-        key: 'date',
-        required: true,
-      }, {
-        label: '参会人数',
-        type: 'select',
-        key: 'meetingPeople',
-        required: true,
-        data: rs()
-      }, 
-      // {
-      //   label: '位置要求',
-      //   inputType: 'textarea',
-      //   key: 'locationDemand',
-      // }, 
-      {
-        label: '会场需求',
-        type: 'event',
-        key: 'hcxq',
-        placeholder: '请选择',
-        click: () => this.goXq(0)
-      }, {
-        label: '客房需求',
-        type: 'event',
-        key: 'kfxq',
-        placeholder: '请选择',
-        click: () => this.goXq(1)
-      }, {
-        label: '餐饮需求',
-        type: 'event',
-        key: 'cyxq',
-        placeholder: '请选择',
-        click: () => this.goXq(2)
-      }, {
-        label: '总预算',
-        inputType: 'number',
-        key: 'budget',
-        company: '元'
-      }, {
-        label: '备注',
-        inputType: 'textarea',
-        placeholder: '其他场地要求',
-        key: 'notes',
-      }]
+          label: '备注',
+          inputType: 'textarea',
+          placeholder: '其他场地要求',
+          key: 'notes',
+        }
+      ]
     })
   }
 })

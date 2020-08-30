@@ -8,17 +8,21 @@ Page({
     formList: [{
       label: '姓名',
       key: 'contacts',
+      required: true
     }, {
       label: '公司名称',
       key: 'companyName',
+      placeholder: '公司名称，没有请填无',
+      required: true
+    },{
+      label: '联系号码',
+      key: 'phone',
+      required: true
     },{
       label: '性别',
       key: 'sex',
       type: 'select',
       data: formatSelectData(['男', '女'])
-    },{
-      label: '联系号码',
-      key: 'phone',
     }, {
       label: '出生日期',
       key: 'dateBirth',
