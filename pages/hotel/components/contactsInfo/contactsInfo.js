@@ -42,10 +42,16 @@ Component({
       return new Promise((resolve, reject) => {
         form.getData()
           .then(data => {
+            if(!data.phone || data.phone.length != 11){
+              return wx.showToast({
+                icon: 'none',
+                title: '请输入正确的手机号',
+              })
+            }
             let img = this.selectComponent('#addImg')
             if (img.data.fileList && img.data.fileList.length) {
               resolve(Object.assign(data, {
-                fileList: img.data.fileList
+                callingCard: JSON.stringify(img.data.fileList)
               }))
             } else {
               wx.showToast({

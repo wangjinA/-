@@ -13,7 +13,7 @@
     <view class="quote-title">
       <view>{{item.containNumbers || ''}}</view>
       <view>{{item.tableType || ''}}</view>
-      <view wx:for="{{item.dining}}">{{item.name}} 需要 {{item.value}}</view>
+      <view wx:for="{{item.dining}}">{{item.name}} {{item.value}}</view>
       <view class="item-remark" wx:if="{{item.notes}}">
         {{item.notes}}
       </view>

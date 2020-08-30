@@ -10,7 +10,7 @@ Page({
       key: 'price',
       required: true,
       inputType: 'number',
-      company: '/人'
+      company: '元/人'
     }],
     activeNames: [0],
     list: [],

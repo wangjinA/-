@@ -94,7 +94,7 @@ Page({
       .then(data => {
         let params = {
           ...data,
-          id: this.data.hotelId,
+          id: wx.userInfo && wx.userInfo.hotelId,
           starType: data.starType ? jdxj(data.starType) : '',
           city: data.city.join(' '),
           oftenMeetingType: data.oftenMeetingType ? hylx(data.oftenMeetingType) : ''
@@ -119,7 +119,7 @@ Page({
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelBasisInfo', {
-      hotelId: this.data.hotelId
+      hotelId: wx.userInfo && wx.userInfo.hotelId
     })).then(({
       data
     }) => {

@@ -52,7 +52,8 @@ Page({
     data: {},
     status: 0,
     statusText: '',
-    isUser: false,
+    isUser: false, // 是否是发布需求的用户
+    isHotel: false, // 是否是报价的酒店
   },
   orderEnd() {
     wx.delAPI('确认订单完成，提交后不可更改！')
@@ -133,6 +134,14 @@ Page({
         data.meetingStartTime_filter = wx.formatTime(new Date(data.meetingStartTime), true)
         data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
         data.userInfo = data.sysUserVo
+        if(data.userInfo) {
+          data.hideInfo = {
+            contacts: data.userInfo.contacts && data.userInfo.contacts[0] + '**',
+            companyName: data.userInfo.companyName && data.userInfo.companyName.substr(0, 2) + '****',
+            phone: data.userInfo.phone && data.userInfo.phone.substr(0, 3) + '****',
+            finitude: data.userInfo.finitude && data.userInfo.finitude.substr(0, 2) + '****'
+          }
+        }
         if(data.orderDemandConfirm){
           data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
         }else {
@@ -231,8 +240,10 @@ Page({
     wx.$get('/order/getUserSelfDemandInfo', {
       meetingId: this.data.id
     }).then(res => {
+      let isHotel = !!res.data.hotelQuteInfoVoList.filter(item => item.hotelId === wx.userInfo.hotelId).length
       this.setData({
-        bjList: res.data.hotelQuteInfoVoList
+        bjList: res.data.hotelQuteInfoVoList,
+        isHotel
       })
     })
   },

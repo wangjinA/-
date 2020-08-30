@@ -17,6 +17,7 @@ Page({
       key: 'price',
       inputType: 'number',
       required: true,
+      company: '元/间'
     }],
     activeNames: [0],
     list: [],

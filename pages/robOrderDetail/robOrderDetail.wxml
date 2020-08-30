@@ -24,7 +24,8 @@
       </view>
       <view class="item">
         <view class="label">人数类型</view>
-        <view class="val">{{data.meetingPeople_filter}} | 其他会议活动</view>
+        <!-- <view class="val">{{data.meetingPeople_filter}} | 其他会议活动</view> -->
+        <view class="val">{{data.meetingPeople_filter}}</view>
       </view>
       <view class="item">
         <view class="label">位置要求</view>
@@ -137,6 +138,9 @@
       active-color="#FEAF11"
     /> -->
   </view>
+  <view class="notMore" style="text-align:left;">
+    暂无报价
+  </view>
 </view>
 <!-- 三个详细需求 -->
 <view class="container">
@@ -152,7 +156,7 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-          预算：<text class="item-budget">￥{{item.budget}}</text>
+          预算：<text class="item-budget">￥{{item.budget}}元/场</text>
           </view>
           <view>
             {{item.venues || ''}}
@@ -176,7 +180,7 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-          预算：<text class="item-budget">￥{{item.budget}}</text>
+          预算：<text class="item-budget">￥{{item.budget}}元/间</text>
           </view>
           <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
           <view class="item-remark">
@@ -199,11 +203,11 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-          预算：<text class="item-budget">￥{{item.budget}}</text>
+          预算：<text class="item-budget">￥{{item.budget}}元/人</text>
           </view>
           <view>{{item.containNumbers || ''}}</view>
           <view>{{item.tableType || ''}}</view>
-          <view wx:for="{{item.dining}}">{{item.name}} 需要 {{item.value}}</view>
+          <view wx:for="{{item.dining}}">{{item.name}} {{item.value}}</view>
           <view class="item-remark" wx:if="{{item.notes}}">
             {{item.notes}}
           </view>
@@ -212,6 +216,14 @@
     </view>
   </block>
   
+  <block wx:if="!data.hcShow && !data.kfShow && !data.cyShow">
+    <view class="top">
+      <view class="name text-overflow">需求列表</view>
+    </view> 
+    <view class="notMore" style="text-align:left;">
+      暂无详细需求，无法进行报价！
+    </view>
+  </block>
   
 </view>
 
@@ -227,21 +239,22 @@
     active-color="#FEAF11"
   />
 </view> -->
-<view class="container"> 
+
+<view class="container" wx:if="{{isUser || isHotel}}"> 
   <view class="top">
     <view class="name text-overflow">客户信息</view>
   </view>
   <view class="list">
-    <view class="item" wx:if="{{data.userInfo.companyName}}">
-      <view class="label">公司名称</view>
-      <view class="val">{{data.userInfo.companyName}}</view>
-    </view>
     <view class="item" wx:if="{{data.userInfo.contacts}}">
       <view class="label">联系人</view>
       <view class="val">{{data.userInfo.contacts}}</view>
     </view>
+    <view class="item" wx:if="{{data.userInfo.companyName}}">
+      <view class="label">公司名称</view>
+      <view class="val">{{data.userInfo.companyName}}</view>
+    </view>
     <view class="item" wx:if="{{data.userInfo.phone}}">
-      <view class="label">手机号</view>
+      <view class="label">联系电话</view>
       <view class="val">{{data.userInfo.phone}}</view>
     </view>
     <view class="item" wx:if="{{data.userInfo.finitude}}">
@@ -251,6 +264,29 @@
   </view>
 </view>
 
+<view class="container" wx:else> 
+  <view class="top">
+    <view class="name text-overflow">客户信息</view>
+  </view>
+  <view class="list">
+    <view class="item" wx:if="{{data.userInfo.contacts}}">
+      <view class="label">联系人</view>
+      <view class="val">{{data.hideInfo.contacts}}</view>
+    </view>
+    <view class="item" wx:if="{{data.userInfo.companyName}}">
+      <view class="label">公司名称</view>
+      <view class="val">{{data.hideInfo.companyName}}</view>
+    </view>
+    <view class="item" wx:if="{{data.userInfo.phone}}">
+      <view class="label">联系电话</view>
+      <view class="val">{{data.hideInfo.phone}}</view>
+    </view>
+    <view class="item" wx:if="{{data.userInfo.finitude}}">
+      <view class="label">邮箱</view>
+      <view class="val">{{data.hideInfo.finitude}}</view>
+    </view>
+  </view>
+</view>
 <view class="container b0"> 
   <view class="time-wrap">
     <view class="time">{{data.createTime}}</view>

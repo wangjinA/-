@@ -13,7 +13,7 @@ Page({
       key: 'dining',
       type: 'relation',
       data: ['午餐' , '晚餐'],
-      rightData: ['自助餐', '西餐' , '中餐'],
+      rightData: ['自助式', '围桌式' , '商务简餐', '盒饭'],
       type: 'relation',
       isAdd: '新增用餐',
     }, 

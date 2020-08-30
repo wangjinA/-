@@ -60,7 +60,7 @@ Page({
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelAssortInfo', {
-      hotelId: this.data.hotelId
+      hotelId: wx.userInfo && wx.userInfo.hotelId
     })).then(({
       data
     }) => {

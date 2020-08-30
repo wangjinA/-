@@ -32,10 +32,17 @@ Page({
   commit() {
     this.wjForm.getData()
     .then(data => {
+      if(!data.phone || data.phone.length != 11){
+        return wx.showToast({
+          icon: 'none',
+          title: '请输入正确的手机号',
+        })
+      }
       let params = {...data}
       if(data.sex != undefined) {
         params.sex = params.sex == '男' ? 1 : 0
       }
+      
       wx.loadingAPI(wx.$post('/api/user/updateUserInfo', {
         sysUser: params
       }), '保存中').then(data=>{

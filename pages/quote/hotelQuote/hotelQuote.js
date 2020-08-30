@@ -108,6 +108,7 @@ Page({
         required: true,
         key: 'price',
         inputType: 'number',
+        company: '元/场'
       }]
     })
   },

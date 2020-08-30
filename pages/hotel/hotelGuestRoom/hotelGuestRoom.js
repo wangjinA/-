@@ -19,7 +19,7 @@ Page({
     .then(data => {
       wx.loadingAPI(wx.$post('/hotel/addHotelGuesttInfo', {
         ...data,
-        hotelId: this.data.hotelId,
+        hotelId: wx.userInfo && wx.userInfo.hotelId,
         imgUrl: wx.$stringify(imgList),
         hotelGuestId: this.data.hotelGuestId,
       }), '保存中')

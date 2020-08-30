@@ -136,7 +136,7 @@
           </view>
           <view>{{item.containNumbers || ''}}</view>
           <view>{{item.tableType || ''}}</view>
-          <view wx:for="{{item.dining}}">{{item.name}} 需要 {{item.value}}</view>
+          <view wx:for="{{item.dining}}">{{item.name}} {{item.value}}</view>
           <view class="item-remark" wx:if="{{item.notes}}">
             {{item.notes}}
           </view>
@@ -174,7 +174,7 @@
       <view class="val">{{userInfo.contacts}}</view>
     </view>
     <view class="item" wx:if="{{userInfo.phone}}">
-      <view class="label">手机号</view>
+      <view class="label">联系电话</view>
       <view class="val">{{userInfo.phone}}}</view>
     </view>
     <view class="item" wx:if="{{userInfo.finitude}}">

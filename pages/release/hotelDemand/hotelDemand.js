@@ -32,7 +32,7 @@ Page({
       label: '预算',
       key: 'budget',
       inputType: 'number',
-      company: '元'
+      company: '元/场'
     }, 
     // {
     //   label: '面积需求',

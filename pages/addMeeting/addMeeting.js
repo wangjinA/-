@@ -75,7 +75,7 @@ Page({
         imgUrl: wx.$stringify(imgList),
         ...data,
         ...sxForm.data.formData,
-        hotelId: this.data.hotelId,
+        hotelId: wx.userInfo && wx.userInfo.hotelId,
         hotelChamberType,
         hotelChamberTable: btForm.data.formData,
         hotelChamberId: this.data.hotelChamberId,

@@ -6,11 +6,11 @@ Page({
    * 组件的初始数据
    */
   data: {
-    signin: false,
     user: app.globalData.user,
     type: wx.type,
     userInfo: {},
-    hotelInfo: {}
+    hotelInfo: {},
+    sign: false
   },
   observers: {
     type(type) {
@@ -19,10 +19,11 @@ Page({
   },
   init() {
     wx.$get('/api/user/getUserInfo')
-      .then(data => {
+      .then(res => {
         this.setData({
-          userInfo: data.data.userInfo,
-          hotelInfo: data.data.hotelInfo,
+          userInfo: res.data.userInfo,
+          hotelInfo: res.data.hotelInfo,
+          sign: res.data.sign
         })
       })
 
@@ -88,11 +89,6 @@ Page({
       url: '/pages/mall/mall?index=1',
     })
   },
-  closeSignin() {
-    this.setData({
-      signin: false
-    })
-  },
   openSignin() {
     if (this.data.userInfo.sign) return;
     wx.loadingAPI(wx.$get('/api/user/signin'), '签到中')
@@ -100,9 +96,9 @@ Page({
         this.setData({
           userInfo: {
             ...this.data.userInfo,
-            sign: true
           }
         })
+        this.init()
       })
   },
   toOrder() {
@@ -111,6 +107,7 @@ Page({
     })
   },
   onShow() {
+    this.init()
     this.setData({
       type: wx.type
     })

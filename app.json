@@ -1,12 +1,13 @@
 {
   "pages": [
     "pages/welcome/welcome",
+    "pages/hotel/hotelSearch/hotelSearch",
+    "pages/user/userInfo/userInfo",
+    "pages/hotel/hotelCreate/hotelCreate",
     "pages/release/release",
     "pages/hotel/baseInfo/baseInfo",
     "pages/index/index",
     "pages/hotel/hotelDetail/hotelDetail",
-    "pages/hotel/hotelCreate/hotelCreate",
-    "pages/hotel/hotelSearch/hotelSearch",
     "pages/hunyanBaojia/hunyanBaojia",
     "pages/robOrderDetail/robOrderDetail",
     "pages/order/orderEnd/orderEnd",
@@ -18,7 +19,6 @@
     "pages/quote/roomQuote/roomQuote",
     "pages/quote/hotelQuote/hotelQuote",
     "pages/quote/eatQuote/eatQuote",
-    "pages/user/userInfo/userInfo",
     "pages/hotel/hotelImageMenage/hotelImageMenage",
     "pages/field/field",
     "pages/hotel/hotelSelect/hotelSelect",
