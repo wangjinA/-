@@ -58,7 +58,7 @@ Page({
   },
   userToggle() {
     if (wx.type == 2) {
-      if (wx.userInfo.hotelId) {
+      if (wx.hotelId) {
         this.setUser(1)
         wx.switchTab({
           url: '/pages/index/index',

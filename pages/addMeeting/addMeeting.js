@@ -57,6 +57,8 @@ Page({
     let sxForm = this.selectComponent('#sxForm')
     let addImg = this.selectComponent('#addImg')
     let imgList = addImg.getData('请添加会议厅图片')
+    console.log(imgList);
+    
     if(!imgList) return;
     let keys = Object.keys(lxForm.data.formData)
     let hotelChamberType = keys.map(key => {
@@ -72,10 +74,10 @@ Page({
       data.dayPrice = parseInt(data.dayPrice)
       data.halfDayPrice = parseInt(data.halfDayPrice)
       wx.loadingAPI(wx.$post('/hotel/addHotelChamertInfo', {
-        imgUrl: wx.$stringify(imgList),
         ...data,
+        imgUrl: wx.$stringify(imgList),
         ...sxForm.data.formData,
-        hotelId: wx.userInfo && wx.userInfo.hotelId,
+        hotelId: wx.hotelId,
         hotelChamberType,
         hotelChamberTable: btForm.data.formData,
         hotelChamberId: this.data.hotelChamberId,
@@ -156,12 +158,16 @@ Page({
           intoCar: data.intoCar
         }
       })
-      
+      let lxFormData = {}
+      data.hotelChamberTypes && data.hotelChamberTypes.forEach(item => {
+        lxFormData[`r_${item.type}`] = item.numbers
+      })
+      lxForm.setData({
+        formData: lxFormData
+      })
     })
   },
   onLoad(options) {
-    this.data.hotelId = options.hotelId
-    console.log(options)
     if(options.hotelChamberId && options.hotelChamberId!="undefined") {
       this.setData({
         hotelChamberId: options.hotelChamberId

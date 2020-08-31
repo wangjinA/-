@@ -142,7 +142,18 @@ Page({
   },
   commitWedding() { // 提交婚宴
     this.checkUserInfo()
-      .then(() => {
+      .then((res) => {
+        if(!res.data){
+          wx.showToast({
+            title: '请完善个人信息',
+            icon: 'none',
+          })
+          return setTimeout(() => {
+            wx.navigateTo({
+              url: '/pages/user/userInfo/userInfo',
+            })
+          }, 2000);
+        }
         let formItem = this.selectComponent('#weddingForm')
         let formData = formItem.data.formData
         if (!wx.checkRequired.call(this, formData, this.data.weddingFormList)) {
@@ -178,7 +189,19 @@ Page({
   },
   commitMeeting() { // 提交会议
     this.checkUserInfo()
-      .then(() => {
+      .then((res) => {
+        if(!res.data){
+          wx.showToast({
+            title: '请完善个人信息',
+            icon: 'none',
+            duration: 1500
+          })
+          return setTimeout(() => {
+            wx.navigateTo({
+              url: '/pages/user/userInfo/userInfo',
+            })
+          }, 1500);
+        }
         let form = this.selectComponent('#meetingForm')
         form.getData()
           .then(formData => {

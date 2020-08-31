@@ -19,9 +19,9 @@ Page({
     .then(data => {
       wx.loadingAPI(wx.$post('/hotel/addHotelGuesttInfo', {
         ...data,
-        hotelId: wx.userInfo && wx.userInfo.hotelId,
+        hotelId: wx.hotelId,
         imgUrl: wx.$stringify(imgList),
-        hotelGuestId: this.data.hotelGuestId,
+        hotelGuestId: this.data.hotelGuestId || '',
       }), '保存中')
       .then(data=> {
         wjForm.clearData()
@@ -74,10 +74,9 @@ Page({
     })
   },
   onLoad(options) {
-    this.data.hotelId = options.hotelId
-    this.data.hotelGuestId = options.hotelGuestId
     console.log(options);
     if(options.hotelGuestId && options.hotelGuestId!="undefined") {
+      this.data.hotelGuestId = options.hotelGuestId
       this.setData({
         hotelGuestId: options.hotelGuestId
       })

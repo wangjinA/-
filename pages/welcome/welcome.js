@@ -34,6 +34,7 @@ Page({
                       }
                       wx.type = type
                       wx.userInfo = res.data.userInfo
+                      wx.hotelId = res.data.userInfo.hotelId
                       wx.hotelInfo = res.data.hotelInfo
                       if (type == 1) {
                         console.log(res);

@@ -1,6 +1,6 @@
 <view class="guestRoom" bindtap="handlerClick" data-item="{{data}}">
   <view class="guestRoom-img">
-    <image src="{{data.img}}"></image>
+    <image src="{{data.img}}" mode="aspectFill"></image>
   </view>
   <view class="guestRoom-info">
     <view class="top-wrap">

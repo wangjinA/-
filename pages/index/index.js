@@ -92,11 +92,15 @@ Page({
     })
   },
   goHotelInfo(e) {
-    let id = e.currentTarget.dataset.id
-    console.log(id);
+    if(!wx.hotelId){
+      return wx.showToast({
+        title: '暂未获取到酒店信息',
+        icon: 'none'
+      })
+    }
 
     wx.navigateTo({
-      url: '/pages/hotel/hotelInfo/hotelInfo?id=' + id,
+      url: '/pages/hotel/hotelInfo/hotelInfo'
     })
   },
   homeNavClick(e) {

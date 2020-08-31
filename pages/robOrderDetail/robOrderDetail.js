@@ -240,7 +240,7 @@ Page({
     wx.$get('/order/getUserSelfDemandInfo', {
       meetingId: this.data.id
     }).then(res => {
-      let isHotel = !!res.data.hotelQuteInfoVoList.filter(item => item.hotelId === wx.userInfo.hotelId).length
+      let isHotel = !!res.data.hotelQuteInfoVoList.filter(item => item.hotelId === wx.hotelId).length
       this.setData({
         bjList: res.data.hotelQuteInfoVoList,
         isHotel

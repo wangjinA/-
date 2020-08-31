@@ -10,7 +10,9 @@
     </view>
     <view class="address cs">
       <van-icon name="location-o" />
-      <text class="text-overflow">{{data.place}} {{data.detailedAddress}}</text>
+      <text class="text-overflow">{{data.place}}
+      <!--  {{data.detailedAddress}} -->
+      </text>
     </view>
     <view class="tips cs " wx:if="{{data.notes}}">
       <van-icon name="label-o" />

@@ -15,7 +15,7 @@ Page({
     wx.loadingAPI(wx.$post('/hotel/updateOrAddHotelImgUrltInfo', {
       imgUrl: imgItem.url,
       type,
-      hotelId: this.data.hotelId
+      hotelId: wx.hotelId
     }), '上传中').then(data => {
       wx.showToast({
         title: '已上传',
@@ -26,7 +26,7 @@ Page({
   delImg(e) {
     let imgId = e.detail[0].imgId
     wx.loadingAPI(wx.$get('/hotel/deleteUrlById', {
-      hotelId: this.data.hotelId,
+      hotelId: wx.hotelId,
       imgId,
     })).then(data => {
       wx.showToast({
@@ -37,7 +37,7 @@ Page({
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelImgUrlInfo', {
-      hotelId: this.data.hotelId
+      hotelId: wx.hotelId
     })).then(data => {
       let obj = {}
       data.data.list.forEach(item => {
@@ -63,7 +63,6 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.data.hotelId = options.hotelId
     this.init()
   },
 

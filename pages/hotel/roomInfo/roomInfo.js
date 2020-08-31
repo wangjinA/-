@@ -51,7 +51,8 @@ Page({
         wx.loadingAPI(wx.$post('/hotel/updateHotelAssortInfo', {
           ...data,
           intoCar: data.intoCar ? 1: 0,
-          hotelId: this.data.hotelId
+          hotelId: wx.hotelId,
+          hotelAssortId: this.data.hotelAssortId
         }), '保存中')
         .then(data => {
           this.init()
@@ -60,10 +61,11 @@ Page({
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelAssortInfo', {
-      hotelId: wx.userInfo && wx.userInfo.hotelId
+      hotelId: wx.hotelId
     })).then(({
       data
     }) => {
+      this.data.hotelAssortId = data.hotelAssortId
       let wjForm = this.selectComponent('#wjForm')
       wjForm.setData({
         formData: {

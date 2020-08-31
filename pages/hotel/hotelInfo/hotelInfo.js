@@ -60,7 +60,7 @@ Page({
   },
   initData() {
     wx.$get('/hotel/getHotelChamerlInfo', { // 会议厅信息
-      hotelId: this.data.hotelId,
+      hotelId: wx.hotelId,
       current: 1,
       pageSize: 50,
     }).then(data => {
@@ -73,7 +73,7 @@ Page({
       })
     })
     wx.$get('/hotel/getHotelGuestlInfo', { // 客房信息信息
-      hotelId: this.data.hotelId,
+      hotelId: wx.hotelId,
       current: 1,
       pageSize: 50,
     }).then(data => {
@@ -86,7 +86,7 @@ Page({
       })
     })
     wx.loadingAPI(wx.$get('/hotel/getHotelImgUrlInfo', {
-      hotelId: this.data.hotelId
+      hotelId: wx.hotelId
     })).then(data => {
       if(data.data.list && data.data.list.length){
         this.setData({
@@ -108,7 +108,6 @@ Page({
   },
   onLoad (options) {
     this.data.hotelId = options.id
-    this.initData()
   },
 
   /**

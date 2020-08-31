@@ -32,7 +32,9 @@
       </view>
       <view class="item">
         <view class="label">位置要求</view>
-        <view class="val">{{data.place}} {{data.detailedAddress}}</view>
+        <view class="val">{{data.place}} 
+        <!-- {{data.detailedAddress}} -->
+        </view>
       </view>
       <view class="item">
         <view class="label">其他说明</view>

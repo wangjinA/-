@@ -75,13 +75,13 @@ Page({
       label: '会议餐标',
       inputType: 'number',
       placeholder: '请输入数量',
-      key: 'meetingMeal',
+      key: 'yprice',
       company: '元/桌起'
     }, {
       label: '婚宴餐标',
       inputType: 'number',
       placeholder: '请输入数量',
-      key: 'meetingMeal',
+      key: 'hprice',
       company: '元/桌起'
     }, {
       label: 'VR展示链接',
@@ -94,7 +94,7 @@ Page({
       .then(data => {
         let params = {
           ...data,
-          id: wx.userInfo && wx.userInfo.hotelId,
+          id: wx.hotelId,
           starType: data.starType ? jdxj(data.starType) : '',
           city: data.city.join(' '),
           oftenMeetingType: data.oftenMeetingType ? hylx(data.oftenMeetingType) : ''
@@ -119,7 +119,7 @@ Page({
   },
   init() {
     wx.loadingAPI(wx.$get('/hotel/getHotelBasisInfo', {
-      hotelId: wx.userInfo && wx.userInfo.hotelId
+      hotelId: wx.hotelId
     })).then(({
       data
     }) => {
@@ -141,7 +141,6 @@ Page({
     })
   },
   onLoad: function (options) {
-    this.data.hotelId = options.hotelId
     this.init()
   },
 
