@@ -132,10 +132,7 @@ Page({
       this.setData({
         type: wx.type
       })
-      this.init()
     }
-  },
-  onReady() {
     this.init()
   },
   fucClick(event) {

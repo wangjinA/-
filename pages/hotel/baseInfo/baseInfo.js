@@ -25,6 +25,10 @@ Page({
       addressRequired: true,
       addressKey: 'address'
     }, {
+      label: '总机号码',
+      key: 'htelPhone',
+      required: true,
+    }, {
       label: '开业时间',
       placeholder: '请选择',
       key: 'openingTime',
@@ -37,7 +41,7 @@ Page({
       type: 'date',
       required: true,
     }, {
-      label: '星级',
+      label: '酒店星级',
       placeholder: '请选择',
       key: 'starType',
       type: 'select',
@@ -126,7 +130,7 @@ Page({
       let wjForm = this.selectComponent('#wjForm')
       data.city = data.city ? data.city.split(' ') : defaultCity
       data.starType = jdxj(data.starType)
-      data.oftenMeetingType = hylx(data.oftenMeetingType)
+      data.oftenMeetingType = data.oftenMeetingType ? hylx(data.oftenMeetingType) : ''
       data.decorateTime = data.decorateTime ? wx.formatTime(new Date(data.decorateTime), true, false) : ''
       data.openingTime = data.openingTime ? wx.formatTime(new Date(data.openingTime), true, false) : ''
       if (data.landmark) {
