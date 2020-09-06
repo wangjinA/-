@@ -1,5 +1,5 @@
-<scroll-view scroll-top="{{scrollTop}}"  class="chat-scroll-wrap" scroll-y="true">
-    <chat-item bind:previewImage="previewImage" wx:for="{{chatItems}}" data="{{item}}"/>
+<scroll-view bindscroll="loadMore" scroll-top="{{scrollTop}}" id="chatView"  class="chat-scroll-wrap" scroll-y="true">
+    <chat-item bind:previewImage="previewImage" wx:for="{{list}}" data="{{item}}"/>
 </scroll-view>
 <view class="input-flex">
     <input class="chat-input"  model:value="{{textMessage}}" bindfocus="inputFocus" bindblur="inputBlur"/>

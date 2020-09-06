@@ -1,27 +1,25 @@
 // pages/chat/chat.js
-Component({
-  /**
-   * 组件的属性列表
-   */
-  properties: {
-
-  },
-
+Page({
   /**
    * 组件的初始数据
    */
   data: {
-
+    list: []
   },
-
-  /**
-   * 组件的方法列表
-   */
-  methods: {
-    clickHandler() {
-      wx.navigateTo({
-        url: '/pages/chat/chat',
+  onShow() {
+    wx.$post('/chat/getChatRoom', {
+      current: 1,
+      pageSize: 100
+    }).then(res=>{
+      this.setData({
+        list: res.data.list
       })
-    }
+    })
+  },
+  clickHandler(e) {
+    let beUserId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/chat/chat?beUserId='+beUserId,
+    })
   }
 })

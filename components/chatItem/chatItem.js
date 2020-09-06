@@ -22,7 +22,7 @@ Component({
    */
   methods: {
     previewImage() {
-      this.triggerEvent('previewImage', this.data.data.img)
+      this.triggerEvent('previewImage', this.data.data.content)
     }
   },
   lifetimes: {

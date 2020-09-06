@@ -1,4 +1,3 @@
-
 let SCROLL_TOP = 50000
 /**
  * 聊天页面
@@ -13,66 +12,51 @@ Page({
         textMessage: '',
         scrollTop: 0,
         chatItems: [{
-            avatar: '/images/hotel/hotel4.jpg',
-            other: true,
-            type: 'baojia',
-            baojiaData: [{
-                name: '会议',
-                value: '12000'
+                avatar: '/images/hotel/hotel4.jpg',
+                other: true,
+                type: 'baojia',
+                baojiaData: [{
+                    name: '会议',
+                    value: '12000'
+                }, {
+                    name: '客房',
+                    value: '9800'
+                }, {
+                    name: '餐饮',
+                    value: '8000'
+                }],
+                totalPrice: 300000
+            },
+            {
+                "type": "text",
+                other: true,
+                avatar: '/images/hotel/hotel4.jpg',
+                "content": "那这边给您再优惠1200，您看可以吗，已经是给您节日优惠价了"
             }, {
-                name: '客房',
-                value: '9800'
+                "type": "text",
+                avatar: '/images/avatar.jpg',
+                "content": "可以，周末我去场地看看，到时候我联系你"
             }, {
-                name: '餐饮',
-                value: '8000'
-            }],
-            totalPrice: 300000
-        },
-        //     {
-        //     "type": "img",
-        //     other: true,
-        //     avatar: '/images/hotel/hotel4.jpg',
-        //     "content": "亲，对这个报价是否有疑问呢？",
-        //     img: '/images/hotel/hotel4.jpg'
-        // }, {
-        //     "type": "text",
-        //     other: true,
-        //     avatar: '/images/hotel/hotel4.jpg',
-        //     "content": "亲，对这个报价是否有疑问呢？"
-        // }, {
-        //     "type": "text",
-        //     avatar: '/images/avatar.jpg',
-        //     "content": "有点太贵了。接受不了"
-        // }, 
-        {
-            "type": "text",
-            other: true,
-            avatar: '/images/hotel/hotel4.jpg',
-            "content": "那这边给您再优惠1200，您看可以吗，已经是给您节日优惠价了"
-        }, {
-            "type": "text",
-            avatar: '/images/avatar.jpg',
-            "content": "可以，周末我去场地看看，到时候我联系你"
-        }, {
-            "type": "text",
-            other: true,
-            avatar: '/images/hotel/hotel4.jpg',
-            "content": "好，就这么决定了"
-        }, {
-            "type": "text",
-            other: true,
-            avatar: '/images/hotel/hotel4.jpg',
-            "content": "您可以直接点击屏幕上方的电话联系我这边，周末见！"
-        }, {
-            "type": "text",
-            avatar: '/images/avatar.jpg',
-            "content": "好，到时候我带几个朋友过来"
-        }, {
-            "type": "text",
-            other: true,
-            avatar: '/images/hotel/hotel4.jpg',
-            "content": "没问题！"
-        }],
+                "type": "text",
+                other: true,
+                avatar: '/images/hotel/hotel4.jpg',
+                "content": "好，就这么决定了"
+            }, {
+                "type": "text",
+                other: true,
+                avatar: '/images/hotel/hotel4.jpg',
+                "content": "您可以直接点击屏幕上方的电话联系我这边，周末见！"
+            }, {
+                "type": "text",
+                avatar: '/images/avatar.jpg',
+                "content": "好，到时候我带几个朋友过来"
+            }, {
+                "type": "text",
+                other: true,
+                avatar: '/images/hotel/hotel4.jpg',
+                "content": "没问题！"
+            }
+        ],
         latestPlayVoicePath: '',
         chatStatue: 'open',
         actions: [, {
@@ -84,10 +68,11 @@ Page({
             name: '照片',
             color: '#07c160'
         }],
+        list: [],
         showAction: false,
     },
     getImgs() {
-        return this.data.chatItems.filter(item => item.type === 'img').map(item => item.img)
+        return this.data.list.filter(item => item.type === 1).map(item => item.content)
     },
     previewImage(e) {
         wx.previewImage({
@@ -97,9 +82,8 @@ Page({
     },
     sendMsg() {
         let msgObj = {
-            type: 'text',
+            type: 0,
             content: this.data.textMessage,
-            avatar: '/images/avatar.jpg',
         }
         this.setChatItems(msgObj)
         this.setData({
@@ -116,18 +100,38 @@ Page({
             sourceType: name === '照片' ? ['album'] : ['camera'],
             success: (res) => {
                 console.log(res)
-                this.setChatItems({
-                    type: 'img',
-                    avatar: '/images/avatar.jpg',
-                    img: res.tempFilePaths[0],
-                })
+                wx.$uploadFile({
+                    file: res.tempFiles[0],
+                }).then(data => {
+                    let url = data.data
+                    this.setChatItems({
+                        type: 1,
+                        sysUser: wx.userInfo,
+                        content: url,
+                    })
+                }, )
+                // this.setChatItems({
+                //     type: 'img',
+                //     sysUser: wx.userInfo,
+                //     content: res.tempFilePaths[0],
+                // })
             }
         });
     },
     setChatItems(data) {
-        this.setData({
-            chatItems: [...this.data.chatItems, data],
-            scrollTop: SCROLL_TOP += 300
+        wx.$post('/chat/addChatRecord', {
+            beUserId: this.beUserId,
+            chatId: this.chatId,
+            content: data.content,
+            type: data.type
+        }).then(res => {
+            this.setData({
+                list: [...this.data.list, {
+                    ...data,
+                    sysUser: wx.userInfo
+                }],
+                scrollTop: SCROLL_TOP += 300
+            })
         })
     },
     openAction() {
@@ -157,16 +161,69 @@ Page({
             textMessage: e.detail.value
         })
     },
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-    },
-    onReady() {
-        this.setData({
-            scrollTop: SCROLL_TOP
+    // 获取历史记录
+    getHistory() {
+        if(this.loading){ // 加载中锁定
+            return Promise.reject()
+        }
+        this.loading = true
+        return wx.loadingAPI(wx.$post('/chat/getChatRecordByChat', {
+            chatId: this.chatId,
+            page: this.page++,
+            pageSize: this.pageSize
+        })).then(res => {
+            this.pages = res.data.pages
+            this.setData({
+                list: [...res.data.list.map(item => {
+                    return {
+                        ...item,
+                        other: item.sysUser.id != wx.userInfo.id,
+                    }
+                }), ...this.data.list],
+            })
+            if(this.page === 2){
+                this.setData({
+                    scrollTop: SCROLL_TOP
+                })
+            }
+            wx.stopPullDownRefresh() // 停止下拉刷新
+            this.loading = false
+        }).catch(()=>{
+            this.loading = false
         })
     },
+    onLoad(options) {
+        this.page = 1
+        this.pageSize = 10
+        this.beUserId = options.beUserId
+        wx.$get('/chat/checkRoom', {
+            beUserId: options.beUserId
+        }).then(res => {
+            this.chatId = res.data
+            this.getHistory()
+        })
+    },
+    loadMore(e) {
+        console.log(e);
+        if (e.detail.scrollTop < 20) { //触发触顶事件
+            var query = wx.createSelectorQuery();
+            query.select('#chatView').boundingClientRect()
+            query.exec(res=> {
+                console.log(res);
+                if(this.page <= this.pages){
+                    this.getHistory()
+                    .then(()=>{
+                        this.setData({
+                            scrollTop:res[0].height
+                        })
+                    })
+                }
+            })       
+        }
+    },
+    onReady() {
 
-    
+    },
+
+
 });

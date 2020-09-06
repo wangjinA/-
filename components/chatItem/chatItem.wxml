@@ -1,13 +1,13 @@
 <view class="chat-item {{data.other && 'other'}}">
     <view class="avatar-view">
-        <image src="{{data.avatar}}"></image>
+        <image src="{{data.sysUser.url}}"></image>
     </view>
 
     <image wx:if="{{data.other}}" class="chat-item-arrow" src="/images/chat/popu_white.png"></image>
     <image wx:else class="chat-item-arrow" src="/images/chat/popu_blue.png"></image>
     <view class="chat-item-content">
-      <text class="chat-item-text" wx:if="{{data.type === 'text'}}">{{data.content}}</text>
-      <image bindtap="previewImage" mode="widthFix" class="chat-item-image" wx:elif="{{data.type === 'img'}}" src="{{data.img}}"></image>
+      <text class="chat-item-text" wx:if="{{data.type === 0}}">{{data.content}}</text>
+      <image bindtap="previewImage" mode="widthFix" class="chat-item-image" wx:elif="{{data.type === 1}}" src="{{data.content}}"></image>
       <view wx:elif="{{data.type === 'baojia'}}" class="priceList">
         <view class="baojia-title">
           <view class="baojia-tips">报价详情</view>
@@ -21,5 +21,6 @@
           <view class="baojia-value">￥{{item.value}}</view>
         </view>
       </view>
+      <text class="chat-item-text" wx:else>【未知消息类型】</text>
     </view>
 </view>

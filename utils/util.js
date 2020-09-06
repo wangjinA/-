@@ -102,13 +102,16 @@ export function checkRequired(formData, formList) { // 提交判断required
 }
 
 function loadingAPI(result, title='加载中') {
+  wx.showNavigationBarLoading()
   wx.showLoading({
     title,
   })
   result.then(res => {
+    wx.hideNavigationBarLoading()
     wx.hideLoading()
   })
   .catch(err => {
+    wx.hideNavigationBarLoading()
     wx.hideLoading()
   })
   return result
