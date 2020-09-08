@@ -85,7 +85,7 @@
 		</van-tab>
 	</van-tabs>
 </view>
-<footerMsg phone="{{data.phone}}" beUserId="{{data.id}}"/>
+<footerMsg phone="{{data.phone}}" beUserId="{{userInfo.id}}"/>
 <van-popup show="{{ showMeetingDetail }}" round closeable position="bottom" custom-style="height: 80%" bind:close="closeDetail" catch>
   <meetingDetail data="{{meetingData}}"/>
 </van-popup>

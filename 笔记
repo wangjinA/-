@@ -68,3 +68,5 @@
         2./chat/checkRoom  返回对方的sysUser 我需要打电话和在标题上显示他的名字
         3./site/searchHotelDetail   酒店详情，返回用户信息，我需要拿beUserId去发起聊天
         4./chat/getChatRoom     我发送的最新消息是图片 type为1，此接口返回的是0，不匹配
+09-08
+    1.会场新增一个最大容纳人数字段 配合筛选 - 问余丽

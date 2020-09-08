@@ -85,49 +85,73 @@ Page({
       holteId: this.data.hotelId
     }).then(res => {
       this.setData({
-        data: res.data,
-        bannerList: [...this.data.bannerList, ...res.data.hotelImgUrlList.map(item=>item.imgUrl)]
+        data: res.data.hotelDetaiil,
+        userInfo: res.data.userInfo || {},
+        bannerList: [...this.data.bannerList, ...res.data.hotelDetaiil.hotelImgUrlList.map(item=>item.imgUrl)],
+        hyList: res.data.hotelDetaiil.hotelChamberList ? res.data.hotelDetaiil.hotelChamberList.map(item => ({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        })) : [],
+        kfList: res.data.hotelDetaiil.hotelGuestList ? res.data.hotelDetaiil.hotelGuestList.map(item => ({
+          ...item,
+          imgUrl: wx.$parse(item.imgUrl),
+          img: wx.$parse(item.imgUrl)[0].url,
+        })) : []
+      })
+      this.setData({
+        bannerList: [
+          ...this.data.hyList.map(item=>item.img),
+          ...this.data.kfList.map(item=>item.img),
+          ...res.data.hotelDetaiil.hotelImgUrlList.map(item=>item.imgUrl)
+        ]
       })
     })
   },
   getOhterInfo() {
-    wx.$get('/hotel/getHotelChamerlInfo', { // 会议厅信息
-      hotelId: this.data.hotelId,
-      current: 1,
-      pageSize: 50,
-    }).then(data => {
-      this.setData({
-        hyList: data.data.list.map(item => ({
-          ...item,
-          imgUrl: wx.$parse(item.imgUrl),
-          img: wx.$parse(item.imgUrl)[0].url,
-        }))
-      })
-      this.setData({
-        bannerList: [...this.data.hyList.map(item=>item.img),...this.data.bannerList]
-      })
+    wx.$get('/hotel/getHoteSysUserById', {
+      hotelId: this.data.hotelId
+    }).then(res=>{
+      
     })
-    wx.$get('/hotel/getHotelGuestlInfo', { // 客房信息信息
-      hotelId: this.data.hotelId,
-      current: 1,
-      pageSize: 50,
-    }).then(data => {
-      this.setData({
-        kfList: data.data.list.map(item => ({
-          ...item,
-          imgUrl: wx.$parse(item.imgUrl),
-          img: wx.$parse(item.imgUrl)[0].url,
-        }))
-      })
-      this.setData({
-        bannerList: [...this.data.kfList.map(item=>item.img),...this.data.bannerList]
-      })
-    })
+
+    // wx.$get('/hotel/getHotelChamerlInfo', { // 会议厅信息
+    //   hotelId: this.data.hotelId,
+    //   current: 1,
+    //   pageSize: 50,
+    // }).then(data => {
+    //   this.setData({
+    //     hyList: data.data.list.map(item => ({
+    //       ...item,
+    //       imgUrl: wx.$parse(item.imgUrl),
+    //       img: wx.$parse(item.imgUrl)[0].url,
+    //     }))
+    //   })
+    //   this.setData({
+    //     bannerList: [...this.data.hyList.map(item=>item.img),...this.data.bannerList]
+    //   })
+    // })
+    // wx.$get('/hotel/getHotelGuestlInfo', { // 客房信息信息
+    //   hotelId: this.data.hotelId,
+    //   current: 1,
+    //   pageSize: 50,
+    // }).then(data => {
+    //   this.setData({
+    //     kfList: data.data.list.map(item => ({
+    //       ...item,
+    //       imgUrl: wx.$parse(item.imgUrl),
+    //       img: wx.$parse(item.imgUrl)[0].url,
+    //     }))
+    //   })
+    //   this.setData({
+    //     bannerList: [...this.data.kfList.map(item=>item.img),...this.data.bannerList]
+    //   })
+    // })
   },
   onLoad(options) {
     this.data.hotelId = options.id
     this.getDetail()
-    this.getOhterInfo()
+    // this.getOhterInfo()
   },
   onReady: function () {
 

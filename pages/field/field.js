@@ -24,6 +24,7 @@ Page({
         }))],
         current: 1,
         pageSize: 10,
+        list: []
     },
     optionChange1(e) {
         this.setData({
@@ -47,11 +48,11 @@ Page({
     },
     getData(isInit) {
         if(isInit){
-            this.setData({
-                current: 1
-            })
+            this.data.current = 1
         }
         let siteSearchVo = {
+            current: this.data.current++,
+            pageSize: this.data.pageSize,
             key: this.data.keyword,
         }
         if(this.data.val1) {
@@ -61,19 +62,25 @@ Page({
             siteSearchVo.minpeopleNumber = rs(this.data.val2)[0]
             siteSearchVo.maxpeopleNumber = rs(this.data.val2)[1]
         }
-        wx.loadingAPI(wx.$post('/site/searchSite', {
-            siteSearchVo
-        })).then(data=>{
-            if(this.data.current == 1){
-                this.data.list = []
-            }
+        wx.loadingAPI(wx.$post('/site/searchSite', siteSearchVo))
+        .then(data=>{
+            
+            try {
+                if(this.data.current == 2){
+                    this.data.list = []
+                }
+            console.log(this.data.list);
             let list = [...this.data.list, ...data.data.list]
-            this.setData({
-                list
-            })
+                this.setData({
+                    list
+                })
+            } catch (error) {
+                console.log(error);
+                
+            }
         })
     },
-    onReady() {
+    onShow() {
         this.getData(true)
     }
 })

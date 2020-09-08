@@ -81,9 +81,6 @@ Page({
         })
     },
     sendMsg() {
-        if(this.data.textMessage){
-            return 
-        }
         let msgObj = {
             type: 0,
             content: this.data.textMessage,
@@ -128,13 +125,13 @@ Page({
             content: data.content,
             type: data.type
         }).then(res => {
-            // this.setData({
-            //     list: [...this.data.list, {
-            //         ...data,
-            //         sysUser: wx.userInfo
-            //     }],
-            //     scrollTop: SCROLL_TOP += 300
-            // })
+            this.setData({
+                list: [...this.data.list, {
+                    ...data,
+                    sysUser: wx.userInfo
+                }],
+                scrollTop: SCROLL_TOP += 300
+            })
         })
     },
     openAction() {
@@ -165,28 +162,34 @@ Page({
         })
     },
     // 获取历史记录
-    getHistory(init) {
-        wx.loadingAPI(wx.$post('/chat/getChatRecordByChat', {
+    getHistory() {
+        if(this.loading){ // 加载中锁定
+            return Promise.reject()
+        }
+        this.loading = true
+        return wx.loadingAPI(wx.$post('/chat/getChatRecordByChat', {
             chatId: this.chatId,
-            current: 1,
-            pageSize: 5000
+            current: this.page++,
+            pageSize: this.pageSize
         })).then(res => {
             this.pages = res.data.pages
-            this.allList = res.data.list.map(item => {
-                return {
-                    ...item,
-                    other: item.sysUser.id != wx.userInfo.id,
-                }
-            })
             this.setData({
-                list: [...this.allList].splice(0, this.pageSize).reverse()
+                list: [...res.data.list.reverse().map(item => {
+                    return {
+                        ...item,
+                        other: item.sysUser.id != wx.userInfo.id,
+                    }
+                }), ...this.data.list],
             })
-            this.setData({
-                scrollTop: SCROLL_TOP
-            })
-            if(init){
-                this.ajaxLunxun()
+            if(this.page === 2){
+                this.setData({
+                    scrollTop: SCROLL_TOP
+                })
             }
+            wx.stopPullDownRefresh() // 停止下拉刷新
+            this.loading = false
+        }).catch(()=>{
+            this.loading = false
         })
     },
     onLoad(options) {
@@ -200,79 +203,30 @@ Page({
             wx.setNavigationBarTitle({
                 title: res.data.sysUser.name//页面标题为路由参数
             })
-            this.getHistory(true)
+            this.getHistory()
         })
     },
     loadMore(e) {
-        // console.log(e);
+        console.log(e);
         if (e.detail.scrollTop < 20) { //触发触顶事件
-            if(this.throttle) { // 节流
-                return 
-            }
-            this.throttle = true
             var query = wx.createSelectorQuery();
             query.select('#chatView').boundingClientRect()
             query.exec(res=> {
-                // console.log(res);
-                if(this.page <= (this.allList.length / this.pageSize)){
-                    console.log(this.page);
-                    console.log([...this.allList].splice(this.pageSize * (this.page), this.pageSize).reverse());
-                    this.setData({
-                        list: [
-                            ...[...this.allList].splice(this.pageSize * (this.page), this.pageSize).reverse(),
-                            ...this.data.list
-                        ]
+                console.log(res);
+                if(this.page <= this.pages){
+                    this.getHistory()
+                    .then(()=>{
+                        this.setData({
+                            scrollTop:res[0].height
+                        })
                     })
-                    this.page++
-                    this.setData({
-                        scrollTop:res[0].height
-                    })
-                    setTimeout(() => {
-                        this.throttle = false
-                    }, 500);
                 }
             })       
         }
     },
-    ajaxLunxun() {
-        wx.$post('/chat/getChatRecordByChat', {
-            chatId: this.chatId,
-            current: 1,
-            pageSize: 10
-        }).then(res => {
-            let list = res.data.list.map(item => {
-                return {
-                    ...item,
-                    other: item.sysUser.id != wx.userInfo.id,
-                }
-            })
-            if(!this.allList.length){
-                this.getHistory()
-                return
-            }
-            let firstId = this.data.list[this.data.list.length - 1].recordId
-            let index = list.findIndex(item => {
-                return item.recordId === firstId
-            })
-            console.log(index);
-            if(index > 0){
-                // 避免重复添加消息
-                let newList = list.splice(0, index).filter(item => !this.data.list.filter(_item => _item.recordId ===item.recordId).length)
-                this.setData({
-                    list: [...this.data.list, ...newList],
-                    scrollTop: SCROLL_TOP + 1
-                })
-            }
-            this.timer = setTimeout(() => {
-                this.ajaxLunxun()
-            }, 1000);
-        })
+    onReady() {
+
     },
-    onUnload() {
-        console.log(1);
-        
-        clearTimeout(this.timer)
-    }
 
 
 });

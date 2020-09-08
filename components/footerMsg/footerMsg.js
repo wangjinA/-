@@ -4,7 +4,8 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    phone: String
+    phone: String,
+    beUserId: Number
   },
 
   /**
@@ -29,7 +30,7 @@ Component({
     },
     sendMsgBtn() {
       wx.navigateTo({
-        url: '/pages/chat/chat',
+        url: '/pages/chat/chat?beUserId='+ this.data.beUserId,
       })
     }
   }

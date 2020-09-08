@@ -17,7 +17,7 @@
     bind:cancel="closeAction"
     bind:select="selectAction"
 />
-<view class="xunjiadan flex-center">
+<!-- <view class="xunjiadan flex-center">
     <van-icon name="orders-o" style="margin-right: 5rpx;" />
     <text>询价单</text>
-</view>
+</view> -->
