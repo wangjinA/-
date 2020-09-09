@@ -81,7 +81,7 @@ Page({
         })
     },
     sendMsg() {
-        if(this.data.textMessage){
+        if(!this.data.textMessage){
             return 
         }
         let msgObj = {

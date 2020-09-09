@@ -12,14 +12,14 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         wx.login({
-          success(res) {
+          success: res=> {
             if (res.code) {
               wx.setStorageSync('wxcode', res.code)
               const {
                 type
               } = e.currentTarget.dataset
               wx.getUserInfo({
-                success(res) {
+                success: res => {
                   console.log(res);
                   console.log(wx.getStorageSync('wxcode'));
                   wx.loadingAPI(wx.$post('/api/wx/login', {
@@ -52,6 +52,7 @@ Page({
                           url: '/pages/index/index',
                         })
                       }
+                      this.lunxun()
                     }).catch(err => {
                       console.log(err);
 
@@ -69,8 +70,29 @@ Page({
         })
       }
     })
-
-
+  },
+  lunxun(){
+    wx.$post('/chat/getChatRoom', {
+      current: 1,
+      pageSize: 100
+    })
+    .then(res=>{
+      let a = 0
+      res.data.list.forEach(item => {
+        a+=item.unreadCount
+      })
+      try {
+        wx.setTabBarBadge({
+          index: 3,
+          text: a ? a+'' : ''
+        })
+      } catch (error) {
+        
+      }
+      setTimeout(() => {
+        this.lunxun()
+      }, 1000);
+    })
   },
   getPhoneNumber(e) {
     console.log(e)

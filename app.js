@@ -3,8 +3,8 @@ import './utils/util.js'
 wx.type = 1
 wx.hotelId = ''
 App({
+  
   onLaunch: function () {
-    
     //调用API从本地缓存中获取数据
     const that = this;
     var logs = wx.getStorageSync('logs') || []
