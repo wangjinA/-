@@ -7,7 +7,7 @@
     <image wx:else class="chat-item-arrow" src="/images/chat/popu_blue.png"></image>
     <view class="chat-item-content">
       <text class="chat-item-text" wx:if="{{data.type === 0}}">{{data.content}}</text>
-      <image bindtap="previewImage" mode="widthFix" class="chat-item-image" wx:elif="{{data.type === 1}}" src="{{data.content}}"></image>
+      <image bindtap="previewImage" mode="aspectFill" class="chat-item-image" wx:elif="{{data.type === 1}}" src="{{data.content}}"></image>
       <view wx:elif="{{data.type === 'baojia'}}" class="priceList">
         <view class="baojia-title">
           <view class="baojia-tips">报价详情</view>

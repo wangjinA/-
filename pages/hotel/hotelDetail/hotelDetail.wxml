@@ -11,7 +11,7 @@
 <view class="container">
 	<view class="hotel-name-wrap">
 		<view class="hotel-name">{{data.hotelName}}</view>
-		<van-rate class="van-rate" size="14" value="{{ 3 }}" count="{{ 5 }}" readonly />
+		<van-rate class="van-rate" size="14" value="{{ data.starType }}" count="{{ 5 }}" readonly />
 	</view>
 	<view class="title">详细地址</view>
 	<view class="address">
@@ -24,17 +24,45 @@
 			<text class="iconfont icon-youjiantou"></text>
 		</view>
 	</view>
+	<view class="title">酒店基本信息</view>
+	<view class="address">
+		<view class="list">
+			<view class="item" wx:if="{{data.vrLink}}">
+        <view class="label" style="color:#FD960D;" bindtap="lookVR">查看VR</view>
+      </view>
+      <view class="item">
+        <view class="label">开业时间</view>
+        <view class="val">{{data.openingTime}}</view>
+      </view>
+      <view class="item">
+        <view class="label">最近装修</view>
+        <view class="val">{{data.decorateTime}}</view>
+      </view>
+      <view class="item" wx:if="{{data.businessCircle}}">
+        <view class="label">所在商圈</view>
+        <view class="val">{{data.businessCircle}}</view>
+      </view>
+      <view class="item" wx:if="{{data.zjdb}}">
+        <view class="label">最近地标建筑</view>
+        <view class="val">{{data.zjdb}}</view>
+      </view>
+      <view class="item">
+        <view class="label">最常举办会议类型</view>
+        <view class="val">{{data.oftenMeetingType}}</view>
+      </view>
+		</view>
+	</view>
 	<van-divider hairline />
 	<view class="info-list">
 		<view class="info-item">
 			<van-icon name="cluster-o" size="22" color="#333" />
 			<view class="info-label">会议厅</view>
-			<view class="info-val">{{data.chamberCount}}个</view>
+			<view class="info-val">{{data.hotelChamberList ? data.hotelChamberList.length : 0}}个</view>
 		</view>
 		<view class="info-item">
 			<van-icon name="hotel-o" size="22" color="#333" />
 			<view class="info-label">客房</view>
-			<view class="info-val">{{data.guestCount}}间</view>
+			<view class="info-val">{{data.hotelGuestList ? data.hotelGuestList.length : 0}}间</view>
 		</view>
 		<view class="info-item" wx:if="{{data.areas}}">
 			<van-icon name="expand-o" size="22" color="#333" />

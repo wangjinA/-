@@ -260,10 +260,11 @@ Page({
                 let newList = list.splice(0, index).filter(item => !this.data.list.filter(_item => _item.recordId ===item.recordId).length)
                 this.setData({
                     list: [...this.data.list, ...newList],
-                    scrollTop: SCROLL_TOP + 1
+                    scrollTop: SCROLL_TOP+= 1
                 })
             }
             this.timer = setTimeout(() => {
+                console.log(6666666666666666)
                 this.ajaxLunxun()
             }, 1000);
         })

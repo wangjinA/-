@@ -1,3 +1,7 @@
+import {
+  hylx
+} from "../../../utils/config";
+
 Page({
   data: {
     duration: "500",
@@ -18,6 +22,11 @@ Page({
     meetingData: {},
     roomData: {},
     bannerList: []
+  },
+  lookVR() {
+    wx.navigateTo({
+      url: '/pages/VR/VR?VR='+this.data.data.vrLink,
+    })
   },
   goMap() {
     wx.navigateTo({
@@ -84,16 +93,22 @@ Page({
     wx.$get('/site/searchHotelDetail', {
       holteId: this.data.hotelId
     }).then(res => {
+      let hotelDetaiil = res.data.hotelDetaiil
       this.setData({
-        data: res.data.hotelDetaiil,
+        data: {
+          ...hotelDetaiil,
+          openingTime: wx.formatTime(new Date(hotelDetaiil.openingTime), true, false),
+          decorateTime: wx.formatTime(new Date(hotelDetaiil.decorateTime), true, false),
+          oftenMeetingType: hotelDetaiil.oftenMeetingType ?  hylx(hotelDetaiil.oftenMeetingType) : ''
+        },
         userInfo: res.data.userInfo || {},
-        bannerList: [...this.data.bannerList, ...res.data.hotelDetaiil.hotelImgUrlList.map(item=>item.imgUrl)],
-        hyList: res.data.hotelDetaiil.hotelChamberList ? res.data.hotelDetaiil.hotelChamberList.map(item => ({
+        bannerList: [...this.data.bannerList, ...hotelDetaiil.hotelImgUrlList.map(item=>item.imgUrl)],
+        hyList: hotelDetaiil.hotelChamberList ? hotelDetaiil.hotelChamberList.map(item => ({
           ...item,
           imgUrl: wx.$parse(item.imgUrl),
           img: wx.$parse(item.imgUrl)[0].url,
         })) : [],
-        kfList: res.data.hotelDetaiil.hotelGuestList ? res.data.hotelDetaiil.hotelGuestList.map(item => ({
+        kfList: hotelDetaiil.hotelGuestList ? hotelDetaiil.hotelGuestList.map(item => ({
           ...item,
           imgUrl: wx.$parse(item.imgUrl),
           img: wx.$parse(item.imgUrl)[0].url,

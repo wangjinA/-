@@ -42,14 +42,16 @@
     "pages/login/login",
     "pages/hotel/meetingInfo/meetingInfo",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
-    "pages/user/myRelease/myRelease"
+    "pages/user/myRelease/myRelease",
+    "pages/VR/VR"
   ],
   "tabBar": {
     "color": "#8a8a8a",
     "selectedColor": "#FD960D",
     "borderStyle": "white",
     "backgroundColor": "#fafafa",
-    "list": [{
+    "list": [
+      {
         "pagePath": "pages/index/index",
         "iconPath": "images/tabbar/home.png",
         "selectedIconPath": "images/tabbar/home1.png",

@@ -61,3 +61,24 @@
 .meeting{
   border-top: 1rpx solid #ebedf0;
 }
+
+
+.item+.item {
+  margin-top: 10rpx;
+}
+.label {
+  margin-right: 24rpx;
+  flex-shrink: 0;
+  color: #999;
+}
+.list .val{
+  color:#666;
+}
+.item {
+  display: flex;
+  align-items: baseline;
+  font-size: 28rpx;
+}
+/* .last {
+  text-align-last: justify;
+} */

@@ -7,6 +7,21 @@ Page({
     list: []
   },
   onShow() {
+    if(!this.timer) {
+      this.lunxun()
+      console.log(wx.globalTimer);
+      clearTimeout(wx.globalTimer) // 清除在welcome创建的轮询
+    }
+  },
+  lunxun() {
+    let lunxunTime = 1000
+    clearTimeout(this.timer)
+    // 在tabbar页面的时候才发送请求
+    if(getCurrentPages().length !== 1){
+      return this.timer = setTimeout(() => {
+        this.lunxun()
+      }, lunxunTime);
+    }
     wx.$post('/chat/getChatRoom', {
       current: 1,
       pageSize: 100
@@ -14,6 +29,33 @@ Page({
       this.setData({
         list: res.data.list
       })
+      let allUnReadCount = 0
+      res.data.list.forEach(item => {
+        allUnReadCount+=item.unreadCount
+      })
+      try {
+        if(getCurrentPages().length === 1){
+          if(allUnReadCount){
+            wx.setTabBarBadge({
+              index: 3,
+              text: allUnReadCount+''
+            })
+          }else {
+            wx.removeTabBarBadge({
+              index: 3
+            })
+          }
+        }
+      } catch (error) {
+        
+      }
+      this.timer = setTimeout(() => {
+        this.lunxun()
+      }, lunxunTime);
+    }).catch(() => {
+      this.timer = setTimeout(() => {
+        this.lunxun()
+      }, lunxunTime);
     })
   },
   clickHandler(e) {

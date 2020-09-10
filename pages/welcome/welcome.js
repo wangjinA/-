@@ -72,26 +72,46 @@ Page({
     })
   },
   lunxun(){
+    let lunxunTime = 1000
+    clearTimeout(this.timer)
+    // 在tabbar页面的时候才发送请求
+    if(getCurrentPages().length !== 1){
+      return wx.globalTimer = setTimeout(() => {
+        this.lunxun()
+      }, lunxunTime);
+    }
     wx.$post('/chat/getChatRoom', {
       current: 1,
       pageSize: 100
     })
     .then(res=>{
-      let a = 0
+      let allUnReadCount = 0
       res.data.list.forEach(item => {
-        a+=item.unreadCount
+        allUnReadCount+=item.unreadCount
       })
       try {
-        wx.setTabBarBadge({
-          index: 3,
-          text: a ? a+'' : ''
-        })
+        if(getCurrentPages().length === 1){
+          if(allUnReadCount){
+            wx.setTabBarBadge({
+              index: 3,
+              text: allUnReadCount+''
+            })
+          }else {
+            wx.removeTabBarBadge({
+              index: 3
+            })
+          }
+        }
       } catch (error) {
         
       }
-      setTimeout(() => {
+      wx.globalTimer = setTimeout(() => {
         this.lunxun()
-      }, 1000);
+      }, lunxunTime);
+    }).catch(()=>{
+      wx.globalTimer = setTimeout(() => {
+        this.lunxun()
+      }, lunxunTime);
     })
   },
   getPhoneNumber(e) {
