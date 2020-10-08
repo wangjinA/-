@@ -32,7 +32,7 @@ page{
   width: 140rpx;
   height: 140rpx;
 }
-
+.hunyan,
 .huiyi{
   margin-bottom: 16rpx;
 }

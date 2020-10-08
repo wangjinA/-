@@ -54,15 +54,22 @@ Component({
       currentIndex: 0,
       title: '',
     },
-    pickerViewValue: []
+    pickerViewValue: [],
+    platform: '' // 设备类型 devtools电脑、ios、android
   },
   attached() {
+    this.getPhone()
     this.initFormData()
     this.setData({
       formList: [...this.data.formList]
     },)
   }, 
   methods: {
+    getPhone() {
+      this.setData({
+        platform: wx.getSystemInfoSync().platform
+      })
+    },
     initFormData() {
       this.data.formList.forEach(item => {
         // 地址选择器默认江西南昌
@@ -341,6 +348,13 @@ Component({
       let value = targetObj[pickIndex].value
       this.setFormData({
         [key]: value
+      })
+      console.log(key);
+      console.log(value);
+      
+      this.triggerEvent('selectData', {
+        key,
+        value,
       })
     }
   }

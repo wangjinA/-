@@ -1,2 +1,58 @@
-<!--pages/hunyanBaojia/hunyanBaojia.wxml-->
-<text>pages/hunyanBaojia/hunyanBaojia.wxml</text>
+<!-- <van-collapse value="{{ activeNames }}" bind:change="onChange">
+  <van-collapse-item name="{{index}}" wx:for="{{list}}" custom-class="myCollapse">
+    <view slot="title" class="col-center">
+      <view style="margin-right: 7rpx;">{{item.dates}}</view>
+      <van-icon name="clock-o" color="#FD960D"/>
+    </view>
+    <view wx:if="{{index > 0}}" class="flex-center">
+      <van-button round size="small" type="info" data-index="{{index}}" bind:click="copyPrev">复制上一天报价</van-button>
+    </view>
+    
+    <view wx:if="{{item.budget}}">
+      预算：<text class="c size18">￥{{item.budget}}</text>
+      </view>
+    <view class="quote-title">
+        <view>
+          {{item.venues || ''}}
+          {{item.dayLong ? '，' + item.dayLong : ''}} 
+          {{item.containNumbers ? '，' + item.containNumbers : ''}} 
+        </view>
+        <view style="margin-left: 10rpx;" class="item-remark" wx:if="{{item.notes}}">{{item.notes}}</view>
+    </view>
+    <wjForm formList="{{formList}}" id="wjForm"></wjForm>
+  </van-collapse-item>
+</van-collapse>
+
+<wjPopup show="{{showPopup}}" title="请选择会场" bind:close="closePopup">
+  <view class="meetingWrap" wx:for="{{cdList}}" hover-class="hoverStyle1" hover-stay-time="200">
+    <meeting bind:click="meetingClick"  data="{{item}}" data-index="{{index}}" showSelect="{{index == meetingIndex}}"/>
+  </view>
+</wjPopup> -->
+
+<view class="container"> 
+  <view class="list">
+    <view class="item">
+      <view class="label">价格区间</view>
+      <view class="val c">{{weddingBanque.priceRange}}</view>
+    </view>
+    <view class="item">
+      <view class="label">会议时间</view>
+      <view class="val">{{weddingBanque.startTime}} - {{weddingBanque.endTime}}</view>
+    </view>
+    <view class="item">
+      <view class="label">容纳桌数</view>
+      <view class="val">{{weddingBanque.tablesNumber}}</view>
+    </view>
+    <view class="item">
+      <view class="label">位置要求</view>
+      <view class="val">{{weddingBanque.place}} 
+      </view>
+    </view>
+    <view class="item">
+      <view class="label">其他说明</view>
+      <view class="val">{{data.notes || '无'}}</view>
+    </view>
+  </view>
+</view>
+<wjForm formList="{{formList}}" id="wjForm"></wjForm>
+<footerButton bind:click="commit">确认</footerButton>

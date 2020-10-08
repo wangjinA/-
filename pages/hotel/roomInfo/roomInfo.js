@@ -65,7 +65,7 @@ Page({
     })).then(({
       data
     }) => {
-      this.data.hotelAssortId = data.hotelAssortId
+      this.data.hotelAssortId = data && data.hotelAssortId
       let wjForm = this.selectComponent('#wjForm')
       wjForm.setData({
         formData: {

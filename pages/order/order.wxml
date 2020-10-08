@@ -1,6 +1,11 @@
 <van-tabs active="{{ activeIndex }}" bind:change="onChange" color="#FD960D">
 	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item }}">
-    <huiyi class="huiyi" data="{{item}}" wx:for="{{list}}" data-id="{{item.meetingId}}" bindtap="goDetail"></huiyi>
+		<block wx:if="{{isHuiyi}}">
+			<huiyi showBtn="{{false}}" class="huiyi" data="{{item}}" wx:for="{{list}}"></huiyi>
+		</block>
+		<block wx:else >
+    	<hunyan showBtn="{{false}}" class="hunyan" data="{{item}}" wx:for="{{list}}"></hunyan>
+		</block>
 		<!-- <view class="content">
 			<view class="order-item" wx:for="{{2}}" bindtap="goDetail">
 				<view class="hotel-img">
@@ -33,5 +38,7 @@
 				</view>
 			</view>
 		</view> -->
+		<van-empty wx:if="{{!list.length}}" description="暂无订单" />
+
 	</van-tab>
 </van-tabs>

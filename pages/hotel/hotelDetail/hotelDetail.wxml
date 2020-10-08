@@ -24,7 +24,7 @@
 			<text class="iconfont icon-youjiantou"></text>
 		</view>
 	</view>
-	<view class="title">酒店基本信息</view>
+	<view class="title">基本信息</view>
 	<view class="address">
 		<view class="list">
 			<view class="item" wx:if="{{data.vrLink}}">
@@ -52,8 +52,37 @@
       </view>
 		</view>
 	</view>
+	<view class="title">配套信息</view>
+	<view class="address">
+		<view class="list">
+      <view class="item" wx:if="{{peitao.chamberCount}}">
+        <view class="label">会议室</view>
+        <view class="val">{{peitao.chamberCount}}间</view>
+      </view>
+      <view class="item" wx:if="{{peitao.guestCount}}">
+        <view class="label">客房</view>
+        <view class="val">{{peitao.guestCount}}间</view>
+      </view>
+      <view class="item" wx:if="{{peitao.doubleBed}}">
+        <view class="label">标准双床房</view>
+        <view class="val">{{peitao.doubleBed}}间</view>
+      </view>
+      <view class="item" wx:if="{{peitao.bigDedCount}}">
+        <view class="label">大床房</view>
+        <view class="val">{{peitao.bigDedCount}}间</view>
+      </view>
+      <view class="item" wx:if="{{peitao.parkingSpace}}">
+        <view class="label">配套车位</view>
+        <view class="val">{{peitao.parkingSpace}}个</view>
+      </view>
+      <view class="item">
+        <view class="label">能否进车</view>
+        <view class="val">{{peitao.intoCar ? '能' : '否'}}</view>
+      </view>
+		</view>
+	</view>
 	<van-divider hairline />
-	<view class="info-list">
+	<!-- <view class="info-list">
 		<view class="info-item">
 			<van-icon name="cluster-o" size="22" color="#333" />
 			<view class="info-label">会议厅</view>
@@ -74,12 +103,7 @@
 			<view class="info-label">最多容纳</view>
 			<view class="info-val">{{data.maxPeople}}人</view>
 		</view>
-		<!-- <view class="info-item">
-			<van-icon name="home-o" size="22" color="#333" />
-			<view class="info-label">双标间</view>
-			<view class="info-val">800间</view>
-		</view> -->
-	</view>
+	</view> -->
 	<van-divider hairline />
 	<view class="title">
 		酒店简介

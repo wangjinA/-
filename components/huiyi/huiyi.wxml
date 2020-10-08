@@ -22,6 +22,8 @@
       <text class="yusuan-label size14">预算：</text>
       <text class="price c">￥{{data.budget}}</text>
     </view>
-    <van-button type="primary" round size="small" style="margin-left: auto;">点击抢单</van-button>
+    <van-button type="primary" round size="small" style="margin-left: auto;" wx:if="{{showBtn && data.userId!=currentUserId}}">
+      点击抢单
+    </van-button>
   </view>
 </view>

@@ -1,0 +1,2 @@
+<wjForm id="wjForm" formList="{{formList}}" bind:selectData="selectData"/>
+<!-- <footerButton bind:click="commit">保存</footerButton> -->

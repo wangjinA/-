@@ -1,5 +1,6 @@
 import {
-  hyjgqj,rnzs
+  hyjgqj,
+  rnzs
 } from '../../utils/config'
 const app = getApp()
 Page({
@@ -27,24 +28,11 @@ Page({
         desc: '5月24日 10:00',
       }
     ],
-    bjList: [{
-      hotelName: '南昌保利酒店',
-      num: 3,
-      price: '32000',
-      show: false
-    }, {
-      hotelName: '维也纳酒店',
-      num: 2,
-      price: '43996',
-      show: false
-    }, {
-      hotelName: '国际大酒店',
-      num: 1,
-      price: '12000',
-      show: false
-    }],
+    bjList: [],
     data: {},
-    userInfo: {}
+    userInfo: {},
+    isUser: false, // 是否是发布需求的用户
+    isHotel: false, // 是否是报价的酒店
   },
   orderEnd() {
     wx.showModal({
@@ -83,22 +71,40 @@ Page({
         data
       }) => {
         let detail = data.weddingBanque
-        let userInfo = data.customerInfo
+        let userInfo = data.sysUserVo
         detail.priceRange = hyjgqj(wx.$parse(detail.priceRange))
         detail.tablesNumber = rnzs(wx.$parse(detail.tablesNumber))
         detail.startTime = wx.formatTime(new Date(detail.startTime), true)
         detail.endTime = wx.formatTime(new Date(detail.endTime), true)
+        let hideInfo = wx.$hideInfo(userInfo)
+        let isUser = false
+        if(userInfo && wx.userInfo && userInfo.id == wx.userInfo.id){
+          isUser = true
+        }
         this.setData({
-          data:detail,
+          hideInfo,
+          isUser,
+          data: detail,
           userInfo
         })
+        this.getBaojiaList()
       })
 
   },
   getBaojiaList() {
-    // wx.$get('/order/getUserSelfDemandInfo', {
-    //   meetingId: this.data.id
-    // })
+    wx.$get('/order/getUserWeddingBanquet', {
+      weddingBanquetId: this.data.data.weddingBanquetId
+    }).then(res => {
+      console.log(res);
+      
+      console.log(res.data);
+      
+      let isHotel = !!(res.data.orderWeddingList.filter(item => item.hotelId === wx.hotelId).length)
+      this.setData({
+        bjList: res.data.orderWeddingList,
+        isHotel
+      })
+    })
   },
   onLoad: function (options) {
     this.data.id = options.id
@@ -110,19 +116,12 @@ Page({
     })
   },
   qiangdan() {
-    if (this.data.data.hcShow)
+    wx.weddingBanque = this.data.data
+    if (true)
       wx.navigateTo({
-        url: '/pages/quote/hotelQuote/hotelQuote',
+        url: '/pages/hunyanBaojia/hunyanBaojia',
       })
-    else if (this.data.data.kfShow) {
-      wx.navigateTo({
-        url: '/pages/quote/roomQuote/roomQuote',
-      })
-    } else if (this.data.data.cyShow) {
-      wx.navigateTo({
-        url: '/pages/quote/eatQuote/eatQuote',
-      })
-    } else {
+    else {
       wx.showToast({
         icon: 'none',
         title: '未找到具体需求',

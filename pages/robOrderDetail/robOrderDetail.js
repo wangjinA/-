@@ -54,6 +54,7 @@ Page({
     statusText: '',
     isUser: false, // 是否是发布需求的用户
     isHotel: false, // 是否是报价的酒店
+    currentUserId: ''
   },
   orderEnd() {
     wx.delAPI('确认订单完成，提交后不可更改！')
@@ -68,10 +69,13 @@ Page({
   },
   // 用户确认报价
   okBaojia(e) {
-    const orderdemandid = e.currentTarget.dataset.orderdemandid
+    const {orderdemandid, index} = e.currentTarget.dataset
     wx.delAPI('确认使用该报价！')
     .then(()=>{
       this.setOrderStatus(orderdemandid, 3)
+      .then(()=>{
+        this.showBj(index)
+      })
     })
   },
   // 酒店确认会议完成
@@ -95,15 +99,15 @@ Page({
     })
   },
   setOrderStatus(orderDemandId, status) {
-    wx.loadingAPI(wx.$post('/demandorder/updateOrderDemandStatus', {
+    return wx.loadingAPI(wx.$post('/demandorder/updateOrderDemandStatus', {
       orderDemandId,
       status
     })).then(() => {
       this.init()
     })
   },
-  showBj(e) {
-    const index = e.currentTarget.dataset.index
+  showBj(e, eIsIndex = false) {
+    const index = !eIsIndex ? e.currentTarget.dataset.index : e
     this.data.bjList.forEach((item, i) => {
       if (i == index) {
         item.show = !item.show
@@ -135,12 +139,7 @@ Page({
         data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
         data.userInfo = data.sysUserVo
         if(data.userInfo) {
-          data.hideInfo = {
-            contacts: data.userInfo.contacts && data.userInfo.contacts[0] + '**',
-            companyName: data.userInfo.companyName && data.userInfo.companyName.substr(0, 2) + '****',
-            phone: data.userInfo.phone && data.userInfo.phone.substr(0, 3) + '****',
-            finitude: data.userInfo.finitude && data.userInfo.finitude.substr(0, 2) + '****'
-          }
+          data.hideInfo = wx.$hideInfo(data.userInfo)
         }
         if(data.orderDemandConfirm){
           data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
@@ -196,43 +195,20 @@ Page({
         wx.kfShow = data.kfShow
         wx.cyShow = data.cyShow
 
-        let statusText = this.data.statusText
-        
-        // 1  有效 - 可以报价
-        // 2  无效
-        // 3  用户确认酒店报价
-        // 4  酒店确认订单完成
-        // 5  等待客户上传消费单
-        // 6  酒店再次确定 - 完成结束
-        // 7  酒店拒绝消费单
-        switch (data.status) {
-          case 3:
-            statusText = '确认报价'
-            break;
-          case 4:
-            statusText = '酒店确认完成'
-            break;
-          case 5:
-            statusText = '已上传消费单'
-            break;
-          case 6:
-            statusText = '订单已完成'
-            break;
-          case 7:
-            statusText = '酒店拒绝消费单'
-            break;
-        }
+        let statusText = wx.$getStatus(data.status)
         let isUser = false
         if(data.userInfo && wx.userInfo && data.userInfo.id == wx.userInfo.id){
           isUser = true
         }
+        console.log(data.status);
+        
         this.setData({
           isUser,
           statusText,
           status: data.status,
           data
         })
-
+        console.log(this.data.status);
       })
     this.getBaojiaList()
   },
@@ -250,6 +226,9 @@ Page({
   onLoad: function (options) {
     this.data.id = options.id
     wx.meetingId = options.id
+    this.setData({
+      currentUserId: wx.userInfo.id
+    })
     // this.init()
   },
   // 立即抢单

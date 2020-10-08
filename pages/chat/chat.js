@@ -165,12 +165,18 @@ Page({
         })
     },
     // 获取历史记录
-    getHistory(init) {
+    getHistory(init, showLoading = true) {
         wx.loadingAPI(wx.$post('/chat/getChatRecordByChat', {
             chatId: this.chatId,
             current: 1,
             pageSize: 5000
-        })).then(res => {
+        }), '加载中', showLoading).then(res => {
+            if(!res.data.list.length){
+                this.timer = setTimeout(() => {
+                    this.getHistory(true, false)
+                }, 1000);
+                return 
+            }
             this.pages = res.data.pages
             this.allList = res.data.list.map(item => {
                 return {
@@ -196,9 +202,22 @@ Page({
         wx.$get('/chat/checkRoom', {
             beUserId: options.beUserId
         }).then(res => {
+            let title = ''
+            if(!res.data.sysUser){
+                title = '暂未获取到该用户信息'
+            }else if(res.data.sysUser.id === wx.userInfo.id){
+                title = '不能同自己聊天'
+            }
+            if(title) {
+                wx.delAPI(title)
+                .then(()=>{
+                    wx.navigateBack()
+                })
+                return 
+            }
             this.chatId = res.data.chatId
             wx.setNavigationBarTitle({
-                title: res.data.sysUser.name//页面标题为路由参数
+                title: res.data.sysUser.contacts || res.data.sysUser.contacts//页面标题为路由参数
             })
             this.getHistory(true)
         })
@@ -240,16 +259,16 @@ Page({
             current: 1,
             pageSize: 10
         }).then(res => {
+            // 没有历史纪录说明第一次访问，因为需要拿AllList对比记录做分页，下面逻辑就不执行了
+            if(!this.allList.length){
+                return this.getHistory()
+            }
             let list = res.data.list.map(item => {
                 return {
                     ...item,
                     other: item.sysUser.id != wx.userInfo.id,
                 }
             })
-            if(!this.allList.length){
-                this.getHistory()
-                return
-            }
             let firstId = this.data.list[this.data.list.length - 1].recordId
             let index = list.findIndex(item => {
                 return item.recordId === firstId

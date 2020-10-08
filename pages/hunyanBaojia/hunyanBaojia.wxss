@@ -1,1 +1,16 @@
-/* pages/hunyanBaojia/hunyanBaojia.wxss */
+.item {
+  display: flex;
+  align-items: baseline;
+  font-size: 28rpx;
+}
+
+.label {
+  width: 120rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.container {
+  padding: 28rpx;
+  border-bottom: 8rpx solid #F8F8F8;
+}

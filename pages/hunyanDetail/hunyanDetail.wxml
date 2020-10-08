@@ -43,111 +43,88 @@
     </view>
 </view>
 
-
+<!-- 三个报价 -->
 <view class="container"> 
   <view class="top">
     <view class="name text-overflow">报价列表</view>
   </view>
   <view class="bj-list" wx:for="{{bjList}}">
-    <view class="bj-item" bindtap="showBj" data-index="{{index}}">
-      <view class="hotel-name-rob col-center">
+    <view class="bj-item" bindtap="showBj" data-index="{{index}}" wx:if="{{isUser || item.userId === currentUserId}}">
+      <view class="  col-center">
         <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
         <text class="size14 bold">{{item.hotelName}}</text>
       </view>
       <view class="hotel-price-rob">
-        <block wx:if="{{!item.show}}">
-          <text class="size12 c9">第{{item.num}}次报价：</text>
+        <!-- <block wx:if="{{!item.show}}"> -->
+        <block>
+          <!-- <text class="size12 c9">第{{item.num}}次报价：</text> -->
+          <text class="size12 c9">报价：</text>
           <text class="totalPrice">￥{{item.price}}</text>
         </block>
-        <block wx:else>
+        <!-- <block wx:else>
           <van-button type="info" size="small" catchtap="useBj">确认报价</van-button>
-        </block>
+        </block> -->
       </view>
     </view>
-    <van-steps
+    <!-- 报价详情 -->
+    <view wx:if="{{item.show}}" class="baojia-detail">
+      <block wx:if="{{item.orderDemandChamberList.length}}">
+        <view class="baojia-title">会场</view>
+        <view class="baojia-info">
+          <view wx:for="{{item.orderDemandChamberList}}">
+            <view class="bj-date">{{item.dates}}</view>
+            <view class="bj-con">
+              <view>场地：{{item.hotelChamber.chamberName}}</view>
+              <view>报价：{{item.price}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{item.orderDemandGuestList.length}}">
+        <view class="baojia-title">客房</view>
+        <view class="baojia-info">
+          <view wx:for="{{item.orderDemandGuestList}}">
+            <view class="bj-date">{{item.dates}}</view>
+              <view class="bj-con">
+              <view>可提供房间数：{{item.guestNumber}}</view>
+              <view>报价：{{item.price}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{item.orderDemandRepastList.length}}">
+        <view class="baojia-title">餐饮</view>
+        <view class="baojia-info">
+          <view wx:for="{{item.orderDemandRepastList}}">
+            <view class="bj-date">{{item.dates}}</view>
+            <view class="bj-con">
+              <view>报价：{{item.price}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:if="{{item.notes}}">
+        <view class="baojia-title">其他说明</view>
+        <view class="baojia-info">
+          <view class="bj-con">
+            <view>{{item.notes}}</view>
+          </view>
+        </view>
+      </block>
+      <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}"/>
+      <footerButton bindtap="okBaojia" data-index="{{index}}" data-orderdemandId="{{item.orderdemandId}}" wx:if="{{status==1 && isUser}}">接受报价</footerButton>
+    </view>
+    <!-- <van-steps
       wx:if="{{item.show}}"
       steps="{{ steps }}"
       active="{{ active }}"
       direction="vertical"
       active-color="#FEAF11"
-    />
+    /> -->
   </view>
-</view>
-
-<view class="container">
-  <block wx:if="{{data.hcShow && data.singleDemandVenueVos && data.singleDemandVenueVos.length}}">
-    <view class="top">
-      <view class="name text-overflow">会场</view>
-      <view class="name text-overflow" wx:if="{{data.hcTotal}}">
-        预算：<text class="price">￥{{data.hcTotal}}</text>
-      </view>
-    </view>
-    <view wx:for="{{data.singleDemandVenueVos}}">
-      <block wx:if="{{item._show}}">
-        <view class="detail-time">{{item.dates}}</view>
-        <view class="detail-item">
-          <view wx:if="{{item.budget}}">
-          预算：<text class="item-budget">￥{{item.budget}}</text>
-          </view>
-          <view>
-            {{item.venues || ''}}
-            {{item.dayLong ? '，' + item.dayLong : ''}} 
-            {{item.containNumbers ? '，' + item.containNumbers : ''}} 
-          </view>
-          <view class="item-remark" wx:if="{{item.notes}}">{{item.notes}}</view>
-        </view>
-      </block>
-    </view>
-  </block>
-  <block wx:if="{{data.kfShow && data.singleDemandRoomsVos && data.singleDemandRoomsVos.length}}">
-    <view class="top">
-      <view class="name text-overflow">客房</view>
-      <view class="name text-overflow" wx:if="{{data.kfTotal}}">
-        预算：<text class="price">￥{{data.kfTotal}}</text>
-      </view>
-    </view>
-    <view wx:for="{{data.singleDemandRoomsVos}}">
-      <block wx:if="{{item._show}}">
-        <view class="detail-time">{{item.dates}}</view>
-        <view class="detail-item">
-          <view wx:if="{{item.budget}}">
-          预算：<text>￥{{item.budget}}</text>
-          </view>
-          <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
-          <view class="item-remark">
-            <text wx:if="{{item.networkFlag}}">需要网络 </text>
-            <text wx:if="{{item.notes}}">{{item.notes}}</text>
-          </view>
-        </view>
-      </block>
-    </view>
-  </block>
-  <block wx:if="{{data.cyShow && data.singleDemandRepastVos && data.singleDemandRepastVos.length}}">
-    <view class="top">
-      <view class="name text-overflow">餐饮</view>
-      <view class="name text-overflow" wx:if="{{data.cyTotal}}">
-        预算：<text class="price">￥{{data.cyTotal}}</text>
-      </view>
-    </view>
-    <view wx:for="{{data.singleDemandRepastVos}}">
-      <block wx:if="{{item._show}}">
-        <view class="detail-time">{{item.dates}}</view>
-        <view class="detail-item">
-          <view wx:if="{{item.budget}}">
-          预算：<text>￥{{item.budget}}</text>
-          </view>
-          <view>{{item.containNumbers || ''}}</view>
-          <view>{{item.tableType || ''}}</view>
-          <view wx:for="{{item.dining}}">{{item.name}} {{item.value}}</view>
-          <view class="item-remark" wx:if="{{item.notes}}">
-            {{item.notes}}
-          </view>
-        </view>
-      </block>
-    </view>
-  </block>
-  
-  
+  <view class="notMore" style="text-align:left;" wx:if="{{!bjList.length}}">
+    暂无报价
+  </view>
 </view>
 
 <!-- <view class="container" wx:if="{{ status == 1 }}"> -->
@@ -162,26 +139,49 @@
     active-color="#FEAF11"
   />
 </view> -->
-<view class="container"> 
+<view class="container" wx:if="{{isUser || isHotel}}"> 
   <view class="top">
     <view class="name text-overflow">客户信息</view>
   </view>
   <view class="list">
-    <view class="item" wx:if="{{userInfo.companyName}}">
-      <view class="label">公司名称</view>
-      <view class="val">{{userInfo.companyName}}</view>
-    </view>
     <view class="item" wx:if="{{userInfo.contacts}}">
       <view class="label">联系人</view>
       <view class="val">{{userInfo.contacts}}</view>
     </view>
+    <view class="item" wx:if="{{userInfo.companyName}}">
+      <view class="label">公司名称</view>
+      <view class="val">{{userInfo.companyName}}</view>
+    </view>
     <view class="item" wx:if="{{userInfo.phone}}">
       <view class="label">联系电话</view>
-      <view class="val">{{userInfo.phone}}}</view>
+      <view class="val">{{userInfo.phone}}</view>
     </view>
     <view class="item" wx:if="{{userInfo.finitude}}">
       <view class="label">邮箱</view>
       <view class="val">{{userInfo.finitude}}</view>
+    </view>
+  </view>
+</view>
+<view class="container" wx:else> 
+  <view class="top">
+    <view class="name text-overflow">客户信息</view>
+  </view>
+  <view class="list">
+    <view class="item" wx:if="{{userInfo.contacts}}">
+      <view class="label">联系人</view>
+      <view class="val">{{hideInfo.contacts}}</view>
+    </view>
+    <view class="item" wx:if="{{userInfo.companyName}}">
+      <view class="label">公司名称</view>
+      <view class="val">{{hideInfo.companyName}}</view>
+    </view>
+    <view class="item" wx:if="{{userInfo.phone}}">
+      <view class="label">联系电话</view>
+      <view class="val">{{hideInfo.phone}}</view>
+    </view>
+    <view class="item" wx:if="{{userInfo.finitude}}">
+      <view class="label">邮箱</view>
+      <view class="val">{{hideInfo.finitude}}</view>
     </view>
   </view>
 </view>
@@ -195,11 +195,11 @@
 
 <view class="footer-wrap" wx:if="{{ status == 0 && type == 1}}">
   <view class="footer">
-    <view class="baojiarenshu size14">
-      <text class="blue">4</text>
+    <view class="baojiarenshu size14" wx:if="{{bjList.length}}">
+      <text class="blue">{{bjList.length}}</text>
       <text >人已报价</text>
     </view>
-    <van-button icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
+    <van-button wx:if="{{!isUser}}" style="margin-left:auto;" icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
   	<!-- <van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button> -->
   </view>
 </view>

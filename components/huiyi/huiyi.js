@@ -8,17 +8,31 @@ Component({
     addGlobalClass: true,
   },
   properties: {
-    data: Object
+    data: Object,
+    showBtn: {
+      type: Boolean,
+      value: true
+    },
   },
 
   data: {
-
+    currentUserId: ''
   },
 
+  attached() {
+    this.setData({
+      currentUserId: wx.userInfo.id
+    },)
+  }, 
   /**
    * 组件的方法列表
    */
   methods: {
-
+    toDetail(e) {
+      let id = e.currentTarget.dataset.id
+      wx.navigateTo({
+        url: '/pages/robOrderDetail/robOrderDetail?id=' + id,
+      })
+    },
   }
 })

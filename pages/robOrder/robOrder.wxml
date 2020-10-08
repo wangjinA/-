@@ -1,9 +1,9 @@
 <van-tabs active="{{ activeIndex }}" bind:change="onChange" color="#FD960D">
 	<van-tab title="会议">
-    <huiyi class="huiyi" data="{{item}}" wx:for="{{huiyiList}}" data-id="{{item.meetingId}}" bindtap="toHuiyiDetail"></huiyi>
+    <huiyi class="huiyi" data="{{item}}" wx:for="{{huiyiList}}"></huiyi>
 	</van-tab>
   <van-tab title="婚宴">
-    <hunyan class="hunyan" data="{{item}}" wx:for="{{hunyanList}}" data-id="{{item.weddingBanquetId}}" bindtap="toHunyanDetail"></hunyan>
+    <hunyan class="hunyan" data="{{item}}" wx:for="{{hunyanList}}"></hunyan>
 	</van-tab>
 </van-tabs>
 <view class="notMore" wx:if="{{activeIndex == 0 ? !huiyiList.length : !hunyanList.length}}">暂无数据</view>

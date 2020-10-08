@@ -179,34 +179,50 @@ export const hyrs = value => {
   return data
 }
 
-export const hylx = value => {
+export const yggl = value => {
   let data = [{
-    name: '公司年会',
+    name: '超级管理员',
     value: 1
   }, {
-    name: '培训/讲座',
+    name: '会议管理员',
     value: 2
   }, {
-    name: '工作会/总结会',
+    name: '婚宴管理员',
+    value: 3
+  }]
+  return getCommon(data, value)
+}
+export const hylx = value => {
+  let data = [{
+    name: '婚宴',
+    value: 1
+  }, {
+    name: '公司年会',
+    value: 2
+  }, {
+    name: '培训/讲座',
     value: 3
   }, {
-    name: '经销商会议/招商会/推介会',
+    name: '工作会/总结会',
     value: 4
   }, {
-    name: '发布会/颁奖/庆典',
+    name: '经销商会议/招商会/推介会',
     value: 5
   }, {
-    name: '研讨/交流/论坛',
+    name: '发布会/颁奖/庆典',
     value: 6
   }, {
-    name: '沙龙',
+    name: '研讨/交流/论坛',
     value: 7
   }, {
-    name: '同学会/好友聚会',
+    name: '沙龙',
     value: 8
   }, {
-    name: '团队建设/拓展/休闲会议',
+    name: '同学会/好友聚会',
     value: 9
+  }, {
+    name: '团队建设/拓展/休闲会议',
+    value: 10
   }]
   return getCommon(data, value)
 }

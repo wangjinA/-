@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/welcome/welcome",
+    "pages/hunyanBaojia/hunyanBaojia",
     "pages/msg/msg",
     "pages/hotel/hotelSearch/hotelSearch",
     "pages/user/userInfo/userInfo",
@@ -9,7 +10,6 @@
     "pages/hotel/baseInfo/baseInfo",
     "pages/index/index",
     "pages/hotel/hotelDetail/hotelDetail",
-    "pages/hunyanBaojia/hunyanBaojia",
     "pages/robOrderDetail/robOrderDetail",
     "pages/order/orderEnd/orderEnd",
     "pages/xfd/xfd",
@@ -43,7 +43,8 @@
     "pages/hotel/meetingInfo/meetingInfo",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
     "pages/user/myRelease/myRelease",
-    "pages/VR/VR"
+    "pages/VR/VR",
+    "pages/hotel/staffAdmin/staffAdmin"
   ],
   "tabBar": {
     "color": "#8a8a8a",

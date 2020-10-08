@@ -1,5 +1,5 @@
 // pages/hotelInfo/hotelInfo.js
-const formList = [{
+let formList = [{
   label: '基本信息',
   key: 'hotelName',
   type: 'link',
@@ -12,6 +12,7 @@ const formList = [{
   value: '',
   url: '/pages/hotel/roomInfo/roomInfo',
 }]
+
 Page({
 
   /**
@@ -102,7 +103,17 @@ Page({
             ...formList
           ]
         })
-
+      }
+      if(wx.roles && wx.roles.filter(item => item.id ===1).length){
+        this.setData({
+          formList: [{
+            label: '员工管理',
+            key: 'hotelName',
+            type: 'link',
+            value: '',
+            url: '/pages/hotel/staffAdmin/staffAdmin',
+          }, ...this.data.formList]
+        })
       }
     })
   },
@@ -114,7 +125,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    console.log(wx.roles && wx.roles.filter(item => item.id ===1).length);
   },
 
   /**

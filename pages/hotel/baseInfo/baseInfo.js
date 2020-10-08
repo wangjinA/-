@@ -66,7 +66,7 @@ Page({
       key: 'zjdb',
     }, 
     {
-      label: '最常举办会议类型',
+      label: '最常举办类型',
       placeholder: '请选择',
       key: 'oftenMeetingType',
       type: 'select',

@@ -34,6 +34,7 @@ Page({
                       }
                       wx.type = type
                       wx.userInfo = res.data.userInfo
+                      wx.roles = res.data.roles // 1管理 2会议 3婚宴
                       wx.hotelId = res.data.userInfo.hotelId
                       wx.hotelInfo = res.data.hotelInfo
                       if (type == 1) {

@@ -65,7 +65,7 @@ Page({
                     if (res.confirm) {
                       console.log('用户点击确定')
                       wx.navigateBack({
-                        delta: 2
+                        delta: 3
                       })
                     } else if (res.cancel) {
                       console.log('用户点击取消')

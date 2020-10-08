@@ -12,7 +12,7 @@
     </picker> -->
     <!-- 列表选择 -->
     <picker wx:elif="{{item.type === 'select'}}" data-key="{{item.key}}" bindchange="pickChange"  range="{{item.data}}" range-key="{{item.rangeKey || 'name'}}">
-      <van-cell required="{{item.required}}" size="large" title="{{item.label}}" value="{{formData[item.key] || '请选择'}}" is-link />
+      <van-cell required="{{item.required}}" size="large" title="{{item.label}}" value="{{formData[item.key] || item.value || '请选择'}}" is-link />
     </picker>
     <!-- 城市选择 -->
     <view wx:elif="{{item.type === 'city'}}" >
@@ -63,6 +63,8 @@
         <van-switch inactive-color="#daecff" data-key="{{item.key}}" checked="{{ formData[item.key] }}" bind:change="switchOnChange" size="48rpx"/>
       </view>
     </van-cell>
+    <!-- switch -->
+    <van-cell required="{{item.required}}" wx:elif="{{item.type === 'text'}}" size="large" title="{{item.label}}" value="{{item.value}}"></van-cell>
     <!-- 关联组合项 -->
     <view wx:elif="{{item.type === 'relation'}}">
       <view wx:for="{{item.list}}" wx:key="{{index}}" wx:for-item="listItem" style="position: relative;">
@@ -137,7 +139,7 @@
       <view class="flex-center" wx:else>
         <view style="width: 70%">
           
-          <cover-view >
+          <cover-view wx:if="{{platform==='ios'}}">
             <van-field
             value="{{ formData[pickerView.currentKey][pickerView.currentIndex].value }}"
             placeholder="{{pickerView.placeholder}}"
@@ -146,6 +148,14 @@
             input-align="{{ pickerView.company ? 'right' : 'left' }}"
           />
           </cover-view>
+          <van-field
+            wx:else
+            value="{{ formData[pickerView.currentKey][pickerView.currentIndex].value }}"
+            placeholder="{{pickerView.placeholder}}"
+            border="{{ false }}"
+            bind:change="pickerViewInputChange"
+            input-align="{{ pickerView.company ? 'right' : 'left' }}"
+          />
         </view>
         <view wx:if="pickerView.company">{{ pickerView.company }}</view>
       </view>

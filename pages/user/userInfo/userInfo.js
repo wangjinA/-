@@ -32,7 +32,9 @@ Page({
       key: 'finitude',
     }]
   },
-
+  isEmail (s) {
+    return /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
+  },
   commit() {
     this.wjForm.getData()
     .then(data => {
@@ -40,6 +42,12 @@ Page({
         return wx.showToast({
           icon: 'none',
           title: '请输入正确的手机号',
+        })
+      }
+      if(!this.isEmail(data.finitude)){
+        return wx.showToast({
+          icon: 'none',
+          title: '请输入正确的邮箱',
         })
       }
       let params = {...data}

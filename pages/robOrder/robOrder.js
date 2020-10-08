@@ -82,18 +82,6 @@ Page({
       })
     })
   },
-  toHuiyiDetail(e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '/pages/robOrderDetail/robOrderDetail?id=' + id,
-    })
-  },
-  toHunyanDetail(e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '/pages/hunyanDetail/hunyanDetail?id=' + id,
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */

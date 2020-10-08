@@ -1,5 +1,5 @@
 const app = getApp();
-import { rs } from '../../utils/config'
+import { rs, hylx } from '../../utils/config'
 Page({
     data: {
         selectedNav: '00',
@@ -16,12 +16,9 @@ Page({
             value: '南昌'
         }],
         menuOptions2: [{
-            text: '容纳人数',
+            text: '最常举办类型',
             value: 0
-        },...rs().map(item => ({
-            ...item,
-            text: item.name,
-        }))],
+        }, ...hylx().map(item => ({text:item.name,...item}))],
         current: 1,
         pageSize: 10,
         list: []

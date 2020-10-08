@@ -1,4 +1,4 @@
-const host = 'http://120.27.240.67:8888'
+const host = 'https://hktjs.hktvip.cn'
 // const host = 'http://localhost:3000' 
 const request = function(options) {
   return new Promise((resolve, reject) => {

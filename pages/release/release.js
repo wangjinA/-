@@ -9,7 +9,8 @@ let keys = ['hcxq', 'kfxq', 'cyxq']
 const app = getApp()
 import {
   formatTime,
-  formatSelectData
+  formatSelectData,
+  getAllDate
 } from '../../utils/util'
 Page({
   /**
@@ -214,9 +215,9 @@ Page({
               meetingStartTime: wx.fixYear(formData.date[0]),
               meetingEndTime: wx.fixYear(formData.date[1]),
               minpeopleNumber: formData.meetingPeople,
-              demandMeetingVenue: this.data.hcxqData || [], // 会场
-              demandMeetingRepasts: this.data.cyxqData || [], // 餐饮
-              demandMeetingRooms: this.data.kfxqData || [], // 客房
+              demandMeetingVenue: this.checkIsScope(this.data.hcxqData) , // 会场
+              demandMeetingRepasts: this.checkIsScope(this.data.cyxqData) , // 餐饮
+              demandMeetingRooms: this.checkIsScope(this.data.kfxqData) , // 客房
             }
             console.log(params)
             wx.loadingAPI(wx.$post('/demand/addDemand', params), '发布中')
@@ -235,6 +236,20 @@ Page({
               })
           })
       })
+  },
+  // 当用户填写需求后，又更改了会议日期，需要过滤出还在日期范围内的需求
+  checkIsScope(list) {
+    if(list) {
+      let formData = this.selectComponent('#meetingForm').data.formData
+      let start = wx.fixYear(formData.date[0])
+      let end = wx.fixYear(formData.date[1])
+      let allDate = getAllDate(start, end)
+      return list.filter(item => {
+        return allDate.indexOf(item.dates) != -1
+      })
+    }else {
+      return []
+    }
   },
   checkUserInfo() {
     return wx.$post('/api/user/check')

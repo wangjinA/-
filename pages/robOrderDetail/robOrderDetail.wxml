@@ -66,7 +66,7 @@
     <view class="name text-overflow">报价列表</view>
   </view>
   <view class="bj-list" wx:for="{{bjList}}">
-    <view class="bj-item" bindtap="showBj" data-index="{{index}}">
+    <view class="bj-item" bindtap="showBj" data-index="{{index}}" wx:if="{{isUser || item.userId === currentUserId}}">
       <view class="hotel-name-rob col-center">
         <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
         <text class="size14 bold">{{item.hotelName}}</text>
@@ -83,8 +83,9 @@
         </block> -->
       </view>
     </view>
+    <!-- 报价详情 -->
     <view wx:if="{{item.show}}" class="baojia-detail">
-      <block v-if="{{item.orderDemandChamberList.length}}">
+      <block wx:if="{{item.orderDemandChamberList.length}}">
         <view class="baojia-title">会场</view>
         <view class="baojia-info">
           <view wx:for="{{item.orderDemandChamberList}}">
@@ -96,7 +97,7 @@
           </view>
         </view>
       </block>
-      <block v-if="{{item.orderDemandGuestList.length}}">
+      <block wx:if="{{item.orderDemandGuestList.length}}">
         <view class="baojia-title">客房</view>
         <view class="baojia-info">
           <view wx:for="{{item.orderDemandGuestList}}">
@@ -108,7 +109,7 @@
           </view>
         </view>
       </block>
-      <block v-if="{{item.orderDemandRepastList.length}}">
+      <block wx:if="{{item.orderDemandRepastList.length}}">
         <view class="baojia-title">餐饮</view>
         <view class="baojia-info">
           <view wx:for="{{item.orderDemandRepastList}}">
@@ -119,7 +120,7 @@
           </view>
         </view>
       </block>
-      <block v-if="{{item.notes}}">
+      <block wx:if="{{item.notes}}">
         <view class="baojia-title">其他说明</view>
         <view class="baojia-info">
           <view class="bj-con">
@@ -128,7 +129,7 @@
         </view>
       </block>
       <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}"/>
-      <footerButton bindtap="okBaojia" data-orderdemandId="{{item.orderdemandId}}" wx:if="{{status==1}}">接受报价</footerButton>
+      <footerButton bindtap="okBaojia" data-index="{{index}}" data-orderdemandId="{{item.orderdemandId}}" wx:if="{{status==1 && isUser}}">接受报价</footerButton>
     </view>
     <!-- <van-steps
       wx:if="{{item.show}}"
@@ -138,7 +139,7 @@
       active-color="#FEAF11"
     /> -->
   </view>
-  <view class="notMore" style="text-align:left;">
+  <view class="notMore" style="text-align:left;" wx:if="{{!bjList.length}}">
     暂无报价
   </view>
 </view>
@@ -294,13 +295,13 @@
   </view>
 </view>
 
-<view class="footer-wrap" wx:if="{{ status == 1 && type == 1}}">
+<view class="footer-wrap" wx:if="{{ status == 1 && type == 1 && !isUser}}">
   <view class="footer">
     <view class="baojiarenshu size14" wx:if="{{bjList.length}}">
       <text class="blue">{{bjList.length}}</text>
       <text >人已报价</text>
     </view>
-    <van-button style="margin-left:auto;" icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
+    <van-button style="margin-left:auto;" icon="exchange" round type="info" bindtap="qiangdan" wx:if="{{!isUser}}">立即抢单</van-button>
   	<!-- <van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button> -->
   </view>
 </view>

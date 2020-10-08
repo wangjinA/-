@@ -10,7 +10,8 @@ Page({
     type: wx.type,
     userInfo: {},
     hotelInfo: {},
-    sign: false
+    sign: false,
+    roles: ''
   },
   observers: {
     type(type) {
@@ -102,14 +103,41 @@ Page({
       })
   },
   toOrder() {
-    wx.navigateTo({
-      url: '/pages/order/order',
+    let itemList = []
+    let check = ''
+    if(wx.type == 1) {
+      if(wx.roles.filter(item => item.id === 1).length)
+        itemList = ['会议订单', '婚宴订单'] 
+      else if (wx.roles.filter(item => item.id === 2).length){
+        check = 1
+      }else if(wx.roles.filter(item => item.id === 3).length){
+        check = 2
+      }else{
+        return wx.showToast({
+          icon: 'none',
+          title: '权限不足',
+          duration: 2000
+        })
+      }
+    }else {
+      itemList = ['会议需求', '婚宴需求']
+    }
+    wx.showActionSheet({
+      itemList: itemList,
+      success (res) {
+        wx.navigateTo({
+          url: `/pages/order/order?index=${res.tapIndex}&check=${check}`,
+        })
+      }
     })
   },
   onShow() {
     this.init()
     this.setData({
       type: wx.type
+    })
+    this.setData({
+      roles: wx.roles.map(item => item.roleName)
     })
   },
   onReady() {

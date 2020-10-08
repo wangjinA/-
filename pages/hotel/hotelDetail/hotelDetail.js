@@ -21,7 +21,8 @@ Page({
     hyList: [],
     meetingData: {},
     roomData: {},
-    bannerList: []
+    bannerList: [],
+    peitao: {}, // 配套信息
   },
   lookVR() {
     wx.navigateTo({
@@ -121,6 +122,21 @@ Page({
           ...res.data.hotelDetaiil.hotelImgUrlList.map(item=>item.imgUrl)
         ]
       })
+    })
+    // 获取酒店配套信息
+    wx.loadingAPI(wx.$get('/hotel/getHotelAssortInfo', {
+      hotelId: this.data.hotelId
+    })).then(({
+      data
+    }) => {
+      if(data){
+        this.setData({
+          peitao: {
+            ...data,
+            intoCar: !!data.intoCar
+          }
+        })
+      }
     })
   },
   getOhterInfo() {
