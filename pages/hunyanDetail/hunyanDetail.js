@@ -10,6 +10,7 @@ Page({
    */
   data: {
     type: wx.type,
+    statusText: '',
     status: 0,
     steps: [{
         text: '第2次报价￥23000（点击可查看明细）',
@@ -33,6 +34,7 @@ Page({
     userInfo: {},
     isUser: false, // 是否是发布需求的用户
     isHotel: false, // 是否是报价的酒店
+    currentUserId: ''
   },
   orderEnd() {
     wx.showModal({
@@ -52,8 +54,27 @@ Page({
   useBj() {
     console.log('使用这个报价')
   },
-  showBj(e) {
-    const index = e.currentTarget.dataset.index
+  // 用户确认报价
+  okBaojia(e) {
+    const {id, index} = e.currentTarget.dataset
+    wx.delAPI('确认使用该报价！')
+    .then(()=>{
+      this.setOrderStatus(id, 3)
+      .then(()=>{
+        this.showBj(index, true)
+      })
+    })
+  },
+  setOrderStatus(weddingBanquetId, status) {
+    return wx.loadingAPI(wx.$post('/demandorder/updateOrderWeddinfStatus ', {
+      weddingBanquetId,
+      status
+    })).then(() => {
+      this.init()
+    })
+  },
+  showBj(e, eIsIndex = false) {
+    const index = !eIsIndex ? e.currentTarget.dataset.index : e
     this.data.bjList.forEach((item, i) => {
       if (i == index) {
         item.show = !item.show
@@ -81,15 +102,33 @@ Page({
         if(userInfo && wx.userInfo && userInfo.id == wx.userInfo.id){
           isUser = true
         }
+        let statusText = wx.$getStatus(detail.status)
         this.setData({
           hideInfo,
           isUser,
           data: detail,
-          userInfo
+          userInfo,
+          status: detail.status,
+          statusText
         })
-        this.getBaojiaList()
+        let isHotel = !!(data.weddingHotelVos.filter(item => item.hotelId === wx.hotelId).length)
+        this.setData({
+          bjList: data.weddingHotelVos,
+          isHotel
+        })
+        // this.getBaojiaList()
       })
-
+  },
+  callPhone() {
+    wx.makePhoneCall({
+      phoneNumber: this.data.userInfo.phone,
+      success: function () {
+        console.log("拨打电话成功！")
+      },
+      fail: function () {
+        console.log("拨打电话失败！")
+      }
+    })
   },
   getBaojiaList() {
     wx.$get('/order/getUserWeddingBanquet', {
@@ -112,7 +151,8 @@ Page({
     this.init()
     // this.getBaojiaList()
     this.setData({
-      status: options.status || 0
+      status: options.status || 0,
+      currentUserId: wx.userInfo.id
     })
   },
   qiangdan() {

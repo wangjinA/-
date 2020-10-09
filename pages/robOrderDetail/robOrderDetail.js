@@ -74,7 +74,7 @@ Page({
     .then(()=>{
       this.setOrderStatus(orderdemandid, 3)
       .then(()=>{
-        this.showBj(index)
+        this.showBj(index, true)
       })
     })
   },
