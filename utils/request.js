@@ -13,7 +13,7 @@ const request = function(options) {
         token: wx.getStorageSync('token'),
         // Accept: 'application / prs.lyg.v1 + json',
         'Content-Type': 'application/json',
-        // Authorization: wx.getStorageSync('tokenType') + ' ' + wx.getStorageSync('token')
+        // Authorization: wx.getStorageSync(' tokenType') + ' ' + wx.getStorageSync('token')
       },
       method: options.method || 'GET',
       dataType: 'json',

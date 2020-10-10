@@ -52,7 +52,9 @@
 <!-- 三个报价 -->
 <view class="container"> 
   <view class="top">
-    <view class="name text-overflow">报价列表</view>
+    <view class="name text-overflow">
+    {{ isHotel ? '我的报价' : '报价列表' }}
+    </view>
   </view>
   <view class="bj-list" wx:for="{{bjList}}">
     <view class="bj-item" bindtap="showBj" data-index="{{index}}" wx:if="{{isUser || item.userId === currentUserId}}">
@@ -83,7 +85,7 @@
         </view>
       </block>
       <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}"/>
-      <footerButton bindtap="okBaojia" data-index="{{index}}" data-id="{{item.orderWeddingId}}" wx:if="{{status==1 && isUser}}">接受报价</footerButton>
+      <footerButton bindtap="okBaojia" data-index="{{index}}" data-id="{{item.newOrderWedding.orderWeddingId}}" wx:if="{{status==1 && isUser}}">接受报价</footerButton>
     </view>
     <!-- <van-steps
       wx:if="{{item.show}}"
@@ -170,11 +172,16 @@
       <text class="blue">{{bjList.length}}</text>
       <text >人已报价</text>
     </view>
-    <van-button wx:if="{{!isUser}}" style="margin-left:auto;" icon="exchange" round type="info" bindtap="qiangdan">立即抢单</van-button>
+    <van-button wx:if="{{!isUser}}" style="margin-left:auto;" icon="exchange" round type="info" bindtap="qiangdan">
+      {{ isHotel ? '重新报价' : '立即抢单' }}
+    </van-button>
   	<!-- <van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button> -->
   </view>
 </view>
 
+<footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderDemandId && isHotel}}">会议完成</footerButton>
+<footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton>
+<footerButton bindtap="orderOver"  wx:if="{{status==5 && data.orderDemandId && isHotel}}">确认订单完成</footerButton>
 <!-- <view class="footer-wrap">
   <view class="footer">
   <view class="baojiarenshu size14">

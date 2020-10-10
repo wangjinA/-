@@ -17,18 +17,19 @@ Page({
   },
   init() {
     let result
+    let type =this.data.activeIndex + 1
     if(wx.type == 1){ // 酒店
       if(this.data.isHuiyi) {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyOrderDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type: this.data.activeIndex + 1, // 类型 1已报价 2 已完成
+          type // 类型 1已报价 2 已完成
         }))
       }else {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyWeddingOrderDemand',{
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type: this.data.activeIndex + 1, // 类型 1已报价 2 已完成
+          type // 类型 1已报价 2 已完成
         }))
       }
     }else { // 用户
@@ -36,13 +37,13 @@ Page({
         result = wx.loadingAPI(wx.$post('/demandorder/getUserDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type: this.data.activeIndex + 1, // 类型 1.未报价，2.已报价，3.已完成
+          type // 类型 1.未报价，2.已报价，3.已完成
         }))
       }else {
         result = wx.loadingAPI(wx.$post('/demandorder/getUserWeddingDemand',{
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type: this.data.activeIndex + 1, // 类型 1已报价 2 已完成
+          type // 类型 1.未报价，2.已报价，3.已完成
         }))
       }
     }

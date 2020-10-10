@@ -65,6 +65,26 @@ Page({
       })
     })
   },
+  // 酒店确认婚宴完成    -------------------没写
+  jdok() {
+    wx.delAPI('确认会议结束，提交后不可更改！')
+    .then(()=>{
+      this.setOrderStatus(this.data.data.orderDemandId, 4)
+    })
+  },
+  // 上传消费单    -------------------没写
+  shangchuan() {
+    wx.navigateTo({
+      url: '/pages/xfd/xfd?id='+ this.data.meetingId,
+    })
+  },
+  // 订单结束    -------------------没写
+  orderOver() {
+    wx.delAPI('确认订单完成，提交后不可更改！')
+    .then(()=>{
+      this.setOrderStatus(this.data.data.orderDemandId, 6)
+    })
+  },
   setOrderStatus(weddingBanquetId, status) {
     return wx.loadingAPI(wx.$post('/demandorder/updateOrderWeddinfStatus ', {
       weddingBanquetId,
