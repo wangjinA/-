@@ -180,13 +180,13 @@ function getStatus(status) {
   let statusText = ''
   switch (status) {
     case 3:
-      statusText = '确认报价'
+      statusText = '用户确认报价'
       break;
     case 4:
       statusText = '酒店确认完成'
       break;
     case 5:
-      statusText = '已上传消费单'
+      statusText = '用户已上传消费单'
       break;
     case 6:
       statusText = '订单已完成'
@@ -205,6 +205,11 @@ function hideInfo(userInfo) {
     finitude: userInfo.finitude && userInfo.finitude.substr(0, 2) + '****'
   }
 }
+
+function isEmail (s) {
+  return /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
+}
+wx.$isEmail = isEmail
 wx.$hideInfo = hideInfo
 wx.$getStatus = getStatus
 wx.$getScope = getScope

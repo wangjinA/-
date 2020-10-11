@@ -12,7 +12,7 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         wx.login({
-          success: res=> {
+          success: res => {
             if (res.code) {
               wx.setStorageSync('wxcode', res.code)
               const {
@@ -72,48 +72,48 @@ Page({
       }
     })
   },
-  lunxun(){
+  lunxun() {
     let lunxunTime = 1000
     clearTimeout(this.timer)
     // 在tabbar页面的时候才发送请求
-    if(getCurrentPages().length !== 1){
+    if (getCurrentPages().length !== 1) {
       return wx.globalTimer = setTimeout(() => {
         this.lunxun()
       }, lunxunTime);
     }
     wx.$post('/chat/getChatRoom', {
-      current: 1,
-      pageSize: 100
-    })
-    .then(res=>{
-      let allUnReadCount = 0
-      res.data.list.forEach(item => {
-        allUnReadCount+=item.unreadCount
+        current: 1,
+        pageSize: 100
       })
-      try {
-        if(getCurrentPages().length === 1){
-          if(allUnReadCount){
-            wx.setTabBarBadge({
-              index: 3,
-              text: allUnReadCount+''
-            })
-          }else {
-            wx.removeTabBarBadge({
-              index: 3
-            })
+      .then(res => {
+        let allUnReadCount = 0
+        res.data.list.forEach(item => {
+          allUnReadCount += item.unreadCount
+        })
+        try {
+          if (getCurrentPages().length === 1) {
+            if (allUnReadCount) {
+              wx.setTabBarBadge({
+                index: 3,
+                text: allUnReadCount + ''
+              })
+            } else {
+              wx.removeTabBarBadge({
+                index: 3
+              })
+            }
           }
+        } catch (error) {
+
         }
-      } catch (error) {
-        
-      }
-      wx.globalTimer = setTimeout(() => {
-        this.lunxun()
-      }, lunxunTime);
-    }).catch(()=>{
-      wx.globalTimer = setTimeout(() => {
-        this.lunxun()
-      }, lunxunTime);
-    })
+        wx.globalTimer = setTimeout(() => {
+          this.lunxun()
+        }, lunxunTime);
+      }).catch(() => {
+        wx.globalTimer = setTimeout(() => {
+          this.lunxun()
+        }, lunxunTime);
+      })
   },
   getPhoneNumber(e) {
     console.log(e)
@@ -173,8 +173,37 @@ Page({
         wx.setStorageSync('qiniuToken', res.data.token)
       })
   },
-  onLoad: function (options) {},
+  onLoad: function (options) {
+    console.log(options);
+    if (options.scene) {
+      Object.assign(this.options, getScene(options.scene)) // 获取二维码参数，绑定在当前this.options对象上
+    }
+    console.log(this.options) // 这时候就会发现this.options上就会有对应的参数了
+    
 
+    console.log("index 生命周期 onload" + JSON.stringify(options))
+    //在此函数中获取扫描普通链接二维码参数
+    if(options.q){
+      let q = decodeURIComponent(options.q);
+      console.log("index 生命周期 onload url=" + q)
+      console.log("index 生命周期 onload 参数 is_water=" + utils.getQueryString(q, 'is_water'))
+      var is_water = utils.getQueryString(q, 'is_water');
+      console.log(is_water);
+      console.log("index 生命周期 onload 参数 access_token=" + utils.getQueryString(q, 'access_token'))
+      var access_token = utils.getQueryString(q, 'access_token');
+      console.log(access_token);
+    }
+  },
+  getScene: function (scene = "") {
+    if (scene == "") return {}
+    let res = {}
+    let params = decodeURIComponent(scene).split("&")
+    params.forEach(item => {
+      let pram = item.split("=")
+      res[pram[0]] = pram[1]
+    })
+    return res
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

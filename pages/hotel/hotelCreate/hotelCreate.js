@@ -27,6 +27,21 @@ Page({
       type: 'select',
       data: jdxj()
     }, {
+      label: '承办类型',
+      placeholder: '请选择',
+      key: 'undertakeType',
+      required: true,
+      type: 'checkbox',
+      data: [{
+        name: '会议',
+        value: 1,
+        checked: true,
+      }, {
+        name: '婚宴',
+        value: 2,
+        checked: true,
+      }],
+    }, {
       label: '客房总数',
       required: true,
       key: 'guestRoom',
@@ -41,10 +56,17 @@ Page({
       .then(formData => {
         contactsInfo.getData()
           .then(contactsData => {
+            if(!formData.undertakeType.length){
+              return wx.showToast({
+                title: '请选择承办类型',
+                icon: 'none'
+              })
+            }
             let params = {
               ...formData,
               ...contactsData,
-              url: wx.$stringify(contactsData.fileList)
+              url: wx.$stringify(contactsData.fileList),
+              undertakeType: formData.undertakeType.length == 2 ? 0 : formData.undertakeType[0]
             }
             params.city = params.city.join(' ')
             params.starType = jdxj(params.starType)

@@ -63,7 +63,7 @@
         <van-switch inactive-color="#daecff" data-key="{{item.key}}" checked="{{ formData[item.key] }}" bind:change="switchOnChange" size="48rpx"/>
       </view>
     </van-cell>
-    <!-- switch -->
+    <!-- 普通文本 -->
     <van-cell required="{{item.required}}" wx:elif="{{item.type === 'text'}}" size="large" title="{{item.label}}" value="{{item.value}}"></van-cell>
     <!-- 关联组合项 -->
     <view wx:elif="{{item.type === 'relation'}}">
@@ -92,6 +92,20 @@
         <van-button wx:if="{{item.isAdd}}" type="primary" block size="small" plain data-index="{{index}}" data-item="{{item}}" bind:click="addRelationItem">{{item.isAdd}}</van-button>
       </view>
     </view>
+    <!-- 多选框 -->
+    <van-cell required="{{item.required}}" wx:elif="{{item.type === 'checkbox'}}" size="large" title="{{item.label}}">
+      <view slot="right-icon">
+        <!-- <el-checkbox-group v-model="checkList">
+          <el-checkbox label="{{item.name}}" value="{{item.value}}" wx:for="{{item.data}}"></el-checkbox>
+        </el-checkbox-group> -->
+        <checkbox-group bindchange="checkboxChange" data-key="{{item.key}}" >
+          <label style="{{index!=0 && 'margin-left: 10px'}}" wx:for="{{item.data}}" wx:key="{{item.name}}">
+            <checkbox value="{{item.value}}" checked="{{item.checked}}"/>
+            <text>{{item.name}}</text>
+          </label>
+        </checkbox-group>
+      </view>
+    </van-cell>
     <!-- 输入框 -->
     <view class="flex-center" wx:else>
       <view class="flex1">

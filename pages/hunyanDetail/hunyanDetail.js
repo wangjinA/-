@@ -34,7 +34,8 @@ Page({
     userInfo: {},
     isUser: false, // 是否是发布需求的用户
     isHotel: false, // 是否是报价的酒店
-    currentUserId: ''
+    currentUserId: '',
+    OrderDemandConfirm: {}
   },
   orderEnd() {
     wx.showModal({
@@ -69,25 +70,34 @@ Page({
   jdok() {
     wx.delAPI('确认会议结束，提交后不可更改！')
     .then(()=>{
-      this.setOrderStatus(this.data.data.orderDemandId, 4)
+      this.setOrderStatus(this.data.data.orderWeddingId, 4)
     })
   },
   // 上传消费单    -------------------没写
   shangchuan() {
     wx.navigateTo({
-      url: '/pages/xfd/xfd?id='+ this.data.meetingId,
+      url: `/pages/xfd/xfd?id=${this.data.id}&isHunyan=1`,
+    })
+  },
+  // 查看消费单
+  previewXfd(e) {
+    const index = e.currentTarget.dataset.index
+    let imgs = this.data.OrderDemandConfirm.userInvoice
+    wx.previewImage({
+      current: imgs[index].url, // 当前显示图片的http链接
+      urls: imgs.map(item => item.url) // 需要预览的图片http链接列表
     })
   },
   // 订单结束    -------------------没写
   orderOver() {
     wx.delAPI('确认订单完成，提交后不可更改！')
     .then(()=>{
-      this.setOrderStatus(this.data.data.orderDemandId, 6)
+      this.setOrderStatus(this.data.data.orderWeddingId, 6)
     })
   },
-  setOrderStatus(weddingBanquetId, status) {
+  setOrderStatus(orderWeddingId, status) {
     return wx.loadingAPI(wx.$post('/demandorder/updateOrderWeddinfStatus ', {
-      weddingBanquetId,
+      orderWeddingId,
       status
     })).then(() => {
       this.init()
@@ -112,6 +122,7 @@ Page({
         data
       }) => {
         let detail = data.weddingBanque
+        detail.orderWeddingId = data.orderWeddingId // 报价的id
         let userInfo = data.sysUserVo
         detail.priceRange = hyjgqj(wx.$parse(detail.priceRange))
         detail.tablesNumber = rnzs(wx.$parse(detail.tablesNumber))
@@ -123,10 +134,17 @@ Page({
           isUser = true
         }
         let statusText = wx.$getStatus(detail.status)
+        // 消费单
+        if(data.OrderDemandConfirm){
+          data.OrderDemandConfirm.userInvoice = wx.$parse(data.OrderDemandConfirm.userInvoice)
+        }else {
+          data.OrderDemandConfirm = {}
+        }
         this.setData({
-          hideInfo,
           isUser,
           data: detail,
+          OrderDemandConfirm: data.OrderDemandConfirm,
+          hideInfo,
           userInfo,
           status: detail.status,
           statusText
@@ -165,16 +183,6 @@ Page({
       })
     })
   },
-  onLoad: function (options) {
-    this.data.id = options.id
-    wx.meetingId = options.id
-    this.init()
-    // this.getBaojiaList()
-    this.setData({
-      status: options.status || 0,
-      currentUserId: wx.userInfo.id
-    })
-  },
   qiangdan() {
     wx.weddingBanque = this.data.data
     if (true)
@@ -188,18 +196,22 @@ Page({
       })
     }
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
 
+  onLoad: function (options) {
+    this.data.id = options.id
+    wx.meetingId = options.id
+    // this.init()
+    // this.getBaojiaList()
+    this.setData({
+      status: options.status || 0,
+      currentUserId: wx.userInfo.id
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-
-  onShow() {},
+  onShow() {
+    if (this.data.id) {
+      this.init()
+    }
+  },
 
   /**
    * 生命周期函数--监听页面隐藏

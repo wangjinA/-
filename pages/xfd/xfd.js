@@ -20,9 +20,12 @@ Page({
     if(!imgList) return;
     wjForm.getData()
     .then(data => {
-      wx.loadingAPI(wx.$post('/order/userDetermineQutoe', {
+      // 是否是婚宴
+      let url = this.data.isHunyan ? '/order/userWeddingQutoe' : '/order/userDetermineQutoe'
+      wx.loadingAPI(wx.$post(url, {
         invoiceUrl: wx.$stringify(imgList),
-        meetingId: this.data.meetingId,
+        meetingId: this.data.id,
+        weddingBanquetId: this.data.id,
         ...data
       })).then(res=>{
         if(res.msg === '成功'){
@@ -36,7 +39,8 @@ Page({
     
   },
   onLoad: function (options) {
-    this.data.meetingId = options.id || 22
+    this.data.id = options.id
+    this.data.isHunyan = options.isHunyan // 是否是婚宴
   },
 
   /**

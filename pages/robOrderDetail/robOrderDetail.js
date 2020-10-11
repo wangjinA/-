@@ -56,6 +56,17 @@ Page({
     isHotel: false, // 是否是报价的酒店
     currentUserId: ''
   },
+  callPhone() {
+    wx.makePhoneCall({
+      phoneNumber: this.data.userInfo.phone,
+      success: function () {
+        console.log("拨打电话成功！")
+      },
+      fail: function () {
+        console.log("拨打电话失败！")
+      }
+    })
+  },
   orderEnd() {
     wx.delAPI('确认订单完成，提交后不可更改！')
     .then(()=>{
@@ -88,7 +99,7 @@ Page({
   // 上传消费单
   shangchuan() {
     wx.navigateTo({
-      url: '/pages/xfd/xfd?id='+ this.data.meetingId,
+      url: '/pages/xfd/xfd?id='+ this.data.data.meetingId,
     })
   },
   // 订单结束
@@ -124,7 +135,7 @@ Page({
     wx.previewImage({
       current: imgs[index].url, // 当前显示图片的http链接
       urls: imgs.map(item => item.url) // 需要预览的图片http链接列表
-  })
+    })
   },
   init() {
     wx.loadingAPI(wx.$get('/order/getGrabSingleDemandInfo', {
@@ -223,14 +234,6 @@ Page({
       })
     })
   },
-  onLoad: function (options) {
-    this.data.id = options.id
-    wx.meetingId = options.id
-    this.setData({
-      currentUserId: wx.userInfo.id
-    })
-    // this.init()
-  },
   // 立即抢单
   qiangdan() {
     if (this.data.data.hcShow)
@@ -252,16 +255,14 @@ Page({
       })
     }
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  onLoad: function (options) {
+    this.data.id = 37 || options.id
+    wx.meetingId = options.id
+    this.setData({
+      currentUserId: wx.userInfo.id
+    })
+    // this.init()
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
 
   onShow() {
     if (this.data.id) {

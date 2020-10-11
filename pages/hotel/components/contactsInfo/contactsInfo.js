@@ -48,6 +48,12 @@ Component({
                 title: '请输入正确的手机号',
               })
             }
+            if(!wx.$isEmail(data.finitude)){
+              return wx.showToast({
+                icon: 'none',
+                title: '请输入正确的邮箱',
+              })
+            }
             let img = this.selectComponent('#addImg')
             if (img.data.fileList && img.data.fileList.length) {
               resolve(Object.assign(data, {

@@ -38,7 +38,7 @@
     </view>
 </view>
 <!-- 消费单 -->
-<view class="container" wx:if="{{status==5 }}">
+<view class="container" wx:if="{{status == 5 && (isUser || isHotel) }}">
   <view class="top">
     <view class="name text-overflow">消费单信息</view>
   </view>
@@ -258,7 +258,7 @@
     </view>
     <view class="item" wx:if="{{data.userInfo.phone}}">
       <view class="label">联系电话</view>
-      <view class="val">{{data.userInfo.phone}}</view>
+      <view class="val" style="color:#1989FA;" bindtap="callPhone">{{data.userInfo.phone}}</view>
     </view>
     <view class="item" wx:if="{{data.userInfo.finitude}}">
       <view class="label">邮箱</view>
@@ -311,7 +311,8 @@
 </view>
 
 <footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderDemandId && isHotel}}">会议完成</footerButton>
-<footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton>
+<!-- <footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton> -->
+<footerButton bindtap="shangchuan"  wx:if="{{(status==4 || status==5) && isUser}}">{{ status==4 ? '上传消费单' : '重新上传消费单'}}</footerButton>
 <footerButton bindtap="orderOver"  wx:if="{{status==5 && data.orderDemandId && isHotel}}">确认订单完成</footerButton>
 <!-- <view class="footer-wrap">
   <view class="footer">

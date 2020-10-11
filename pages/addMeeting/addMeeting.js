@@ -69,7 +69,8 @@ Page({
         type
       }
     })
-    let maxNumber = Math.max(...hotelChamberType.map(item=>item.numbers))
+    let maxNumber = Math.max(...hotelChamberType.map(item=>item.numbers)) // 最大人数
+    let maxNumberTargetType = Math.max(...hotelChamberType.map(item=>item.type)) // 最大人数对应的桌型
     wjForm.getData()
     .then(data => {
       data.dayPrice = parseInt(data.dayPrice)
@@ -82,7 +83,8 @@ Page({
         hotelChamberType,
         hotelChamberTable: btForm.data.formData,
         hotelChamberId: this.data.hotelChamberId,
-        maxNumber// 嘉盛要的会议最大人数
+        maxNumber, // 嘉盛要的会议最大人数
+        type: maxNumberTargetType, // 对应的最大人数
       }), '保存中')
       .then(data=>{
         wjForm.clearData()

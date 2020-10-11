@@ -49,6 +49,27 @@
     </view>
 </view>
 
+<!-- 消费单 -->
+<view class="container" wx:if="{{status == 5 && (isUser || isHotel) }}">
+  <view class="top">
+    <view class="name text-overflow">消费单信息</view>
+  </view>
+  <van-grid column-num="3" border="{{ false }}">
+    <van-grid-item use-slot wx:for="{{ OrderDemandConfirm.userInvoice }}" bindtap="previewXfd" data-index="{{index}}">
+      <image
+        style="width: 100%; height: 180rpx;"
+        src="{{item.url}}"
+      />
+    </van-grid-item>
+  </van-grid>
+  <view class="item">
+    <view class="label">总消费</view>
+    <view class="val c totalPrice">
+      <text class="size12">￥</text>
+      <text class="price">{{OrderDemandConfirm.price || 0}}</text>
+    </view>
+  </view>
+</view>
 <!-- 三个报价 -->
 <view class="container"> 
   <view class="top">
@@ -179,9 +200,10 @@
   </view>
 </view>
 
-<footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderDemandId && isHotel}}">会议完成</footerButton>
-<footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton>
-<footerButton bindtap="orderOver"  wx:if="{{status==5 && data.orderDemandId && isHotel}}">确认订单完成</footerButton>
+<footerButton bindtap="jdok"  wx:if="{{status==3 && data.orderWeddingId && isHotel}}">会议完成</footerButton>
+<footerButton bindtap="shangchuan"  wx:if="{{(status==4 || status==5) && isUser}}">{{ status==4 ? '上传消费单' : '重新上传消费单'}}</footerButton>
+<!-- <footerButton bindtap="shangchuan"  wx:if="{{status == 4 && isUser}}">上传消费单</footerButton> -->
+<footerButton bindtap="orderOver"  wx:if="{{status==5 && data.orderWeddingId && isHotel}}">确认订单完成</footerButton>
 <!-- <view class="footer-wrap">
   <view class="footer">
   <view class="baojiarenshu size14">

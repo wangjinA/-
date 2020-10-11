@@ -1,5 +1,8 @@
+// 滚动加载未做！！！！！！！！！！！！！！！！！！！！！
+
+
 const app = getApp();
-import { rs, hylx } from '../../utils/config'
+import { rs } from '../../utils/config'
 Page({
     data: {
         selectedNav: '00',
@@ -15,10 +18,24 @@ Page({
             text: '南昌',
             value: '南昌'
         }],
+        // menuOptions2: [{
+        //     text: '最常举办类型',
+        //     value: 0
+        // }, ...hylx().map(item => ({text:item.name,...item}))],
         menuOptions2: [{
-            text: '最常举办类型',
+            text: '容纳人数',
             value: 0
-        }, ...hylx().map(item => ({text:item.name,...item}))],
+        }, ...rs().map(item => ({text:item.name,...item}))],
+        menuOptions3: [{ // 0 全部 1 会议 2 婚宴
+            text: '类型',
+            value: 0
+        }, {
+            text: '会议',
+            value: 1
+        }, {
+            text: '婚宴',
+            value: 2
+        }],
         current: 1,
         pageSize: 10,
         list: []
@@ -27,23 +44,32 @@ Page({
         this.setData({
             val1: e.detail
         })
-        this.getData(true)
+        this.getData()
     },
     optionChange2(e) {
         this.setData({
             val2: e.detail
         })
-        this.getData(true)
+        this.getData()
+    },
+    optionChange3(e) {
+        this.setData({
+            val3: e.detail
+        })
+        this.getData()
     },
     searchData() {
-        this.getData(true)
+        this.getData()
     },
     onChange(e) {
-      this.setData({
+        if(!e.detail){
+            this.getData()
+        }
+        this.setData({
         keyword: e.detail
-      })
+        })
     },
-    getData(isInit) {
+    getData(isInit = true) {
         if(isInit){
             this.data.current = 1
         }
@@ -59,6 +85,7 @@ Page({
             siteSearchVo.minpeopleNumber = rs(this.data.val2)[0]
             siteSearchVo.maxpeopleNumber = rs(this.data.val2)[1]
         }
+        siteSearchVo.undertakeType = this.data.val3
         wx.loadingAPI(wx.$post('/site/searchSite', siteSearchVo))
         .then(data=>{
             
@@ -78,6 +105,6 @@ Page({
         })
     },
     onShow() {
-        this.getData(true)
+        this.getData()
     }
 })

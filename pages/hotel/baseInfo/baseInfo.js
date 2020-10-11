@@ -48,6 +48,22 @@ Page({
       data: jdxj(),
       required: true,
     }, {
+      label: '承办类型',
+      placeholder: '请选择',
+      required: true,
+      key: 'undertakeType',
+      type: 'checkbox',
+      data: [{
+        name: '会议',
+        value: 1,
+        checked: false, // 选中状态
+      }, {
+        name: '婚宴',
+        value: 2,
+        checked: false, // 选中状态
+      }],
+      required: true,
+    }, {
       label: '所在商圈',
       placeholder: '请输入商圈名称',
       key: 'businessCircle',
@@ -96,12 +112,19 @@ Page({
     let wjForm = this.selectComponent('#wjForm')
     wjForm.getData()
       .then(data => {
+        if(!data.undertakeType.length){
+          return wx.showToast({
+            title: '请选择承办类型',
+            icon: 'none'
+          })
+        }
         let params = {
           ...data,
           id: wx.hotelId,
           starType: data.starType ? jdxj(data.starType) : '',
           city: data.city.join(' '),
-          oftenMeetingType: data.oftenMeetingType ? hylx(data.oftenMeetingType) : ''
+          oftenMeetingType: data.oftenMeetingType ? hylx(data.oftenMeetingType) : '',
+          undertakeType: data.undertakeType.length == 2 ? 0 : data.undertakeType[0]
         }
         if (data.zjdb && data.zjdb.length) {
           if (data.zjdb[0].name && data.zjdb[0].value) {
@@ -134,13 +157,28 @@ Page({
       data.decorateTime = data.decorateTime ? wx.formatTime(new Date(data.decorateTime), true, false) : ''
       data.openingTime = data.openingTime ? wx.formatTime(new Date(data.openingTime), true, false) : ''
       if (data.landmark) {
-        data.zjdb = [{
+        data.zjdb = [{ // 最近地标
           name: data.landmark,
           value: data.distance,
         }]
       }
       wjForm.setData({
         formData: data
+      })
+      // 承办类型，设置多选框默认选中
+      this.data.formList.forEach(item => {
+        if(item.key === 'undertakeType') {
+          item.data.forEach(_item => {
+            if(data.undertakeType == 0) { // 全选
+              _item.checked = true
+            }else {
+              _item.checked = _item.value == data.undertakeType
+            }
+          })
+        }
+      })
+      this.setData({
+        formList: [...this.data.formList]
       })
     })
   },

@@ -17,19 +17,19 @@ Page({
   },
   init() {
     let result
-    let type =this.data.activeIndex + 1
+    let type =this.data.activeIndex + 1 // 类型 1.未报价，2.已报价，3.已完成
     if(wx.type == 1){ // 酒店
       if(this.data.isHuiyi) {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyOrderDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type // 类型 1已报价 2 已完成
+          type: type + 1 // 没有未报价 所以 + 1
         }))
       }else {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyWeddingOrderDemand',{
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type // 类型 1已报价 2 已完成
+          type: type + 1 // 没有未报价 所以 + 1
         }))
       }
     }else { // 用户

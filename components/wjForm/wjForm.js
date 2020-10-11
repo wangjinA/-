@@ -65,6 +65,17 @@ Component({
     },)
   }, 
   methods: {
+    // 多选框
+    checkboxChange(e) {
+      const { key } = e.currentTarget.dataset
+      const value = e.detail.value
+      this.setFormData({
+        [key]: value
+      })
+      console.log(this.data.formData);
+      console.log(key , value);
+      
+    },
     getPhone() {
       this.setData({
         platform: wx.getSystemInfoSync().platform
@@ -76,6 +87,11 @@ Component({
         if (item.type === 'city') {
           this.setFormData({
             [item.key]: defaultCity
+          })
+        }
+        if (item.type === 'checkbox'){
+          this.setFormData({
+            [item.key]: item.data.map(item => item.value)
           })
         }
         if (item.type === 'relation') {
