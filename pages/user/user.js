@@ -11,7 +11,11 @@ Page({
     userInfo: {},
     hotelInfo: {},
     sign: false,
-    roles: ''
+    roles: '',
+    isHuiyi: false, // 是否有会议权限
+    isHunyan: false, // 是否有婚宴权限
+    isLogin: false, // 
+    showCode: false
   },
   observers: {
     type(type) {
@@ -30,6 +34,9 @@ Page({
 
   },
   toMyTeam() {
+    if(this.checkLogin()){
+      return 
+    }
     wx.navigateTo({
       url: '/pages/user/myTeam/myTeam',
     })
@@ -38,6 +45,12 @@ Page({
 
   },
   copyCode(e) {
+    if(this.checkLogin()){
+      return 
+    }
+    return this.setData({
+      showCode: true
+    })
     const {
       code
     } = e.currentTarget.dataset
@@ -53,6 +66,9 @@ Page({
     })
   },
   toUserInfo() {
+    if(this.checkLogin()){
+      return 
+    }
     wx.navigateTo({
       url: '/pages/user/userInfo/userInfo',
     })
@@ -103,41 +119,64 @@ Page({
       })
   },
   toOrder() {
-    let itemList = []
-    let check = ''
-    if(wx.type == 1) {
-      if(wx.roles.filter(item => item.id === 1).length)
-        itemList = ['会议订单', '婚宴订单'] 
-      else if (wx.roles.filter(item => item.id === 2).length){
-        check = 1
-      }else if(wx.roles.filter(item => item.id === 3).length){
-        check = 2
-      }else{
-        return wx.showToast({
-          icon: 'none',
-          title: '权限不足',
-          duration: 2000
-        })
-      }
-    }else {
-      itemList = ['会议需求', '婚宴需求']
+    if(this.checkLogin()){
+      return 
     }
-    wx.showActionSheet({
-      itemList: itemList,
-      success (res) {
-        wx.navigateTo({
-          url: `/pages/order/order?index=${res.tapIndex}&check=${check}`,
-        })
-      }
-    })
+    // if(wx.type == 1) {
+    //   if(wx.roles.filter(item => item.id === 1).length)
+    //     itemList = ['会议订单', '婚宴订单'] 
+    //   else if (wx.roles.filter(item => item.id === 2).length){
+    //     check = 1
+    //   }else if(wx.roles.filter(item => item.id === 3).length){
+    //     check = 2
+    //   }else{
+    //     return wx.showToast({
+    //       icon: 'none',
+    //       title: '权限不足',
+    //       duration: 2000
+    //     })
+    //   }
+    // }else {
+    //   itemList = ['会议需求', '婚宴需求']
+    // }
+    let itemList = ['会议需求', '婚宴需求']
+    if(wx.roleId == 1){
+      wx.showActionSheet({
+        itemList: itemList,
+        success (res) {
+          wx.navigateTo({
+            url: `/pages/order/order?index=${res.tapIndex}`,
+          })
+        }
+      })
+    }else {
+      // wx.roleId-2 对应下标
+      wx.navigateTo({
+        url: `/pages/order/order?index=${wx.roleId-2}`,
+      })
+    }
+  },
+  checkLogin() {
+    if(!this.data.isLogin){
+      wx.navigateTo({
+        url:'/pages/welcome/welcome'
+      })
+      return true
+    }
   },
   onShow() {
+    this.setData({
+      type: wx.type,
+      isLogin: !!wx.getStorageSync('token')
+    })
+    if(!wx.getStorageSync('token')){
+      return
+    }
     this.init()
     this.setData({
-      type: wx.type
-    })
-    this.setData({
-      roles: wx.roles.map(item => item.roleName)
+      roles: wx.roles.map(item => item.roleName),
+      isHuiyi: wx.roleId == 1 || wx.roleId == 2,
+      isHunyan: wx.roleId == 1 || wx.roleId == 3,
     })
   },
   onReady() {

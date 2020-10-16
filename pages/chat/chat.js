@@ -81,8 +81,8 @@ Page({
         })
     },
     sendMsg() {
-        if(!this.data.textMessage){
-            return 
+        if (!this.data.textMessage) {
+            return
         }
         let msgObj = {
             type: 0,
@@ -171,11 +171,11 @@ Page({
             current: 1,
             pageSize: 5000
         }), '加载中', showLoading).then(res => {
-            if(!res.data.list.length){
+            if (!res.data.list.length) {
                 this.timer = setTimeout(() => {
                     this.getHistory(true, false)
                 }, 1000);
-                return 
+                return
             }
             this.pages = res.data.pages
             this.allList = res.data.list.map(item => {
@@ -190,7 +190,7 @@ Page({
             this.setData({
                 scrollTop: SCROLL_TOP
             })
-            if(init){
+            if (init) {
                 this.ajaxLunxun()
             }
         })
@@ -203,21 +203,21 @@ Page({
             beUserId: options.beUserId
         }).then(res => {
             let title = ''
-            if(!res.data.sysUser){
+            if (!res.data.sysUser) {
                 title = '暂未获取到该用户信息'
-            }else if(res.data.sysUser.id === wx.userInfo.id){
+            } else if (res.data.sysUser.id === wx.userInfo.id) {
                 title = '不能同自己聊天'
             }
-            if(title) {
+            if (title) {
                 wx.delAPI(title)
-                .then(()=>{
-                    wx.navigateBack()
-                })
-                return 
+                    .then(() => {
+                        wx.navigateBack()
+                    })
+                return
             }
             this.chatId = res.data.chatId
             wx.setNavigationBarTitle({
-                title: res.data.sysUser.contacts || res.data.sysUser.contacts//页面标题为路由参数
+                title: res.data.sysUser.contacts || res.data.sysUser.contacts //页面标题为路由参数
             })
             this.getHistory(true)
         })
@@ -225,15 +225,15 @@ Page({
     loadMore(e) {
         // console.log(e);
         if (e.detail.scrollTop < 20) { //触发触顶事件
-            if(this.throttle) { // 节流
-                return 
+            if (this.throttle) { // 节流
+                return
             }
             this.throttle = true
             var query = wx.createSelectorQuery();
             query.select('#chatView').boundingClientRect()
-            query.exec(res=> {
+            query.exec(res => {
                 // console.log(res);
-                if(this.page <= (this.allList.length / this.pageSize)){
+                if (this.page <= (this.allList.length / this.pageSize)) {
                     console.log(this.page);
                     console.log([...this.allList].splice(this.pageSize * (this.page), this.pageSize).reverse());
                     this.setData({
@@ -244,13 +244,13 @@ Page({
                     })
                     this.page++
                     this.setData({
-                        scrollTop:res[0].height
+                        scrollTop: res[0].height
                     })
                     setTimeout(() => {
                         this.throttle = false
                     }, 500);
                 }
-            })       
+            })
         }
     },
     ajaxLunxun() {
@@ -260,7 +260,7 @@ Page({
             pageSize: 10
         }).then(res => {
             // 没有历史纪录说明第一次访问，因为需要拿AllList对比记录做分页，下面逻辑就不执行了
-            if(!this.allList.length){
+            if (!this.allList.length) {
                 return this.getHistory()
             }
             let list = res.data.list.map(item => {
@@ -274,25 +274,29 @@ Page({
                 return item.recordId === firstId
             })
             console.log(index);
-            if(index > 0){
+            if (index > 0) {
                 // 避免重复添加消息
-                let newList = list.splice(0, index).filter(item => !this.data.list.filter(_item => _item.recordId ===item.recordId).length)
+                let newList = list.splice(0, index).filter(item => !this.data.list.filter(_item => _item.recordId === item.recordId).length)
                 this.setData({
                     list: [...this.data.list, ...newList],
-                    scrollTop: SCROLL_TOP+= 1
+                    scrollTop: SCROLL_TOP += 1
                 })
             }
             this.timer = setTimeout(() => {
-                console.log(6666666666666666)
                 this.ajaxLunxun()
             }, 1000);
         })
     },
     onUnload() {
-        console.log(1);
-        
         clearTimeout(this.timer)
+    },
+    onShow() {
+        if (!wx.getStorageSync('token')) {
+            wx.navigateTo({
+                url: '/pages/welcome/welcome'
+            })
+            return true
+        }
     }
-
 
 });

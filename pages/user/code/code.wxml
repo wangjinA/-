@@ -1,0 +1,13 @@
+<view>
+  <view class="code-title">
+    会客通
+  </view>
+  <view class="text-1">
+    邀请好友得
+  </view>
+  <view class="text-2">积分奖励</view>
+  <image width="100rpx" src="../../../images/code-left.png" class="code-left"></image>
+  <image src="../../../images/code-middle.png" class="code-middle"></image>
+  <image src="../../../images/code-right.png" class="code-right"></image>
+  <image src="{{code}}" class="code"></image>
+</view>

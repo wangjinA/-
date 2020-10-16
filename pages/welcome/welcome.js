@@ -18,15 +18,18 @@ Page({
               const {
                 type
               } = e.currentTarget.dataset
+              // 获取用户信息
               wx.getUserInfo({
                 success: res => {
                   console.log(res);
                   console.log(wx.getStorageSync('wxcode'));
+                  // 调取后台接口登录
                   wx.loadingAPI(wx.$post('/api/wx/login', {
                       code: wx.getStorageSync('wxcode'),
                       encryptedData: res.encryptedData,
                       iv: res.iv,
-                      type
+                      type,
+                      invitationCode: this.data.scene || 0
                     }), '登录中')
                     .then(res => {
                       if (res.msg != '成功') {
@@ -35,6 +38,7 @@ Page({
                       wx.type = type
                       wx.userInfo = res.data.userInfo
                       wx.roles = res.data.roles // 1管理 2会议 3婚宴
+                      wx.roleId = res.data.roles[0] && res.data.roles[0].id
                       wx.hotelId = res.data.userInfo.hotelId
                       wx.hotelInfo = res.data.hotelInfo
                       if (type == 1) {
@@ -174,25 +178,11 @@ Page({
       })
   },
   onLoad: function (options) {
+    console.log(1);
     console.log(options);
-    if (options.scene) {
-      Object.assign(this.options, getScene(options.scene)) // 获取二维码参数，绑定在当前this.options对象上
-    }
-    console.log(this.options) // 这时候就会发现this.options上就会有对应的参数了
-    
-
-    console.log("index 生命周期 onload" + JSON.stringify(options))
-    //在此函数中获取扫描普通链接二维码参数
-    if(options.q){
-      let q = decodeURIComponent(options.q);
-      console.log("index 生命周期 onload url=" + q)
-      console.log("index 生命周期 onload 参数 is_water=" + utils.getQueryString(q, 'is_water'))
-      var is_water = utils.getQueryString(q, 'is_water');
-      console.log(is_water);
-      console.log("index 生命周期 onload 参数 access_token=" + utils.getQueryString(q, 'access_token'))
-      var access_token = utils.getQueryString(q, 'access_token');
-      console.log(access_token);
-    }
+    console.log(options.scene);
+    this.data.scene = options.scene
+    console.log(2);
   },
   getScene: function (scene = "") {
     if (scene == "") return {}

@@ -104,7 +104,7 @@ Page({
           ]
         })
       }
-      if(wx.roles && wx.roles.filter(item => item.id ===1).length){
+      if(wx.roles && wx.roleId == 1){
         this.setData({
           formList: [{
             label: '员工管理',

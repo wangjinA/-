@@ -16,7 +16,10 @@ Page({
     huiyiList: [],
     hunyanList: [],
     notMore: false,
-    activeIndex: 0
+    activeIndex: 0,
+    roleId: '',
+    isHuiyi: false, // 是否有会议权限
+    isHunyan: false, // 是否有婚宴权限
   },
   onChange(event) {
     const index = event.detail.index
@@ -28,9 +31,9 @@ Page({
     this.init()
   },
   init() {
-    if (this.data.activeIndex === 0) {
+    if (this.data.activeIndex === 0 && this.data.isHuiyi) {
       this.getHuiyi()
-    } else {
+    } else if(this.data.isHunyan) {
       this.getHunyan()
     }
   },
@@ -86,7 +89,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      roleId: wx.roleId,
+      isHuiyi: wx.roleId == 1 || wx.roleId == 2,
+      isHunyan: wx.roleId == 1 || wx.roleId == 3,
+    })
+    this.setData({
+      activeIndex: this.data.isHuiyi ? 0 : 1
+    })
   },
 
   /**

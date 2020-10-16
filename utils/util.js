@@ -209,6 +209,16 @@ function hideInfo(userInfo) {
 function isEmail (s) {
   return /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
 }
+// function checkRole() {
+//   let 
+//   if(wx.roles.filter(item => item.id === 1).length)
+//     itemList = ['会议订单', '婚宴订单'] 
+//   else if (wx.roles.filter(item => item.id === 2).length){
+//     check = 1
+//   }else if(wx.roles.filter(item => item.id === 3).length){
+//     check = 2
+//   }
+// }
 wx.$isEmail = isEmail
 wx.$hideInfo = hideInfo
 wx.$getStatus = getStatus

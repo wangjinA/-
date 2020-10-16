@@ -1,6 +1,6 @@
 import './utils/request.js'
 import './utils/util.js'
-wx.type = 1
+wx.type = 2
 wx.hotelId = ''
 App({
   

@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/index/index",
+    "pages/user/code/code",
     "pages/welcome/welcome",
     "pages/hunyanDetail/hunyanDetail",
     "pages/hotel/hotelCreate/hotelCreate",
@@ -9,7 +11,6 @@
     "pages/user/userInfo/userInfo",
     "pages/release/release",
     "pages/hotel/baseInfo/baseInfo",
-    "pages/index/index",
     "pages/hotel/hotelDetail/hotelDetail",
     "pages/robOrderDetail/robOrderDetail",
     "pages/order/orderEnd/orderEnd",
@@ -128,6 +129,7 @@
     "van-switch": "./vant/weapp/switch/index",
     "van-tag": "./vant/weapp/tag/index",
     "van-stepper": "./vant/weapp/stepper/index",
-    "van-empty": "./vant/weapp/empty/index"
+    "van-empty": "./vant/weapp/empty/index",
+    "van-dialog": "./vant/weapp/dialog/index"
   }
 }

@@ -1,19 +1,21 @@
 <view class="user-header">
   <view class="user-avatar" bindtap="toUserInfo">
-    <image src="{{userInfo.url}}"></image>
+    <image src="{{userInfo.url || '../../images/default-img.png'}}"></image>
   </view>
-  <view class="user-name" bindtap="toUserInfo">
-    <view>{{type == 1 ? hotelInfo.hotelName : userInfo.name}}</view>
-    <view class="c">{{roles}}</view>
-  </view>
-  <!-- <text class="iconfont icon-youjiantou"></text> -->
-  <view class="qiandao">
-    <block wx:if="{{!sign}}">
-      <van-icon name="diamond" />
-      <text  bindtap="openSignin">积分签到</text>
-    </block>
-    <text wx:else>已签到</text>
-  </view>
+  <view wx:if="{{!isLogin}}" style="color:#FD960D;" bindtap="checkLogin">去登录</view>
+  <block wx:if="{{isLogin}}">
+    <view class="user-name" bindtap="toUserInfo">
+      <view>{{type == 1 ? hotelInfo.hotelName : userInfo.name}}</view>
+      <view class="c">{{roles}}</view>
+    </view>
+    <view class="qiandao">
+      <block wx:if="{{!sign}}">
+        <van-icon name="diamond" />
+        <text  bindtap="openSignin">积分签到</text>
+      </block>
+      <text wx:else>已签到</text>
+    </view>
+  </block>
 </view>
 <view class="money-list">
   <view class="money-item">
@@ -53,16 +55,30 @@
   <view class="nav-item">
     <image src="/images/yaoqing.png"></image>
   <text>邀请注册</text>
-    <text class="qym" bindtap="copyCode" data-code="996342">邀请码：<text class="yqm-code">996342</text></text>
+    <text class="qym" bindtap="copyCode" data-code="996342">
+      <!-- 邀请码： -->
+      <text class="yqm-code">查看邀请码</text>
+    </text>
   </view>
   <view class="nav-item" bindtap="goGetScore">
     <image src="/images/wenti.png" ></image>
     <text>如何获取积分?</text>
     <text class="iconfont icon-youjiantou"></text>
   </view>
-  <view class="nav-item" bindtap="userToggle">
+  <view class="nav-item" bindtap="userToggle" wx:if="{{isLogin}}">
     <image src="/images/toggle.png" ></image>
     <text>{{ type==2 ? '切换商家' : '切换用户' }}</text>
     <text class="iconfont icon-youjiantou"></text>
   </view>
 </view>
+
+<van-dialog
+  use-slot
+  title="邀请码"
+  show="{{ showCode }}"
+  bind:close="onClose"
+>
+  <view style="text-align:center">
+    <image style="width:240px; height:240px;" src="{{userInfo.qrCode}}" mode="aspectFill"/>
+  </view>
+</van-dialog>

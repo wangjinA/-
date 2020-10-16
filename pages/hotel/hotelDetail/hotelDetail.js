@@ -22,7 +22,8 @@ Page({
     meetingData: {},
     roomData: {},
     bannerList: [],
-    peitao: {}, // 配套信息
+    peitao: {}, // 配套信息,
+    isLogin: false, // 
   },
   lookVR() {
     wx.navigateTo({
@@ -187,8 +188,18 @@ Page({
   onReady: function () {
 
   },
+  checkLogin() {
+    if(!this.data.isLogin){
+      wx.navigateTo({
+        url:'/pages/welcome/welcome'
+      })
+      return true
+    }
+  },
   onShow: function () {
-
+    this.setData({
+      isLogin: !!wx.getStorageSync('token')
+    })
   },
 
   /**

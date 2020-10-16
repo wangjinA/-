@@ -22,7 +22,8 @@
 		</van-dropdown-item> -->
 
 	</van-dropdown-menu>
-  <scroll-view class='listScroll' style="width:{{width}}px;" scroll-y="true" scroll-x lower-threshold="800" bindscrolltolower="loadmore">
+  <scroll-view class='listScroll' style="width:{{width}}px;" scroll-y="true" scroll-x lower-threshold="50" bindscrolltolower="loadmore">
 		<hotel wx:for="{{list}}" wx:key="*this" data="{{item}}"></hotel>
+		<van-empty wx:if="{{!list.length}}" image="search" description="暂无数据" />
   </scroll-view>
 </view>

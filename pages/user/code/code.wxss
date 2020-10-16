@@ -1,0 +1,44 @@
+page{
+  background-color: #4A90E2;
+  color: #fff;
+  text-align: center;
+}
+.code-title{
+  font-size: 40rpx;
+  padding-top: 30rpx;
+}
+.text-1{
+  font-size: 60rpx;
+    margin-top: 50rpx;
+}
+.text-2{
+  font-size: 70rpx;
+  margin-top: 50rpx;
+  color: #ffe633;
+}
+.code-left,
+.code-right{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 153rpx;
+}
+.code-left{
+  left: 20rpx;
+  transform: rotate(-13deg);
+}
+.code-right{
+  right: 20rpx;
+  transform: rotate(13deg);
+}
+.code-middle{
+  width: 50px;
+  height: 103px;
+  margin-top: 20px;
+}
+.code{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 50px;
+}

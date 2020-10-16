@@ -101,9 +101,8 @@ Page({
     endDate: '',
     userType: 'jiudian',
     labelWidth: '200rpx',
-    hotelFormData: {
-
-    },
+    hotelFormData: {},
+    isLogin: false, // 
   },
   nextPage() {
     wx.navigateTo({
@@ -142,6 +141,9 @@ Page({
     return isDate
   },
   commitWedding() { // 提交婚宴
+    if(this.checkLogin()){
+      return
+    }
     this.checkUserInfo()
       .then((res) => {
         if(!res.data){
@@ -189,6 +191,9 @@ Page({
       })
   },
   commitMeeting() { // 提交会议
+    if(this.checkLogin()){
+      return
+    }
     this.checkUserInfo()
       .then((res) => {
         if(!res.data){
@@ -301,6 +306,19 @@ Page({
     })
     keys.map(item => item + 'Data').forEach(key => { //
       delete this.data[key]
+    })
+  },
+  checkLogin() {
+    if(!this.data.isLogin){
+      wx.navigateTo({
+        url:'/pages/welcome/welcome'
+      })
+      return true
+    }
+  },
+  onShow() {
+    this.setData({
+      isLogin: !!wx.getStorageSync('token')
     })
   },
   onReady() {

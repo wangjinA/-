@@ -17,12 +17,12 @@
 	<view class="address">
 		<view class="address-text c6">
 			<van-icon name="location" size="14" color="#fd960d" />
-			{{data.city}}{{data.address}}
+			{{data.city||''}}{{data.address}}
 		</view>
-		<view class="more" bindtap="goMap">
+		<!-- <view class="more" bindtap="goMap">
 			<text>查看地图</text>
 			<text class="iconfont icon-youjiantou"></text>
-		</view>
+		</view> -->
 	</view>
 	<view class="title">基本信息</view>
 	<view class="address">

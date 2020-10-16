@@ -69,6 +69,11 @@ Page({
         keyword: e.detail
         })
     },
+    // 滚动加载
+    loadmore(e) {
+        console.log(e);
+        this.getData();
+    },
     getData(isInit = true) {
         if(isInit){
             this.data.current = 1
