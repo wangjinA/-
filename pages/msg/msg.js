@@ -7,7 +7,7 @@ Page({
     list: []
   },
   onShow() {
-    if(!this.timer) {
+    if(!wx.msgTimer) {
       this.lunxun()
       console.log(wx.globalTimer);
       clearTimeout(wx.globalTimer) // 清除在welcome创建的轮询
@@ -15,10 +15,10 @@ Page({
   },
   lunxun() {
     let lunxunTime = 1000
-    clearTimeout(this.timer)
+    clearTimeout(wx.msgTimer)
     // 在tabbar页面的时候才发送请求
     if(getCurrentPages().length !== 1){
-      return this.timer = setTimeout(() => {
+      return wx.msgTimer = setTimeout(() => {
         this.lunxun()
       }, lunxunTime);
     }
@@ -49,11 +49,11 @@ Page({
       } catch (error) {
         
       }
-      this.timer = setTimeout(() => {
+      wx.msgTimer = setTimeout(() => {
         this.lunxun()
       }, lunxunTime);
     }).catch(() => {
-      this.timer = setTimeout(() => {
+      wx.msgTimer = setTimeout(() => {
         this.lunxun()
       }, lunxunTime);
     })

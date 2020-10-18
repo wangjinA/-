@@ -227,4 +227,17 @@ export const hylx = value => {
   return getCommon(data, value)
 }
 
+export const address = ['南昌',
+'九江',
+'上饶',
+'抚州',
+'宜春',
+'吉安',
+'赣州',
+'景德镇',
+'萍乡',
+'新余',
+'鹰潭',
+]
+
 export const defaultCity = ['江西省', '南昌市']

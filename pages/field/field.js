@@ -2,7 +2,7 @@
 
 
 const app = getApp();
-import { rs } from '../../utils/config'
+import { rs, address } from '../../utils/config'
 Page({
     data: {
         selectedNav: '00',
@@ -14,10 +14,10 @@ Page({
         menuOptions1: [{
             text: '不限区域',
             value: 0
-        }, {
-            text: '南昌',
-            value: '南昌'
-        }],
+        },...address.map((item, index) => ({
+            text: item,
+            value: item
+        })) ],
         // menuOptions2: [{
         //     text: '最常举办类型',
         //     value: 0

@@ -29,7 +29,7 @@ Page({
                       encryptedData: res.encryptedData,
                       iv: res.iv,
                       type,
-                      invitationCode: this.data.scene || 0
+                      invitationCode: (this.data.scene && this.data.scene.toString()) || '0'
                     }), '登录中')
                     .then(res => {
                       if (res.msg != '成功') {
@@ -63,7 +63,8 @@ Page({
 
                       wx.showToast({
                         icon: 'none',
-                        title: err || '登录失败',
+                        duration: 3000,
+                        title: (err && JSON.stringify(err)) || '登录失败',
                       })
                     })
                 }

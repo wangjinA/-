@@ -3,7 +3,8 @@ import {
   hyjgqj,
   rnzs,
   jdxj,
-  rs
+  rs,
+  address
 } from '../../utils/config'
 let keys = ['hcxq', 'kfxq', 'cyxq']
 const app = getApp()
@@ -75,18 +76,7 @@ Page({
       placeholder: '其他宴会要求',
       key: 'notes',
     }],
-    address: ['南昌',
-      '九江',
-      '上饶',
-      '抚州',
-      '宜春',
-      '吉安',
-      '赣州',
-      '景德镇',
-      '萍乡',
-      '新余',
-      '鹰潭',
-    ],
+    address:address ,
     persons: [
       '10~50人',
       '51~100人',
