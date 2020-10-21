@@ -37,10 +37,11 @@ Page({
                       }
                       wx.type = type
                       wx.userInfo = res.data.userInfo
-                      wx.roles = res.data.roles // 1管理 2会议 3婚宴
-                      wx.roleId = res.data.roles[0] && res.data.roles[0].id
+                      wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
+                      wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
                       wx.hotelId = res.data.userInfo.hotelId
-                      wx.hotelInfo = res.data.hotelInfo
+                      wx.hotelInfo = res.data.hotelInfo || {}
+                      wx.setStorageSync('type', type)
                       if (type == 1) {
                         console.log(res);
                         if (res.data.userInfo && res.data.userInfo.hotelId) {
@@ -80,12 +81,15 @@ Page({
   lunxun() {
     let lunxunTime = 1000
     clearTimeout(this.timer)
+    clearTimeout(wx.msgTimer)
     // 在tabbar页面的时候才发送请求
     if (getCurrentPages().length !== 1) {
       return wx.globalTimer = setTimeout(() => {
         this.lunxun()
       }, lunxunTime);
     }
+    console.log('welcome页面轮询');
+    
     wx.$post('/chat/getChatRoom', {
         current: 1,
         pageSize: 100

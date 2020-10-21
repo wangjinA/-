@@ -11,12 +11,33 @@ Page({
     recommendList: [],
     hotelInfo: {},
     noticeList: [],
-    noticeIndex: 0
+    noticeIndex: 0,
+    isLogin: false
   },
   replay(e) { // 每当滚动栏重新开始滚动时触发
     console.log(e);
     console.log('每当滚动栏重新开始滚动时触发');
 
+  },
+  loadUserInfo() {
+    wx.$get('/api/user/getUserInfo')
+      .then(res => {
+        if(res.code == '20'){// token失效
+          wx.clearStorageSync('token')
+          this.setData({
+            isLogin: false
+          })
+        }else {
+          wx.userInfo = res.data.userInfo
+          wx.hotelInfo = res.data.hotelInfo || {}
+          wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
+          wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
+          wx.hotelId = res.data.userInfo.hotelId
+        }
+        this.setData({
+          isLogin: true
+        })
+      })
   },
   init() {
     wx.$post('/banner/getAllBanner')
@@ -87,7 +108,18 @@ Page({
       url: '/pages/field/field',
     })
   },
+  checkLogin() {
+    if(!this.data.isLogin){
+      wx.navigateTo({
+        url:'/pages/welcome/welcome'
+      })
+      return true
+    }
+  },
   goHotelInfo(e) {
+    if(this.checkLogin()){
+      return 
+    }
     if(!wx.hotelId){
       return wx.showToast({
         title: '暂未获取到酒店信息',
@@ -100,6 +132,9 @@ Page({
     })
   },
   homeNavClick(e) {
+    if(this.checkLogin()){
+      return 
+    }
     let index = e.currentTarget.dataset.index;
     switch (index) {
       case '0':
@@ -124,15 +159,18 @@ Page({
 
   },
   onShow() {
-    if(!wx.userInfo){
-      wx.clearStorageSync('token')
-    }
-    if (wx.type && wx.type != this.data.type) {
-      this.setData({
-        type: wx.type
-      })
-    }
+    // if(!wx.userInfo){
+    //   wx.clearStorageSync('token')
+    // }
+
+    this.setData({
+      type: wx.type,
+      isLogin: !!wx.getStorageSync('token')
+    })
+    
+    this.loadUserInfo()
     this.init()
+
   },
   fucClick(event) {
     const id = event.currentTarget.dataset.id;

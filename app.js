@@ -1,7 +1,10 @@
 import './utils/request.js'
 import './utils/util.js'
-wx.type = 2
+wx.type = wx.getStorageSync('type') || 2
 wx.hotelId = ''
+wx.roleId = ''
+wx.hotelInfo = {}
+wx.roles = []
 App({
   
   onLaunch: function () {

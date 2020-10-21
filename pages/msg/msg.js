@@ -9,11 +9,12 @@ Page({
   onShow() {
     if(!wx.msgTimer) {
       this.lunxun()
-      console.log(wx.globalTimer);
       clearTimeout(wx.globalTimer) // 清除在welcome创建的轮询
     }
   },
   lunxun() {
+    console.log('msg页面轮询');
+    
     let lunxunTime = 1000
     clearTimeout(wx.msgTimer)
     // 在tabbar页面的时候才发送请求
@@ -55,7 +56,7 @@ Page({
     }).catch(() => {
       wx.msgTimer = setTimeout(() => {
         this.lunxun()
-      }, lunxunTime);
+      }, lunxunTime + 3000); // 失败后+3秒再重试
     })
   },
   clickHandler(e) {

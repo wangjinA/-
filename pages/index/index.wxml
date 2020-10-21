@@ -27,7 +27,7 @@
 	</view> -->
 	<van-notice-bar left-icon="/images/notice.png" text="{{noticeList[noticeIndex].content}}" />
 	<view class="h-hotel-info" wx:if="{{ type == 1 }}">
-		<view class="h-hotel-name">{{hotelInfo.hotelName}}</view>
+		<view class="h-hotel-name" bindtap="goHotelInfo">{{isLogin ? hotelInfo.hotelName: '去登录'}}</view>
 		<view class="hotel-edit more" data-id="{{hotelInfo.id}}"  bindtap="goHotelInfo">
 			<text>维护酒店信息</text>
 			<text class="iconfont icon-youjiantou"></text>

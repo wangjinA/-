@@ -72,12 +72,14 @@ Page({
     // 滚动加载
     loadmore(e) {
         console.log(e);
-        this.getData();
+        this.getData(false);
     },
     getData(isInit = true) {
         if(isInit){
             this.data.current = 1
         }
+        console.log(isInit)
+        console.log(this.data.current)
         let siteSearchVo = {
             current: this.data.current++,
             pageSize: this.data.pageSize,

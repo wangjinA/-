@@ -70,6 +70,7 @@
     <text>{{ type==2 ? '切换商家' : '切换用户' }}</text>
     <text class="iconfont icon-youjiantou"></text>
   </view>
+  <view class="goLogin" bindtap="goLogin" wx:if="{{isLogin}}">退出登录</view>
 </view>
 
 <van-dialog

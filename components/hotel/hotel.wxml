@@ -10,7 +10,7 @@
 			</view>
 			<view class="flex flex1">
 				<view>最多容纳：</view>
-				<view>{{data.maxPeople}}人</view>
+				<view>{{data.maxNumber}}人</view>
 			</view>
 		</view>
 		<view class="flex baseInfo">

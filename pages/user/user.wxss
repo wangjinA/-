@@ -100,3 +100,10 @@ page {
 .yqm-code{
   color: #4059FD;
 }
+.goLogin{
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #FD960D;
+}

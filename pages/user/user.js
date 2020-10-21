@@ -97,6 +97,7 @@ Page({
   },
   setUser(type) {
     wx.type = type
+    wx.setStorageSync('type', type)
     this.setData({
       type
     })
@@ -155,6 +156,19 @@ Page({
         url: `/pages/order/order?index=${wx.roleId-2}`,
       })
     }
+  },
+  goLogin() {
+    wx.delAPI('确认退出登录')
+    .then(() => {
+      wx.clearStorageSync('token')
+      wx.clearStorageSync('type')
+      clearTimeout(wx.globalTimer)
+      clearTimeout(wx.msgTimer)
+      wx.reLaunch({
+        url:'/pages/welcome/welcome'
+      })
+
+    })
   },
   checkLogin() {
     if(!this.data.isLogin){
