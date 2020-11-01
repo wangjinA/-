@@ -5,21 +5,39 @@ Page({
    * 页面的初始数据
    */
   data: {
-
-    banner: [
-      '/images/hotel/hotel1.jpg',
-      '/images/hotel/hotel2.png',
-      '/images/hotel/hotel3.jpg',
-      '/images/hotel/hotel4.jpg',
-      '/images/hotel/hotel5.jpg',
-    ],
+    data: {},
+    banner: [],
   },
+  commit() {
+    wx.delAPI('确认兑换，不可取消')
+    .then(() => {
+      wx.loadingAPI(wx.$post('/system/exchangeIntegralProduct', {
 
+      }), '提交中').then(res => {
+        
+      })
+    })
+  },
+  getDetail() {
+    wx.loadingAPI(wx.$get('/system/getIntegralDetail', {
+      integralProductId: this.data.id
+    }))
+    .then(res => {
+      this.setData({
+        data: {
+          ...res.data,
+          integralImgStr: JSON.parse(res.data.integralImgStr)
+        }
+      })
+    })
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.data.id = options.id
+    this.getDetail()
   },
 
   /**

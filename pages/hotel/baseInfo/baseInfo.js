@@ -51,7 +51,8 @@ Page({
       label: '承办类型',
       placeholder: '请选择',
       required: true,
-      key: 'undertakeType',
+      notChek: true, // wjForm内部不判断
+      key: 'undertakeType', // 0 全选 1 2 会议和婚宴
       type: 'checkbox',
       data: [{
         name: '会议',
@@ -112,7 +113,7 @@ Page({
     let wjForm = this.selectComponent('#wjForm')
     wjForm.getData()
       .then(data => {
-        if(!data.undertakeType.length){
+        if(data.undertakeType instanceof Array && !data.undertakeType.length){ // 如果是手动选择就是数组， init后是number 0全选 12会议和婚宴
           return wx.showToast({
             title: '请选择承办类型',
             icon: 'none'
@@ -137,9 +138,12 @@ Page({
         wx.loadingAPI(wx.$post('/hotel/updateHotelBasisInfo', params), '保存中')
           .then(data => {
             wx.showToast({
+              duration: 1500,
               title: '保存成功',
             })
-            this.init()
+            setTimeout(() => {
+              this.init()
+            }, 1500)
           })
       })
 

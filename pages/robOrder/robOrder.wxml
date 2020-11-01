@@ -16,5 +16,5 @@
     </block>
 	</van-tab>
 </van-tabs>
-<view class="notMore" wx:if="{{activeIndex == 0 ? !huiyiList.length : !hunyanList.length}}">暂无数据</view>
+<view class="notMore" wx:if="{{activeIndex == 0 ? !huiyiList.length&&isHuiyi : !hunyanList.length&&isHunyan}}">暂无数据</view>
 <view class="notMore" wx:if="{{notMore}}">已经到底啦...</view>

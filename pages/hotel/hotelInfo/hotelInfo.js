@@ -107,7 +107,7 @@ Page({
       if(wx.roles && wx.roleId == 1){
         this.setData({
           formList: [{
-            label: '员工管理',
+            label: '账户权限设置',
             key: 'hotelName',
             type: 'link',
             value: '',

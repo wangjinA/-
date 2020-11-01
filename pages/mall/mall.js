@@ -11,27 +11,59 @@ Page({
       name: '活跃度',
       tips: '每天登录得积分',
       score: 300
-    }, {
-      name: '报价速度',
-      tips: '在半小时之内报价获得积分',
-      score: 300
-    }, {
-      name: '入驻酒店奖励',
-      tips: '填写酒店资料通过平台审核获得',
-      score: 300
-    }, {
+    }
+    // , {
+    //   name: '报价速度',
+    //   tips: '在半小时之内报价获得积分',
+    //   score: 300
+    // }, {
+    //   name: '入驻酒店奖励',
+    //   tips: '填写酒店资料通过平台审核获得',
+    //   score: 300
+    // }
+    , 
+    {
       name: '确认成交',
       tips: '成交订单后，会议真实有效得积分',
       score: 300
-    }]
+    }
+  ],
+  list: [],
+  current: 1,
+  pageSize: 10
   },
   onChange() {
 
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  goDetail(e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/mallDetail/mallDetail?id='+id,
+    })
+  },
+  getData() {
+    wx.$get('/system/getIntegralPage', {
+      current: this.data.current,
+      pageSize: this.data.pageSize
+    }).then(res => {
+      let list = res.data.list.map(item => ({
+        ...item,
+        integralImgStr: JSON.parse(item.integralImgStr)
+      }))
+      if(this.data.current == 1){
+        this.setData({
+          list: list
+        })
+      }else {
+        this.setData({
+          list: [...this.data.list, ...list]
+        })
+
+      }
+    })
+  },
   onLoad: function (options) {
+    this.getData()
     this.setData({
       tabIndex: options.index ? parseInt(options.index) : 0
     })

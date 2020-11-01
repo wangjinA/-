@@ -69,7 +69,7 @@ export function checkRequired(formData, formList) { // 提交判断required
     const item = formList[i];
     const itemData = formData[item.key]
     let label = item.label
-    if (item.required) {
+    if (item.required && !item.notChek) { // notChek 添加星号但是不判断
       if (item.type === 'timeScope') {
         if (!itemData || !itemData.length) {
           isNull = true

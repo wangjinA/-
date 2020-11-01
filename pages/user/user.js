@@ -23,7 +23,7 @@ Page({
     }
   },
   init() {
-    wx.$get('/api/user/getUserInfo')
+    return wx.$get('/api/user/getUserInfo')
       .then(res => {
         this.setData({
           userInfo: res.data.userInfo,
@@ -104,9 +104,10 @@ Page({
   },
   goGetScore() {
     wx.navigateTo({
-      url: '/pages/mall/mall?index=1',
+      url: '/pages/mall/mall?index=0',
     })
   },
+  // 签到
   openSignin() {
     if (this.data.userInfo.sign) return;
     wx.loadingAPI(wx.$get('/api/user/signin'), '签到中')
@@ -117,6 +118,12 @@ Page({
           }
         })
         this.init()
+        .then(() => {
+          wx.showToast({
+            title: '签到成功',
+            duration: 2000
+          })
+        })
       })
   },
   toOrder() {
@@ -140,6 +147,14 @@ Page({
     // }else {
     //   itemList = ['会议需求', '婚宴需求']
     // }
+    
+    if(!wx.roles || !wx.roles.length){
+      return wx.showToast({
+        icon: 'none',
+        title: '权限不足',
+        duration: 2000
+      })
+    }
     let itemList = ['会议需求', '婚宴需求']
     if(wx.roleId == 1){
       wx.showActionSheet({

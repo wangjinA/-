@@ -16,11 +16,11 @@
 		<view class="flex baseInfo">
 			<view class="flex flex1">
 				<view>会场数量：</view>
-				<view>{{data.chamberCount}}</view>
+				<view>{{data.chamberCount}}个</view>
 			</view>
 			<view class="flex flex1">
 				<view>客房数量：</view>
-				<view>{{data.guestCount}}</view>
+				<view>{{data.guestCount}}间</view>
 			</view>
 		</view>
 		<view class="hotel-price">
