@@ -9,13 +9,44 @@ Page({
     banner: [],
   },
   commit() {
-    wx.delAPI('确认兑换，不可取消')
-    .then(() => {
-      wx.loadingAPI(wx.$post('/system/exchangeIntegralProduct', {
-
-      }), '提交中').then(res => {
-        
-      })
+    wx.chooseAddress({
+      success: (res) =>{
+        console.log(res);
+        let address = res.provinceName + res.cityName + res.countyName + res.detailInfo
+        let phone = res.telNumber
+        let contact = res.userName
+        wx.delAPI(`${contact}, ${phone}, ${address}`)
+        .then(() => {
+          wx.loadingAPI(wx.$post('/system/exchangeIntegralProduct', {
+            address,
+            phone,
+            contact,
+            integralProductId: this.data.id
+          }), '提交中')
+          .then(res => {
+            if(res.msg === '成功'){
+              wx.showToast({
+                icon: 'success',
+                title: '兑换成功',
+                duration: 2000
+              })
+              setTimeout(() => {
+                wx.navigateBack()
+              }, 2000);
+            }else {
+              wx.showToast({
+                icon: 'none',
+                title: res.data
+              })
+            }
+          }).catch(() =>{
+            wx.showToast({
+              icon: 'none',
+              title: res.data
+            })
+          })
+        })
+      }
     })
   },
   getDetail() {
