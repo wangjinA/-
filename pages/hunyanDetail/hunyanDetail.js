@@ -52,6 +52,20 @@ Page({
       }
     })
   },
+  copyCode() {
+    wx.setClipboardData({
+      data: this.data.data.weddingBanquetId.toString(),
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            wx.showToast({
+              title: '复制成功'
+            })
+          }
+        })
+      }
+    })
+  },
   useBj() {
     console.log('使用这个报价')
   },

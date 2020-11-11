@@ -56,6 +56,20 @@ Page({
     isHotel: false, // 是否是报价的酒店
     currentUserId: ''
   },
+  copyCode() {
+    wx.setClipboardData({
+      data: this.data.data.meetingId.toString(),
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            wx.showToast({
+              title: '复制成功'
+            })
+          }
+        })
+      }
+    })
+  },
   callPhone() {
     wx.makePhoneCall({
       phoneNumber: this.data.userInfo.phone,

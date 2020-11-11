@@ -1,4 +1,5 @@
 <image class="banner" src="/images/hotel/hotel4.jpg" mode="aspectFill"></image>
+<view class="history" bindtap="goHistory">兑换记录</view>
 <van-tabs active="{{ tabIndex }}" bind:change="onChange" color="#FD960D">
 	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item }}">
 		<view class="goods-list" wx:if="{{index == 0}}">

@@ -1,3 +1,6 @@
+<view class="total">
+  总推荐人数：<text>20人</text>
+</view>
 <view class="user-header" wx:for="{{10}}">
   <view class="user-avatar" bindtap="toUserInfo">
     <image src="/images/avatar.jpg"></image>

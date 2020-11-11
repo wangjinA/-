@@ -77,11 +77,13 @@ Page({
     getData(isInit = true) {
         if(isInit){
             this.data.current = 1
+        }else if(this.data.pages && this.data.current >= this.data.pages){
+            return
         }
         console.log(isInit)
         console.log(this.data.current)
         let siteSearchVo = {
-            current: this.data.current++,
+            current: this.data.current,
             pageSize: this.data.pageSize,
             key: this.data.keyword,
         }
@@ -94,24 +96,57 @@ Page({
         }
         siteSearchVo.undertakeType = this.data.val3
         wx.loadingAPI(wx.$post('/site/searchSite', siteSearchVo))
-        .then(data=>{
-            
-            try {
-                if(this.data.current == 2){
-                    this.data.list = []
+        .then(res=>{
+            if(this.data.current == 1){
+                this.data.list = []
+            }
+            // console.log(this.data.list);
+            this.data.pages = res.data.pages
+            let list = [...this.data.list, ...res.data.list]
+            this.setData({
+                list
+            })
+            this.data.current++
+        })
+    },
+    getUserLocation() {
+        wx.getSetting({
+            success(res) {
+            console.log(res)
+            if (res.authSetting['scope.userLocationBackground']) {
+                wx.startLocationUpdateBackground({
+                success: (res) => {
+                    console.log('获取地理位置');
+                    console.log(res)
+                },
+                fail: (err) => {
+                    console.log('获取地理位置 - 失败');
+                    console.log(err)
                 }
-            console.log(this.data.list);
-            let list = [...this.data.list, ...data.data.list]
-                this.setData({
-                    list
                 })
-            } catch (error) {
-                console.log(error);
-                
+            } else {
+                if (res.authSetting['scope.userLocation']==false) {
+                console.log('打开设置页面去授权')
+                } else {
+                wx.startLocationUpdateBackground({
+                    success: (res) => {
+                        console.log('startLocationUpdate-res', res)
+                    },
+                    fail: (err) => {
+                        console.log('startLocationUpdate-err', err)
+                    }
+                })
+                }
+            }
             }
         })
     },
     onShow() {
         this.getData()
+        this.getUserLocation();
+        const _locationChangeFn = res=> {
+          console.log('location change', res.latitude, res.longitude)
+        }
+        wx.onLocationChange(_locationChangeFn);
     }
 })

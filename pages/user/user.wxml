@@ -18,7 +18,7 @@
   </block>
 </view>
 <view class="money-list">
-  <view class="money-item" bindtap="goGetScore">
+  <view class="money-item" bindtap="goScoreHistory">
     <view class="money-num">{{userInfo.integral || 0}}</view>
     <view class="money-text">我的积分</view>
   </view>
@@ -47,11 +47,11 @@
     <text>我的发布</text>
     <text class="iconfont icon-youjiantou"></text>
   </view>
-  <!-- <view class="nav-item" bindtap="toMyTeam">
+  <view class="nav-item" bindtap="toMyTeam">
     <image src="/images/tuijian.png"></image>
     <text>我的推荐</text>
     <text class="iconfont icon-youjiantou"></text>
-  </view> -->
+  </view>
   <view class="nav-item">
     <image src="/images/yaoqing.png"></image>
   <text>邀请注册</text>
@@ -63,6 +63,11 @@
   <view class="nav-item" bindtap="goGetScore">
     <image src="/images/jfsc.png" ></image>
     <text>积分商城</text>
+    <text class="iconfont icon-youjiantou"></text>
+  </view>
+  <view class="nav-item" bindtap="goSchool">
+    <image src="/images/school.png" ></image>
+    <text>会客通商学院</text>
     <text class="iconfont icon-youjiantou"></text>
   </view>
   <view class="nav-item" bindtap="userToggle" wx:if="{{isLogin}}">

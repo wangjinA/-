@@ -1,0 +1,17 @@
+<!-- map.wxml -->
+<van-search value="{{ value }}" label="地址" placeholder="请输入搜索关键词" use-action-slot bind:change="onChange"
+  bind:search="onSearch">
+  <view slot="action" bind:tap="onClick">搜索</view>
+</van-search>
+<view class="result-list">
+  <van-cell-group>
+    <van-cell wx:for="{{list}}" title="{{item.title}}" value="666" icon="location-o" />
+  </van-cell-group>
+</view>
+<map id="myMap" show-location longitude="{{longitude}}" latitude="{{latitude}}" scale="{{13}}" markers="{{markers}}"
+  bindtap="handleClick" />
+
+<!-- <button type="primary" bindtap="getCenterLocation">获取位置</button>
+<button type="primary" bindtap="moveToLocation">移动位置</button>
+<button type="primary" bindtap="translateMarker">移动标注</button>
+<button type="primary" bindtap="includePoints">缩放视野展示所有经纬度</button> -->

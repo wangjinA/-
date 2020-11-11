@@ -183,7 +183,7 @@
 <view class="container b0"> 
   <view class="time-wrap">
     <view class="time">{{data.createTime}}</view>
-    <!-- <view class="code">询价单号:WW202006029988</view> -->
+    <view class="code" bindtap="copyCode">询价单号:{{data.weddingBanquetId}}</view>
   </view>
 </view>
 

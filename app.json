@@ -39,13 +39,13 @@
     "pages/meetingInfo/meetingInfo",
     "pages/mallDetail/mallDetail",
     "pages/chat/chat",
-    "pages/hotel/hotel",
-    "pages/login/login",
     "pages/hotel/meetingInfo/meetingInfo",
     "pages/hotel/hotelGuestRoom/hotelGuestRoom",
     "pages/user/myRelease/myRelease",
     "pages/VR/VR",
-    "pages/hotel/staffAdmin/staffAdmin"
+    "pages/hotel/staffAdmin/staffAdmin",
+    "pages/user/scoreHistory/scoreHistory",
+    "pages/mapSelect/mapSelect"
   ],
   "tabBar": {
     "color": "#8a8a8a",
@@ -91,6 +91,14 @@
     "navigationBarTitleText": "会客通小程序",
     "navigationBarTextStyle": "white"
   },
+  "permission": {
+    "scope.userLocationBackground": {
+      "desc": "位置信息将用于展示所在地区"
+    }
+  },
+  "requiredBackgroundModes": [
+    "location"
+  ],
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "roomDetail": "/components/roomDetail/roomDetail",

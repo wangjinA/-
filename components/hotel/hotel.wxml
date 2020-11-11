@@ -6,7 +6,7 @@
 		<view class="flex baseInfo">
 			<view class="flex flex1" >
 				<view class="flex0">最大会场：</view>
-				<view>{{data.areas}}</view>
+				<view>{{data.areas}}m²</view>
 			</view>
 			<view class="flex flex1">
 				<view>最多容纳：</view>

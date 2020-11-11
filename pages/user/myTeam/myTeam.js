@@ -5,14 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    list: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.loadingAPI(wx.$get('/api/user/getMyLowerLevel', {
+      userId: wx.userInfo.id
+    })).then(res => {
+      this.setData({
+        list: res.data.list
+      })
+    })
   },
 
   /**

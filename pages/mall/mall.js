@@ -32,6 +32,11 @@ Page({
   current: 1,
   pageSize: 10
   },
+  goHistory() {
+    wx.navigateTo({
+      url: '/pages/user/scoreHistory/scoreHistory',
+    })
+  },
   onChange() {
 
   },

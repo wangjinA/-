@@ -41,6 +41,23 @@ Page({
       url: '/pages/user/myTeam/myTeam',
     })
   },
+  goSchool() {
+    if(this.checkLogin()){
+      return 
+    }
+    wx.showToast({
+      icon: 'none',
+      title: '开发中...',
+    })
+  },
+  goScoreHistory() {
+    if(this.checkLogin()){
+      return 
+    }
+    wx.navigateTo({
+      url: '/pages/user/scoreHistory/scoreHistory',
+    })
+  },
   toMyRelease() {
 
   },
@@ -117,11 +134,13 @@ Page({
             ...this.data.userInfo,
           }
         })
-        this.init()
         .then(() => {
-          wx.showToast({
-            title: '签到成功',
-            duration: 2000
+          wx.showModal({
+            content: '签到成功，积分+300',
+            showCancel: false,
+            success: () => {
+              this.init()
+            }
           })
         })
       })

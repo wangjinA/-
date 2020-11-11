@@ -25,6 +25,7 @@
 }
 .baseInfo .flex{
   align-items: baseline;
+  font-size: 24rpx;
 }
 .hotel-info{
   flex: 1;
