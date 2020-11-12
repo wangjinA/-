@@ -12,10 +12,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.$get('/system/getIntegralOrderList', {
-      current: 1,
-      pageSize: 10,
-      type: 0
+    wx.$get('/api/user/getMyRecommendInfo', {
+      // current: 1,
+      // pageSize: 10,
+      userId: wx.userInfo.id
     }).then(res => {
       this.setData({
         list: res.data.list
