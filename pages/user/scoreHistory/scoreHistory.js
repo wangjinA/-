@@ -12,9 +12,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.$get('/api/user/getMyRecommendInfo', {
-      // current: 1,
-      // pageSize: 10,
+    wx.$get('/api/user/getMyIntegralRecordInfo', {
+      current: 1,
+      pageSize: 20,
       userId: wx.userInfo.id
     }).then(res => {
       this.setData({

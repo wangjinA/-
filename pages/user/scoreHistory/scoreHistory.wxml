@@ -1,12 +1,12 @@
-<view class="user-header" wx:for="{{10}}">
+<view class="user-header" wx:for="{{list}}">
   <view>
     <view class="gs-name">
-      {{item % 2 === 0 ? '签到' : '话费充值(兑换商品)'}}
-      <text wx:if="{{item % 2 === 0}}">+300积分</text>
-      <text class="reduce" wx:else>-{{item}}00积分</text>
+      {{item.content}}
+      <text wx:if="{{item.type === 1}}">+{{item.integral}}积分</text>
+      <text class="reduce" wx:else>-{{item.integral}}积分</text>
     </view>
   </view>
   <view class="t-info">
-      <view class="createTime">2020-06-21 21:38</view>
+      <view class="createTime">{{item.createTime}}</view>
   </view>
 </view>
