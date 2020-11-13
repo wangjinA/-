@@ -45,7 +45,8 @@
     "pages/VR/VR",
     "pages/hotel/staffAdmin/staffAdmin",
     "pages/user/scoreHistory/scoreHistory",
-    "pages/mapSelect/mapSelect"
+    "pages/mapSelect/mapSelect",
+    "pages/mallHistory/mallHistory"
   ],
   "tabBar": {
     "color": "#8a8a8a",

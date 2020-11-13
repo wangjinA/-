@@ -20,22 +20,32 @@ Page({
 
   },
   loadUserInfo() {
-    wx.$get('/api/user/getUserInfo')
-      .then(res => {
-        if(res.code == '20'){// token失效
-          wx.clearStorageSync('token')
-          this.setData({
-            isLogin: false
-          })
-        }else {
-          wx.userInfo = res.data.userInfo
-          wx.hotelInfo = res.data.hotelInfo || {}
-          wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
-          wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
-          wx.hotelId = res.data.userInfo.hotelId
-        }
+    // wx.$get('/api/user/getUserInfo')
+    //   .then(res => {
+    //     if(res.code == '20'){// token失效
+    //       wx.clearStorageSync('token')
+    //       this.setData({
+    //         isLogin: false
+    //       })
+    //     }else {
+    //       wx.userInfo = res.data.userInfo
+    //       wx.hotelInfo = res.data.hotelInfo || {}
+    //       wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
+    //       wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
+    //       wx.hotelId = res.data.userInfo.hotelId
+    //     }
+    //     this.setData({
+    //       isLogin: true
+    //     })
+    //   })
+    wx.$loadUserInfo()
+      .then(() => {
         this.setData({
           isLogin: true
+        })
+      }).catch(() => {
+        this.setData({
+          isLogin: false
         })
       })
   },
@@ -84,7 +94,7 @@ Page({
   noticeToggle() {
     clearInterval(this.$timer)
     this.data.noticeIndex = 0
-    if(this.data.noticeList.length > 1) {
+    if (this.data.noticeList.length > 1) {
       this.$timer = setInterval(() => {
         let noticeIndex = this.data.noticeIndex;
         noticeIndex++
@@ -100,7 +110,7 @@ Page({
   toHotelDetail(e) {
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/hotel/hotelDetail/hotelDetail?id='+id,
+      url: '/pages/hotel/hotelDetail/hotelDetail?id=' + id,
     })
   },
   toField() {
@@ -109,18 +119,18 @@ Page({
     })
   },
   checkLogin() {
-    if(!this.data.isLogin){
+    if (!this.data.isLogin) {
       wx.navigateTo({
-        url:'/pages/welcome/welcome'
+        url: '/pages/welcome/welcome'
       })
       return true
     }
   },
   goHotelInfo(e) {
-    if(this.checkLogin()){
-      return 
+    if (this.checkLogin()) {
+      return
     }
-    if(!wx.hotelId){
+    if (!wx.hotelId) {
       return wx.showToast({
         title: '暂未获取到酒店信息',
         icon: 'none'
@@ -132,8 +142,8 @@ Page({
     })
   },
   homeNavClick(e) {
-    if(this.checkLogin()){
-      return 
+    if (this.checkLogin()) {
+      return
     }
     let index = e.currentTarget.dataset.index;
     switch (index) {
@@ -167,7 +177,7 @@ Page({
       type: wx.type,
       isLogin: !!wx.getStorageSync('token')
     })
-    
+
     this.loadUserInfo()
     this.init()
 

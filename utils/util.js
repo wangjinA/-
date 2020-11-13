@@ -28,6 +28,8 @@ export function getAllDate(startDate, endDate) {
   }
   return getAll(startDate, endDate)
 }
+
+
 export function formatTime(date = new Date(), notTime = false, notYear = true) {
   let year = date.getFullYear()
   let month = date.getMonth() + 1
@@ -100,6 +102,106 @@ export function checkRequired(formData, formList) { // 提交判断required
   }
   return true
 }
+
+export function loadUserInfo() {
+  return wx.$get('/api/user/getUserInfo')
+    .then(res => {
+      if (res.code == '20') { // token失效
+        wx.clearStorageSync('token')
+        return Promise.reject()
+      } else {
+        wx.userInfo = res.data.userInfo
+        wx.hotelInfo = res.data.hotelInfo || {}
+        wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
+        wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
+        wx.hotelId = res.data.userInfo.hotelId
+        return Promise.resolve()
+      }
+    })
+}
+wx.$loadUserInfo = loadUserInfo
+
+export function getPosition() {
+  return new Promise((resolve, rject) => {
+    // 微信获得经纬度
+    const getLocation = () => {
+      wx.getLocation({
+        type: 'wgs84',
+        success: (res) => {
+          console.log(JSON.stringify(res))
+          // var latitude = res.latitude
+          // var longitude = res.longitude
+          // var speed = res.speed
+          // var accuracy = res.accuracy;
+          const longitude = res.longitude
+          const latitude = res.latitude
+          
+          resolve({
+            longitude, latitude
+          })
+        },
+        fail: function (res) {
+          resolve()
+          console.log('fail' + JSON.stringify(res))
+        }
+      })
+    }
+    const getUserLocation = () => {
+      wx.getSetting({
+        success: (res) => {
+          console.log("设置信息" + JSON.stringify(res))
+          if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+            wx.showModal({
+              title: '请求授权当前位置',
+              content: '需要获取您的地理位置，请确认授权',
+              success: function (res) {
+                if (res.cancel) {
+                  wx.showToast({
+                    title: '拒绝授权',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                  reject()
+                } else if (res.confirm) {
+                  wx.openSetting({
+                    success: function (dataAu) {
+                      if (dataAu.authSetting["scope.userLocation"] == true) {
+                        wx.showToast({
+                          title: '授权成功',
+                          icon: 'success',
+                          duration: 1000
+                        })
+                        //再次授权，调用wx.getLocation的API
+                        getLocation();
+                      } else {
+                        wx.showToast({
+                          title: '授权失败',
+                          icon: 'none',
+                          duration: 1500
+                        })
+                        reject()
+                      }
+                    }
+                  })
+                }
+              }
+            })
+          } else if (res.authSetting['scope.userLocation'] == undefined) {
+            //调用wx.getLocation的API
+            getLocation();
+          } else {
+            //调用wx.getLocation的API
+            getLocation();
+          }
+        }
+      })
+    }
+    getUserLocation()
+  })
+
+
+}
+
 
 function loadingAPI(result, title = '加载中', showLoading = true) {
   wx.showNavigationBarLoading()
@@ -197,6 +299,7 @@ function getStatus(status) {
   }
   return statusText
 }
+
 function hideInfo(userInfo) {
   return {
     contacts: userInfo.contacts && userInfo.contacts[0] + '**',
@@ -206,7 +309,8 @@ function hideInfo(userInfo) {
   }
 }
 
-function isEmail (s) {
+
+function isEmail(s) {
   return /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
 }
 // function checkRole() {

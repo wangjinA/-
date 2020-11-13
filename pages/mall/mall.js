@@ -34,7 +34,7 @@ Page({
   },
   goHistory() {
     wx.navigateTo({
-      url: '/pages/user/scoreHistory/scoreHistory',
+      url: '/pages/mallHistory/mallHistory',
     })
   },
   onChange() {

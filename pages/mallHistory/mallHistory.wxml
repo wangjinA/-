@@ -1,0 +1,26 @@
+<view class="user-header" wx:for="{{list}}" bindtap="toDetail" data-id="{{item.integralProduct.integralProductId}}">
+  <view class="image-box">
+    <image src="{{item.integralProduct.integralImgStr}}"></image>
+  </view>
+  <view class="info">
+    <view class="gs-name">
+      <van-tag type="primary" wx:if="{{item.status == 0}}">待发货</van-tag>
+      <van-tag type="success" wx:else>已完成</van-tag>
+      <text class="name">{{item.integralProduct.productName}}</text>
+      
+      <text class="reduce" >-{{item.integralProduct.integral}}积分</text>
+    </view>
+    <view class="address">
+      收货人信息：{{item.contact}} {{item.phone}} {{item.address}}
+    </view>
+    <view class="t-info">
+      <view class="createTime">
+
+        <text>订单id: {{item.integralOrderId}}</text>
+        <text>{{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<van-empty wx:if="{{!list.length}}" description="暂无数据" />

@@ -10,3 +10,5 @@
       <view class="createTime">{{item.createTime}}</view>
   </view>
 </view>
+
+<van-empty wx:if="{{!list.length}}" description="暂无数据" />

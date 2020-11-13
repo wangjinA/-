@@ -1,0 +1,82 @@
+.image-box {
+  width: 150rpx;
+  height: 160rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.image-box image {
+  height: 100%;
+  width: 100%;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  background-color: #fff;
+}
+
+.user-header+.user-header {
+  border-top: 1rpx solid #ebedf0;
+}
+
+.user-name {
+  font-size: 32rpx;
+}
+
+.gs-name {
+  font-size: 30rpx;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+}
+.info{
+  min-height: 160rpx;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.gs-name text {
+  font-size: 28rpx;
+}
+.name{
+  color: #07c160;
+  margin-right: 20rpx;
+}
+.status{
+
+}
+.gs-name .reduce {
+  color: #FC5F74;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.t-info {
+  flex-shrink: 0;
+}
+
+.addScore {
+  color: #07c160;
+  font-size: 28rpx;
+}
+
+.overOrder {
+  font-size: 28rpx;
+  color: #666;
+  display: flex;
+  align-items: baseline;
+}
+
+.createTime {
+  font-size: 26rpx;
+  color: #ababab;
+  display: flex;
+  justify-content: space-between;
+}
+
+.address {
+  color: #666;
+  font-size: 24rpx;
+}
