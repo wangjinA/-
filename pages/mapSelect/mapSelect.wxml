@@ -1,17 +1,28 @@
 <!-- map.wxml -->
-<van-search value="{{ value }}" label="地址" placeholder="请输入搜索关键词" use-action-slot bind:change="onChange"
-  bind:search="onSearch">
-  <view slot="action" bind:tap="onSearch">{{isSearch ? '关闭' : '搜索'}}</view>
-</van-search>
+<view class="container">
+  <view class="search-box">
+    <van-search value="{{ value }}" label="地址" placeholder="请输入搜索关键词" use-action-slot bind:change="onChange"
+      bind:search="onSearch">
+      <view slot="action" bind:tap="onSearch">{{isSearch ? '关闭' : '搜索'}}</view>
+    </van-search>
+    <van-notice-bar
+      wx:if="{{!isSearch && title}}"
+      color="#07C160"
+      background="#ecf9ff"
+      left-icon="passed"
+      text="{{latitude + ', ' + longitude + ', ' + title}}"
+    />
+  </view>
+  <map id="myMap" longitude="{{longitude}}" latitude="{{latitude}}" scale="{{13}}" markers="{{markers}}"
+    bindtap="handleClick" />
+</view>
 <view class="result-list" wx:if="{{isSearch}}">
   <van-cell-group>
     <van-cell wx:for="{{list}}" data-index="{{index}}" title="{{item.title}}" label="{{item.address}}" icon="location-o"
       bindtap="selectItem" />
   </van-cell-group>
 </view>
-<map id="myMap" show-location longitude="{{longitude}}" latitude="{{latitude}}" scale="{{13}}" markers="{{markers}}"
-  bindtap="handleClick" />
-
+<footerButton bindtap="commit" wx:if="{{!isSearch && title}}">确认</footerButton>
 <!-- <button type="primary" bindtap="getCenterLocation">获取位置</button>
 <button type="primary" bindtap="moveToLocation">移动位置</button>
 <button type="primary" bindtap="translateMarker">移动标注</button>

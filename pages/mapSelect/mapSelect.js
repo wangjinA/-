@@ -11,14 +11,16 @@ Page({
     markers: [{
       iconPath: "../../images/location.png",
       id: 0,
-      latitude: 28.710806,
-      longitude: 115.760958,
+      // latitude: 28.710806,
+      // longitude: 115.760958,
       width: 25,
       height: 25
     }],
     value: '',
     list: [],
-    isSearch: false
+    isSearch: false,
+    title: '',
+    address: ''
   },
   onChange(e) {
     this.setData({
@@ -31,13 +33,11 @@ Page({
     })
     if (!this.data.isSearch) {
       this.setData({
-        isSearch: !this.data.isSearch,
         value: '',
       })
       return;
     }
     var QQMapWX = require('../../utils/qqmap-wx-jssdk.min');
-    console.log(QQMapWX);
 
     // 实例化API核心类
     var qqmapsdk = new QQMapWX({
@@ -47,7 +47,9 @@ Page({
     // 事件触发，调用接口
     var _this = this;
     // 调用接口
-
+    wx.showLoading({
+      title: '搜索中',
+    })
     qqmapsdk.search({
       keyword: this.data.value, //搜索关键词
       location: `${this.data.latitude},${this.data.longitude}`, //设置周边搜索中心点
@@ -69,6 +71,9 @@ Page({
       },
       complete: function (res) {
         console.log(res);
+
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()
       }
     });
 
@@ -88,32 +93,54 @@ Page({
     // })
   },
   selectItem(e) {
-    let index = e.currentTarget.dataset.id
+    let index = e.currentTarget.dataset.index
     const item = this.data.list[index]
     console.log(item);
-    
+    this.setData({
+      latitude: item.latitude,
+      longitude: item.longitude,
+      title: item.title,
+      address: item.address,
+      isSearch: false,
+      markers: [{
+        ...this.data.markers[0],
+        latitude: item.latitude,
+        longitude: item.longitude,
+      }]
+    })
+
+  },
+  commit() {
+    let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
+    let prevPage = pages[pages.length - 2];
+    prevPage.setLocation && prevPage.setLocation({
+      latitude: this.data.latitude,
+      longitude: this.data.longitude,
+      address: this.data.address
+    })
+    wx.navigateBack()
   },
   onReady(e) {
     // 使用 wx.createMapContext 获取 map 上下文
     this.mapCtx = wx.createMapContext('myMap')
     wx.loadingAPI(getPosition())
-    .then(({
-      longitude,
-      latitude
-    }) => {
-      this.setData({
+      .then(({
         longitude,
         latitude
+      }) => {
+        this.setData({
+          longitude,
+          latitude
+        })
+      }).catch(() => {
+        wx.showModal({
+          content: '定位失败',
+          showCancel: false,
+          success: () => {
+            wx.navigateBack()
+          }
+        })
       })
-    }).catch(() => {
-      wx.showModal({
-        content: '定位失败',
-        showCancel: false,
-        success: () => {
-          wx.navigateBack()
-        }
-      })
-    })
     // this.mapCtx.includePoints({
     //   padding: [10],
     //   points: [, {
