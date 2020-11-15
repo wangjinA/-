@@ -23,6 +23,10 @@ Page({
                 success: res => {
                   console.log(res);
                   console.log(wx.getStorageSync('wxcode'));
+                  console.log(6);
+                  
+                  console.log((this.data.scene && this.data.scene.toString()))
+                  console.log(7);
                   // 调取后台接口登录
                   wx.loadingAPI(wx.$post('/api/wx/login', {
                       code: wx.getStorageSync('wxcode'),
@@ -65,7 +69,7 @@ Page({
                       wx.showToast({
                         icon: 'none',
                         duration: 3000,
-                        title: (err && JSON.stringify(err)) || '登录失败',
+                        title: (err && JSON.stringify(err) + '登录失败') || '登录失败',
                       })
                     })
                 }
