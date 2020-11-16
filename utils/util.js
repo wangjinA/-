@@ -114,7 +114,7 @@ export function loadUserInfo() {
         wx.hotelInfo = res.data.hotelInfo || {}
         wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
         wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
-        wx.hotelId = res.data.userInfo.hotelId
+        wx.hotelId = res.data.userInfo && res.data.userInfo.hotelId
         return Promise.resolve()
       }
     })
@@ -135,9 +135,10 @@ export function getPosition() {
           // var accuracy = res.accuracy;
           const longitude = res.longitude
           const latitude = res.latitude
-          
+
           resolve({
-            longitude, latitude
+            longitude,
+            latitude
           })
         },
         fail: function (res) {
@@ -281,6 +282,12 @@ function getStatus(status) {
   // 7  酒店拒绝消费单
   let statusText = ''
   switch (status) {
+    case 1:
+      statusText = '等待接单'
+      break;
+    case 2:
+      statusText = '失效订单'
+      break;
     case 3:
       statusText = '用户确认报价'
       break;

@@ -1,2 +1,4 @@
 <wjForm id="wjForm" formList="{{formList}}" bind:selectData="selectData"/>
+<van-empty wx:if="{{!formList.length}}" image="search" description="暂无员工" />
+
 <!-- <footerButton bind:click="commit">保存</footerButton> -->

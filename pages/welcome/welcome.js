@@ -43,7 +43,7 @@ Page({
                       wx.userInfo = res.data.userInfo
                       wx.roles = res.data.roles || [] // 1管理 2会议 3婚宴
                       wx.roleId = res.data.roles && res.data.roles[0] && res.data.roles[0].id
-                      wx.hotelId = res.data.userInfo.hotelId
+                      wx.hotelId = res.data.userInfo && res.data.userInfo.hotelId
                       wx.hotelInfo = res.data.hotelInfo || {}
                       wx.setStorageSync('type', type)
                       if (type == 1) {

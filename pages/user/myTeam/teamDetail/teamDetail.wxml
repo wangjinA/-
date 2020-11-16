@@ -1,0 +1,5 @@
+<van-cell-group>
+  <van-cell wx:for="{{list}}" title="{{item.hotelName}}" value="积分+{{item.integralCount}}" label="成交订单  {{item.createTime}}" border="{{ true }}" />
+</van-cell-group>
+
+<van-empty wx:if="{{!list.length}}" image="search" description="暂无数据" />

@@ -1,23 +1,19 @@
-// pages/user/myTeam/myTeam.js
+// pages/user/myTeam/teamDetail/teamDetail.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    list: []
+
   },
 
-  goDetail(e) {
-    let userid = e.currentTarget.dataset.userid
-    wx.navigateTo({
-      url: '/pages/user/myTeam/teamDetail/teamDetail?userid='+userid,
-    })
-  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
   onLoad: function (options) {
-    wx.loadingAPI(wx.$get('/api/user/getMyRecommend', {
-      current: 1,
-      pageSize: 1000,
+    wx.loadingAPI(wx.$get('/api/user/getMyRecommendInfo', {
+      userId: options.userid
     })).then(res => {
       this.setData({
         list: res.data.list

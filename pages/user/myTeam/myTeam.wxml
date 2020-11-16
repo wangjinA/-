@@ -1,19 +1,21 @@
 <view class="total">
-  总推荐人数：<text>20人</text>
+  总推荐人数：<text>{{list.length}}人</text>
 </view>
-<view class="user-header" wx:for="{{10}}">
+<view class="user-header" wx:for="{{list}}" bindtap="goDetail" data-userid="{{item.userId}}">
   <view class="user-avatar" bindtap="toUserInfo">
-    <image src="/images/avatar.jpg"></image>
+    <image src="{{item.url}}"></image>
   </view>
   <view>
-    <view class="user-name" bindtap="toUserInfo">小沐同学</view>
-    <view class="gs-name">南昌xxxx公司</view>
+    <view class="user-name" bindtap="toUserInfo">{{item.contacts || item.name}}</view>
+    <view class="gs-name">{{item.companyName}}</view>
   </view>
   <view class="t-info">
     <view class="overOrder">
-      <view>已成交10单</view>
-      <view class="createTime">06-21</view>
+      <view>已成交{{item.orderCount}}单</view>
+      <view class="createTime">{{item.createTime}}</view>
     </view>
-    <view class="addScore">+5000积分</view>
+    <view class="addScore">+{{item.integralCount}}积分</view>
   </view>
 </view>
+
+<van-empty wx:if="{{!list.length}}" image="search" description="暂无推荐" />

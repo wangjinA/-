@@ -27,6 +27,7 @@
   <view class="meetingWrap" wx:for="{{cdList}}" hover-class="hoverStyle1" hover-stay-time="200">
     <meeting bind:click="meetingClick"  data="{{item}}" data-index="{{index}}" showSelect="{{index == meetingIndex}}"/>
   </view>
+  <van-empty wx:if="{{!cdList.length}}" image="search" bindtap="goAddMeeting" description="暂无会场，点击添加" />
 </wjPopup>
 
 <footerButton bind:click="next">下一步: {{nextText}}</footerButton>

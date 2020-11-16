@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+
+  },
+  "navigationBarTitleText": "账户权限设置"
 }

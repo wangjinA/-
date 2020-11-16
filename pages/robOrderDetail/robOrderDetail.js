@@ -270,7 +270,7 @@ Page({
     }
   },
   onLoad: function (options) {
-    this.data.id = 37 || options.id
+    this.data.id = options.id
     wx.meetingId = options.id
     this.setData({
       currentUserId: wx.userInfo.id

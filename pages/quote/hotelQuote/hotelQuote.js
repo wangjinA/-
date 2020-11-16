@@ -23,6 +23,12 @@ Page({
       formList: [...prevCom.data.formList]
     })
   },
+  // 去添加会场
+  goAddMeeting() {
+    wx.navigateTo({
+      url: '/pages/addMeeting/addMeeting',
+    })
+  },
   onChange(event) {
     console.log(event)
     this.setData({
@@ -81,7 +87,6 @@ Page({
     }))
   },
   onReady () {
-    this.getCd()
     let nextText = ''
     if(wx.kfShow){
       nextText = '客房报价'
@@ -153,7 +158,7 @@ Page({
 
   },
   onShow: function () {
-
+    this.getCd()
   },
 
   onHide: function () {
