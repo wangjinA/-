@@ -136,14 +136,15 @@ Page({
   openSignin() {
     if (this.data.userInfo.sign) return;
     wx.loadingAPI(wx.$get('/api/user/signin'), '签到中')
-      .then(data => {
+      .then(res => {
         this.setData({
           userInfo: {
             ...this.data.userInfo,
           }
         })
         wx.showModal({
-          content: '签到成功，积分+300',
+          // content: '签到成功，积分+300',
+          content: res.data,
           showCancel: false,
           success: () => {
             this.init()

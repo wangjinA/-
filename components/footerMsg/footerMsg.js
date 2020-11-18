@@ -5,7 +5,8 @@ Component({
    */
   properties: {
     phone: String,
-    beUserId: Number
+    beUserId: Number,
+    hotelId: Number
   },
 
   /**
@@ -18,19 +19,42 @@ Component({
 
   methods: {
     callPhone() {
-      wx.makePhoneCall({
-        phoneNumber: this.data.phone,
-        success: function () {
-          console.log("拨打电话成功！")
-        },
-        fail: function () {
-          console.log("拨打电话失败！")
+      wx.loadingAPI(wx.$get('/api/user/phoneCall', {
+        hotelId: this.data.hotelId
+      })).then(res => {
+        if (res.data) {
+          wx.makePhoneCall({
+            phoneNumber: this.data.phone,
+            success: function () {
+              console.log("拨打电话成功！")
+            },
+            fail: function () {
+              console.log("拨打电话失败！")
+            }
+          })
+        } else {
+          wx.showModal({
+            title: '温馨提示',
+            content: '暂未和该酒店建立关系，请先发布您的需求',
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.switchTab({
+                  url: '/pages/release/release'
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
         }
+
       })
     },
     sendMsgBtn() {
       wx.navigateTo({
-        url: '/pages/chat/chat?beUserId='+ this.data.beUserId,
+        url: '/pages/chat/chat?beUserId=' + this.data.beUserId,
       })
     }
   }
