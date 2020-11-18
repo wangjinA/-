@@ -96,6 +96,9 @@
   "permission": {
     "scope.userLocationBackground": {
       "desc": "位置信息将用于展示所在地区"
+    },
+    "scope.userLocation": {
+      "desc": "位置信息将用于展示所在地区" 
     }
   },
   "requiredBackgroundModes": [

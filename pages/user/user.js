@@ -218,6 +218,8 @@ Page({
         wx.clearStorageSync('type')
         clearTimeout(wx.globalTimer)
         clearTimeout(wx.msgTimer)
+        wx.globalTimer = ''
+        wx.msgTimer = ''
         wx.reLaunch({
           url: '/pages/welcome/welcome'
         })
