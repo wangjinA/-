@@ -25,6 +25,15 @@ Page({
   init() {
     return wx.$get('/api/user/getUserInfo')
       .then(res => {
+        if (res.code == 20) {
+          wx.clearStorageSync('token')
+          wx.clearStorageSync('type')
+          clearTimeout(wx.globalTimer)
+          clearTimeout(wx.msgTimer)
+          wx.globalTimer = ''
+          wx.msgTimer = ''
+          return
+        }
         this.setData({
           userInfo: res.data.userInfo,
           hotelInfo: res.data.hotelInfo,
@@ -105,10 +114,13 @@ Page({
             })
           }
         }).catch(() => {
-          wx.showToast({
-            title: '登录失效',
-            icon:'none'
+          wx.reLaunch({
+            url: '/pages/welcome/welcome'
           })
+          // wx.showToast({
+          //   title: '登录失效',
+          //   icon: 'none'
+          // })
         })
       // wx.navigateTo({
       //   url: '/pages/hotel/hotelSelect/hotelSelect',
@@ -226,6 +238,11 @@ Page({
         })
 
       })
+  },
+  goLogin() {
+    wx.navigateTo({
+      url: '/pages/welcome/welcome'
+    })
   },
   checkLogin() {
     if (!this.data.isLogin) {

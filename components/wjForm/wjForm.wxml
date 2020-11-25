@@ -60,7 +60,8 @@
     <!-- switch -->
     <van-cell required="{{item.required}}" wx:elif="{{item.type === 'switch'}}" size="large" title="{{item.label}}" value="{{item.value || item.placeholder}}" >
       <view slot="right-icon">
-        <van-switch inactive-color="#daecff" data-key="{{item.key}}" checked="{{ formData[item.key] }}" bind:change="switchOnChange" size="48rpx"/>
+        <text class="switch-tip" wx:if="{{item['true'] && item['false']}}">{{formData[item.key] ? item['true'] : item['false']}}</text>
+        <van-switch inactive-color="#daecff" data-key="{{item.key}}" checked="{{ formData[item.key] }}" bind:change="switchOnChange" size="40rpx"/>
       </view>
     </van-cell>
     <!-- 普通文本 -->

@@ -1,6 +1,6 @@
 <view class="user-header">
   <view class="user-avatar" bindtap="toUserInfo">
-    <image src="{{userInfo.url || '../../images/default-img.png'}}"></image>
+    <image src="{{(isLogin && userInfo.url) || '../../images/default-img.png'}}"></image>
   </view>
   <view wx:if="{{!isLogin}}" style="color:#FD960D;" bindtap="checkLogin">去登录</view>
   <block wx:if="{{isLogin}}">

@@ -1,1 +1,6 @@
-/* components/wjForm/wjForm.wxss */
+.switch-tip{
+  margin-right: 15rpx; 
+  transform: translateY(-5px); 
+  font-size: 30rpx;
+  display: inline-block; 
+}

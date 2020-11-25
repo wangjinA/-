@@ -42,11 +42,15 @@ Page({
     shuxingFormList: [{
       label: '是否有柱',
       key: 'columnStatus',
-      type: 'switch'
+      type: 'switch',
+      true: '是',
+      false: '否'
     }, {
       label: '是否能进车',
       key: 'intoCar',
-      type: 'switch'
+      type: 'switch',
+      true: '能',
+      false: '否'
     }],
     hotelChamberId: ''
   },

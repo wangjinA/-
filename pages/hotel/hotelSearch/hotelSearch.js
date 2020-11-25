@@ -6,7 +6,8 @@ Page({
    */
   data: {
     keyword: '',
-    region: '南昌',
+    // region: '南昌',
+    region: '',
     hotelList: [],
     pageSize: 20,
     current: 1,

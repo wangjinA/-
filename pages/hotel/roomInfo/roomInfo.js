@@ -40,6 +40,8 @@ Page({
       label: '能否进车',
       key: 'intoCar',
       type: 'switch',
+      true: '能',
+      false: '否'
     }]
 
   },
@@ -49,14 +51,19 @@ Page({
     wjForm.getData()
       .then(data => {
         wx.loadingAPI(wx.$post('/hotel/updateHotelAssortInfo', {
-          ...data,
-          intoCar: data.intoCar ? 1: 0,
-          hotelId: wx.hotelId,
-          hotelAssortId: this.data.hotelAssortId
-        }), '保存中')
-        .then(data => {
-          this.init()
-        })
+            ...data,
+            intoCar: data.intoCar ? 1 : 0,
+            hotelId: wx.hotelId,
+            hotelAssortId: this.data.hotelAssortId
+          }), '保存中')
+          .then(data => {
+            wx.showToast({
+              title: '保存成功'
+            })
+            // setTimeout(() => {
+              // this.init()
+            // }, 1500);
+          })
       })
   },
   init() {

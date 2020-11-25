@@ -13,20 +13,19 @@ Page({
     statusText: '',
     status: 0,
     steps: [{
-        text: '第2次报价￥23000（点击可查看明细）',
-        desc: '等待客户查看',
+        text: '等待接单',
       },
       {
-        text: '客户不接受报价',
-        desc: '价格太高，预算20000(5月24日15:00)',
+        text: '接受报价',
       },
       {
-        text: '第1次报价￥25000（点击可查看明细）',
-        desc: '客户已查看(5月24日 14:00)',
+        text: '婚宴完成',
       },
       {
-        text: '客户咨询',
-        desc: '5月24日 10:00',
+        text: '上传消费单',
+      },
+      {
+        text: '订单完成',
       }
     ],
     bjList: [],
@@ -35,7 +34,8 @@ Page({
     isUser: false, // 是否是发布需求的用户
     isHotel: false, // 是否是报价的酒店
     currentUserId: '',
-    OrderDemandConfirm: {}
+    OrderDemandConfirm: {},
+    active: 0
   },
   orderEnd() {
     wx.showModal({
@@ -82,7 +82,7 @@ Page({
   },
   // 酒店确认婚宴完成    -------------------没写
   jdok() {
-    wx.delAPI('确认会议结束，提交后不可更改！')
+    wx.delAPI('确认婚宴结束，提交后不可更改！')
     .then(()=>{
       this.setOrderStatus(this.data.data.orderWeddingId, 4)
     })
@@ -154,6 +154,7 @@ Page({
         }else {
           data.OrderDemandConfirm = {}
         }
+        const activeStatus = [1, 3, 4, 5, 6]
         this.setData({
           isUser,
           data: detail,
@@ -161,7 +162,8 @@ Page({
           hideInfo,
           userInfo,
           status: detail.status,
-          statusText
+          statusText,
+          active: activeStatus.findIndex((item)=>detail.status == item),
         })
         let isHotel = !!(data.weddingHotelVos.filter(item => item.hotelId === wx.hotelId).length)
         this.setData({
@@ -222,6 +224,9 @@ Page({
     })
   },
   onShow() {
+    this.setData({
+      type: wx.type,
+    })
     if (this.data.id) {
       this.init()
     }

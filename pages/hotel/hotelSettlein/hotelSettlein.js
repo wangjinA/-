@@ -18,6 +18,14 @@ Page({
         url: wx.$stringify(data.fileList)
       }), '提交中')
         .then(res => {
+          if(res.code == 20){
+            wx.showToast({
+              title: res.msg,
+              icon: 'none'
+            })
+            return 
+          }
+
           wx.showModal({
             title: '温馨提示',
             content: '提交成功，请耐心等待后台审核',

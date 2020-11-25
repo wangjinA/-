@@ -16,13 +16,18 @@ Component({
   },
 
   data: {
-    currentUserId: ''
+    isUser: false,
+    statusText: '',
+    tagType: 'success'
   },
 
   attached() {
     this.setData({
-      currentUserId: wx.userInfo.id
-    }, )
+      isUser: this.data.data.userId == wx.userInfo.id,
+      statusText: wx.$getStatus(this.data.data.status),
+      tagType: wx.$getStatusType(this.data.data.status),
+    })
+    console.log(this.data);
   },
 
   /**

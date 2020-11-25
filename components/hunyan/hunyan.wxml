@@ -24,8 +24,24 @@
       <text class="yusuan-label size14">预算：</text>
       <text class="price c">￥{{data.budget}}</text>
     </view>
-    <van-button type="warning" round size="small" style="margin-left: auto;" wx:if="{{showBtn && data.userId!=currentUserId}}">
-      点击抢单
+    <!-- receive: 客户确认了我的报价 -->
+    <!-- offer: 我已报价 -->
+
+    <text style="margin-left: auto;"></text>
+    <!-- 等待接单；是用户显示  -->
+    <van-tag size="large" type="success" wx:if="{{data.status == 1 && isUser && data.bjCount == 0}}">等待报价</van-tag>
+
+    <!-- 报价人数  -->
+    <van-tag size="large" type="success" wx:elif="{{data.status == 1 && isUser && data.bjCount > 0}}">{{data.bjCount}}人报价</van-tag>
+
+    <!-- 状态大于1 是酒店并且报价 || 是用户  -->
+    <van-tag size="large" type="{{tagType}}" wx:elif="{{data.status > 1 || (data.receive || isUser)}}">{{statusText}}</van-tag>
+
+    <!-- 成功都可以看到 -->
+    <van-tag size="large" type="success" wx:elif="{{data.status == 6}}">{{statusText}}</van-tag>
+
+    <van-button type="warning" round size="small" wx:if="{{data.status == 1 && showBtn && !isUser}}">
+      {{data.offer ? '重新报价' : '点击抢单'}}
     </van-button>
   </view>
 </view>

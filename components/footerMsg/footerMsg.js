@@ -18,10 +18,13 @@ Component({
 
 
   methods: {
-    callPhone() {
-      wx.loadingAPI(wx.$get('/api/user/phoneCall', {
+    checkRelation() {
+      return wx.loadingAPI(wx.$get('/api/user/phoneCall', {
         hotelId: this.data.hotelId
-      })).then(res => {
+      }))
+    },
+    callPhone() {
+      this.checkRelation().then(res => {
         if (res.data) {
           wx.makePhoneCall({
             phoneNumber: this.data.phone,
@@ -49,12 +52,31 @@ Component({
             }
           })
         }
-
       })
     },
     sendMsgBtn() {
-      wx.navigateTo({
-        url: '/pages/chat/chat?beUserId=' + this.data.beUserId,
+      this.checkRelation().then(res => {
+        if (res.data) {
+          wx.navigateTo({
+            url: '/pages/chat/chat?beUserId=' + this.data.beUserId,
+          })
+        } else {
+          wx.showModal({
+            title: '温馨提示',
+            content: '暂未和该酒店建立关系，请先发布您的需求',
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.switchTab({
+                  url: '/pages/release/release'
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
       })
     }
   }

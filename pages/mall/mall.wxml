@@ -11,6 +11,7 @@
           <text>积分</text>
         </view>
       </view>
+      <van-empty style="width: 100%;" wx:if="{{!list.length}}" image="search" description="暂无商品" />
 		</view>
     <view class="content" wx:if="{{index == 1}}">
       <view class="getScore">

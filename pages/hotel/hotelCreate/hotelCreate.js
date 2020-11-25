@@ -75,6 +75,13 @@ Page({
 
             wx.$post('/api/user/submitApply', params)
               .then(data => {
+                if(data.code == 20){
+                  wx.showToast({
+                    title: res.msg,
+                    icon: 'none'
+                  })
+                  return 
+                }
                 console.log(data);
 
                 form.clearData()

@@ -53,6 +53,8 @@ Page({
                             url: '/pages/index/index',
                           })
                         } else {
+                          wx.type = 2
+                          wx.setStorageSync('type', 2)
                           wx.navigateTo({
                             url: '/pages/hotel/hotelSearch/hotelSearch',
                           })

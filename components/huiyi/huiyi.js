@@ -1,4 +1,5 @@
 // components/huiyi/huiyi.js
+import { getStatus } from "../../utils/util";
 Component({
   /**
    * 组件的属性列表
@@ -16,13 +17,19 @@ Component({
   },
 
   data: {
-    currentUserId: ''
+    isUser: false,
+    statusText: '',
+    tagType: 'success'
   },
 
   attached() {
     this.setData({
-      currentUserId: wx.userInfo.id
-    },)
+      isUser: this.data.data.userId == wx.userInfo.id,
+      statusText: wx.$getStatus(this.data.data.status),
+      tagType: wx.$getStatusType(this.data.data.status),
+    })
+    console.log(this.data);
+    
   }, 
   /**
    * 组件的方法列表

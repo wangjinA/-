@@ -5,5 +5,5 @@
     <slot wx:else name="right">
     </slot>
   </view>
-  <van-uploader accept="image" bind:delete="delImg" file-list="{{ fileList }}" bind:after-read="afterRead" />
+  <van-uploader image-fit="aspectFill" accept="image" bind:delete="delImg" file-list="{{ fileList }}" bind:after-read="afterRead" />
 </view>

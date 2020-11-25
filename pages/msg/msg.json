@@ -1,4 +1,4 @@
 {
-  "component": true,
-  "usingComponents": {}
+  "usingComponents": {},
+  "navigationBarTitleText": "消息中心"
 }

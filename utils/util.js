@@ -303,9 +303,53 @@ function getStatus(status) {
     case 7:
       statusText = '酒店拒绝消费单'
       break;
+    case 8:
+      statusText = '订单已过期'
+      break;
   }
   return statusText
 }
+function getStatusType(status) {
+  // 1  有效 - 可以报价
+  // 2  无效
+  // 3  用户确认酒店报价
+  // 4  酒店确认订单完成
+  // 5  等待客户上传消费单
+  // 6  酒店再次确定 - 完成结束
+  // 7  酒店拒绝消费单
+  let statusType = ''
+  switch (status) {
+    case 1:
+      statusType = '等待接单'
+      break;
+    case 2:
+      statusType = 'danger'
+      break;
+    case 3:
+      statusType = 'warning'
+      break;
+    case 4:
+      statusType = 'success'
+      break;
+    case 5:
+      statusType = 'primary'
+      break;
+    case 6:
+      statusType = 'success'
+      break;
+    case 7:
+      statusType = 'danger'
+      break;
+    case 8:
+      statusType = 'danger'
+      break;
+  }
+  return statusType
+}
+
+
+
+
 
 function hideInfo(userInfo) {
   return {
@@ -333,6 +377,7 @@ function isEmail(s) {
 wx.$isEmail = isEmail
 wx.$hideInfo = hideInfo
 wx.$getStatus = getStatus
+wx.$getStatusType = getStatusType
 wx.$getScope = getScope
 wx.fixYear = fixYear
 wx.getAllDate = getAllDate

@@ -15,22 +15,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    type: wx.type,
+    type: 0,
     steps: [{
-        text: '第2次报价￥23000（点击可查看明细）',
-        desc: '等待客户查看',
+        text: '等待接单',
       },
       {
-        text: '客户不接受报价',
-        desc: '价格太高，预算20000(5月24日15:00)',
+        text: '接受报价',
       },
       {
-        text: '第1次报价￥25000（点击可查看明细）',
-        desc: '客户已查看(5月24日 14:00)',
+        text: '会议完成',
       },
       {
-        text: '客户咨询',
-        desc: '5月24日 10:00',
+        text: '上传消费单',
+      },
+      {
+        text: '订单完成',
       }
     ],
     bjList: [{
@@ -54,7 +53,8 @@ Page({
     statusText: '',
     isUser: false, // 是否是发布需求的用户
     isHotel: false, // 是否是报价的酒店
-    currentUserId: ''
+    currentUserId: '',
+    active: 0
   },
   copyCode() {
     wx.setClipboardData({
@@ -79,6 +79,13 @@ Page({
       fail: function () {
         console.log("拨打电话失败！")
       }
+    })
+  },
+  // 查看酒店
+  goHotelDetail(e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/hotel/hotelDetail/hotelDetail?id=' + id,
     })
   },
   orderEnd() {
@@ -226,11 +233,12 @@ Page({
           isUser = true
         }
         console.log(data.status);
-        
+        const activeStatus = [1, 3, 4, 5, 6]
         this.setData({
           isUser,
           statusText,
           status: data.status,
+          active: activeStatus.findIndex((item)=>data.status == item),
           data
         })
         console.log(this.data.status);
@@ -279,6 +287,9 @@ Page({
   },
 
   onShow() {
+    this.setData({
+      type: wx.type,
+    })
     if (this.data.id) {
       this.init()
     }

@@ -1,5 +1,6 @@
 {
   "usingComponents": {
     "contactsInfo": "/pages/hotel/components/contactsInfo/contactsInfo"
-  }
+  },
+  "navigationBarTitleText": "酒店入驻"
 }

@@ -96,6 +96,7 @@ Page({
       holteId: this.data.hotelId
     }).then(res => {
       let hotelDetaiil = res.data.hotelDetaiil
+      wx.setNavigationBarTitle({title: hotelDetaiil.hotelName})
       this.setData({
         data: {
           ...hotelDetaiil,

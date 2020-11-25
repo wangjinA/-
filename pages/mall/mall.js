@@ -69,9 +69,11 @@ Page({
   },
   onLoad: function (options) {
     this.getData()
+    const tabIndex = options.index ? parseInt(options.index) : 0
     this.setData({
-      tabIndex: options.index ? parseInt(options.index) : 0
+      tabIndex: tabIndex
     })
+    wx.setNavigationBarTitle({title: tabIndex == 0 ? '花积分' : '赚积分'})
   },
 
   /**

@@ -178,6 +178,9 @@ Page({
       isLogin: !!wx.getStorageSync('token')
     })
 
+    wx.setNavigationBarTitle({title: wx.type == 1 ? '商家中心' : '会客通'})
+    
+
     this.loadUserInfo()
     this.init()
 

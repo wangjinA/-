@@ -17,7 +17,11 @@ Page({
   /**
    * 组件的属性列表
    */
-
+  onChange(e) {
+    wx.setNavigationBarTitle({
+      title: e.detail.title
+    })
+  },
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -69,6 +73,7 @@ Page({
       label: '酒店星级',
       key: 'hotelStar',
       type: 'select',
+      required: true,
       data: jdxj()
     }, {
       label: '备注',
@@ -76,7 +81,7 @@ Page({
       placeholder: '其他宴会要求',
       key: 'notes',
     }],
-    address:address ,
+    address: address,
     persons: [
       '10~50人',
       '51~100人',
@@ -131,12 +136,12 @@ Page({
     return isDate
   },
   commitWedding() { // 提交婚宴
-    if(this.checkLogin()){
+    if (this.checkLogin()) {
       return
     }
     this.checkUserInfo()
       .then((res) => {
-        if(!res.data){
+        if (!res.data) {
           wx.showToast({
             title: '请完善个人信息',
             icon: 'none',
@@ -181,12 +186,12 @@ Page({
       })
   },
   commitMeeting() { // 提交会议
-    if(this.checkLogin()){
+    if (this.checkLogin()) {
       return
     }
     this.checkUserInfo()
       .then((res) => {
-        if(!res.data){
+        if (!res.data) {
           wx.showToast({
             title: '请完善个人信息',
             icon: 'none',
@@ -210,9 +215,9 @@ Page({
               meetingStartTime: wx.fixYear(formData.date[0]),
               meetingEndTime: wx.fixYear(formData.date[1]),
               minpeopleNumber: formData.meetingPeople,
-              demandMeetingVenue: this.checkIsScope(this.data.hcxqData) , // 会场
-              demandMeetingRepasts: this.checkIsScope(this.data.cyxqData) , // 餐饮
-              demandMeetingRooms: this.checkIsScope(this.data.kfxqData) , // 客房
+              demandMeetingVenue: this.checkIsScope(this.data.hcxqData), // 会场
+              demandMeetingRepasts: this.checkIsScope(this.data.cyxqData), // 餐饮
+              demandMeetingRooms: this.checkIsScope(this.data.kfxqData), // 客房
             }
             console.log(params)
             wx.loadingAPI(wx.$post('/demand/addDemand', params), '发布中')
@@ -234,7 +239,7 @@ Page({
   },
   // 当用户填写需求后，又更改了会议日期，需要过滤出还在日期范围内的需求
   checkIsScope(list) {
-    if(list) {
+    if (list) {
       let formData = this.selectComponent('#meetingForm').data.formData
       let start = wx.fixYear(formData.date[0])
       let end = wx.fixYear(formData.date[1])
@@ -242,7 +247,7 @@ Page({
       return list.filter(item => {
         return allDate.indexOf(item.dates) != -1
       })
-    }else {
+    } else {
       return []
     }
   },
@@ -299,9 +304,9 @@ Page({
     })
   },
   checkLogin() {
-    if(!this.data.isLogin){
+    if (!this.data.isLogin) {
       wx.navigateTo({
-        url:'/pages/welcome/welcome'
+        url: '/pages/welcome/welcome'
       })
       return true
     }
