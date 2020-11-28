@@ -37,8 +37,9 @@ Page({
       url: '/pages/mallHistory/mallHistory',
     })
   },
-  onChange() {
-
+  onChange(e) {
+    const index = e.detail.index
+    wx.setNavigationBarTitle({title: index == 0 ? '花积分' : '赚积分'})
   },
   goDetail(e) {
     let id = e.currentTarget.dataset.id

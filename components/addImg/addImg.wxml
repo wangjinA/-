@@ -1,9 +1,10 @@
-<view style="padding: 0 28rpx;">
+<view style="padding: 0 22rpx;">
   <view class="small-title flex-justify">
     <text>{{title}}</text>
     <view wx:if="{{rightText}}">{{rightText}}</view>
     <slot wx:else name="right">
     </slot>
   </view>
-  <van-uploader image-fit="aspectFill" accept="image" bind:delete="delImg" file-list="{{ fileList }}" bind:after-read="afterRead" />
+  <van-uploader multiple image-fit="aspectFill" accept="image" bind:delete="delImg" file-list="{{ fileList }}"
+    bind:after-read="afterRead" />
 </view>

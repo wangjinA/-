@@ -72,7 +72,7 @@ export const jdxj = value => { // 酒店星级
     name: '五星/豪华',
     value: 5
   }, {
-    name: '五星/顶级',
+    name: '不限',
     value: 6
   }]
   return getCommon(data, value)

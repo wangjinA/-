@@ -54,6 +54,7 @@ Page({
       integralProductId: this.data.id
     }))
     .then(res => {
+    wx.setNavigationBarTitle({title: res.data.productName})
       this.setData({
         data: {
           ...res.data,

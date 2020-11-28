@@ -165,3 +165,6 @@
   right: 30rpx;
   top: 30rpx;
 }
+.hotel-price-rob{
+  flex-shrink: 0;
+}

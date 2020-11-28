@@ -5,7 +5,7 @@ import {
   rs
 } from '../../utils/config'
 Page({
-  
+
   data: {
     tabs: ['已报价', '已完成'],
     current: 1,
@@ -15,41 +15,59 @@ Page({
     list: [],
     isHuiyi: true // 默认会议 否则婚宴
   },
-  init() {
+  async init(isTwo = false, isInit = false) {
     let result
-    let type =this.data.activeIndex + 1 // 类型 1.未报价，2.已报价，3.已完成
-    if(wx.type == 1){ // 酒店
-      if(this.data.isHuiyi) {
+    let type = isTwo ? 2 : (this.data.activeIndex + 1) // 类型 1.未报价，2.已报价，3.已完成
+    if (wx.type == 1) { // 酒店
+      if (this.data.isHuiyi) {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyOrderDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
           type: type + 1 // 没有未报价 所以 + 1
         }))
-      }else {
-        result = wx.loadingAPI(wx.$get('/demandorder/getMyWeddingOrderDemand',{
+        wx.setNavigationBarTitle({title: '会议报价'})
+      } else {
+        result = wx.loadingAPI(wx.$get('/demandorder/getMyWeddingOrderDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
           type: type + 1 // 没有未报价 所以 + 1
         }))
+        wx.setNavigationBarTitle({title: '婚宴报价'})
       }
-    }else { // 用户
-      if(this.data.isHuiyi) {
+    } else { // 用户
+      if (this.data.isHuiyi) {
         result = wx.loadingAPI(wx.$post('/demandorder/getUserDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
           type // 类型 1.未报价，2.已报价，3.已完成
         }))
-      }else {
-        result = wx.loadingAPI(wx.$post('/demandorder/getUserWeddingDemand',{
+        wx.setNavigationBarTitle({title: '会议需求'})
+      } else {
+        result = wx.loadingAPI(wx.$post('/demandorder/getUserWeddingDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
           type // 类型 1.未报价，2.已报价，3.已完成
         }))
+        wx.setNavigationBarTitle({title: '婚宴需求'})
       }
     }
-    if(result){
-      if(this.data.isHuiyi){
-        result.then(res=>{
+    if (result) {
+      if (wx.type == 2 && type == 1 && isInit) { // 是用户 并且 [未报价] 结果列表返回长度为0
+        const res = await result
+        if (!res.data.list.length) {
+          this.init(true)
+          return
+        }
+      } else if (wx.type == 2 && isTwo == true) {
+        const res = await result
+        if (res.data.list.length) {
+          this.setData({
+            activeIndex: 1
+          })
+        }
+      }
+      if (this.data.isHuiyi) {
+        result.then(res => {
           this.data.pages = res.data.pages
           let list = res.data.list
           list.forEach(item => {
@@ -61,13 +79,12 @@ Page({
           })
           if (this.data.current != 1) {
             list = [...this.data.list, ...list]
-          } else {
-          }
+          } else {}
           this.setData({
             list
           })
         })
-      }else {
+      } else {
         result.then(res => {
           this.data.pages = res.data.pages
           let list = res.data.list
@@ -79,8 +96,7 @@ Page({
           })
           if (this.data.current != 1) {
             list = [...this.data.list, ...list]
-          } else {
-          }
+          } else {}
           this.setData({
             list
           })
@@ -106,9 +122,9 @@ Page({
     this.setData({
       isHuiyi: options.index == 0 // 0 会议 1 婚宴
     })
-    if(wx.type == 2){
+    if (wx.type == 2) {
       this.setData({
-        tabs: ['未报价','已报价', '已完成']
+        tabs: ['未报价', '已报价', '已完成']
       })
     }
   },
@@ -117,14 +133,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.init()
+    this.init(false, true)
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**

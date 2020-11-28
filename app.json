@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/xfd/xfd",
     "pages/user/code/code",
     "pages/welcome/welcome",
     "pages/hunyanDetail/hunyanDetail",
@@ -14,7 +15,6 @@
     "pages/hotel/hotelDetail/hotelDetail",
     "pages/robOrderDetail/robOrderDetail",
     "pages/order/orderEnd/orderEnd",
-    "pages/xfd/xfd",
     "pages/robOrder/robOrder",
     "pages/order/order",
     "pages/hotel/hotelInfo/hotelInfo",

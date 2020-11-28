@@ -1,6 +1,7 @@
 import {
   hyjgqj,
-  rnzs
+  rnzs,
+  jdxj
 } from '../../utils/config'
 const app = getApp()
 Page({
@@ -34,6 +35,7 @@ Page({
     isUser: false, // 是否是发布需求的用户
     isHotel: false, // 是否是报价的酒店
     currentUserId: '',
+    currentHotelId: '',
     OrderDemandConfirm: {},
     active: 0
   },
@@ -50,6 +52,13 @@ Page({
           console.log('用户点击取消')
         }
       }
+    })
+  },
+  // 查看酒店
+  goHotelDetail(e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/hotel/hotelDetail/hotelDetail?id=' + id,
     })
   },
   copyCode() {
@@ -118,6 +127,15 @@ Page({
     })
   },
   showBj(e, eIsIndex = false) {
+    if(!eIsIndex && !this.data.isUser){
+      const hotelId = e.currentTarget.dataset.hotelid
+      if(hotelId && hotelId != wx.hotelId){
+        wx.navigateTo({
+          url: '/pages/hotel/hotelDetail/hotelDetail?id='+hotelId,
+        })
+        return 
+      }
+    }
     const index = !eIsIndex ? e.currentTarget.dataset.index : e
     this.data.bjList.forEach((item, i) => {
       if (i == index) {
@@ -142,6 +160,7 @@ Page({
         detail.tablesNumber = rnzs(wx.$parse(detail.tablesNumber))
         detail.startTime = wx.formatTime(new Date(detail.startTime), true)
         detail.endTime = wx.formatTime(new Date(detail.endTime), true)
+        detail.hotelStar = jdxj(detail.hotelStar)
         let hideInfo = wx.$hideInfo(userInfo)
         let isUser = false
         if(userInfo && wx.userInfo && userInfo.id == wx.userInfo.id){
@@ -154,7 +173,7 @@ Page({
         }else {
           data.OrderDemandConfirm = {}
         }
-        const activeStatus = [1, 3, 4, 5, 6]
+        const activeStatus = [1, 3, 4, 5, [6, 9]]
         this.setData({
           isUser,
           data: detail,
@@ -163,7 +182,13 @@ Page({
           userInfo,
           status: detail.status,
           statusText,
-          active: activeStatus.findIndex((item)=>detail.status == item),
+          active: activeStatus.findIndex((item) => {
+            if(typeof item === 'number'){
+              return detail.status == item
+            }else {
+              return item.filter(i => i == detail.status).length
+            }
+          }),
         })
         let isHotel = !!(data.weddingHotelVos.filter(item => item.hotelId === wx.hotelId).length)
         this.setData({
@@ -220,7 +245,8 @@ Page({
     // this.getBaojiaList()
     this.setData({
       status: options.status || 0,
-      currentUserId: wx.userInfo.id
+      currentUserId: wx.userInfo.id,
+      currentHotelId: wx.hotelId
     })
   },
   onShow() {

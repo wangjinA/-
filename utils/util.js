@@ -306,9 +306,13 @@ function getStatus(status) {
     case 8:
       statusText = '订单已过期'
       break;
+    case 9:
+      statusText = '后台确认完成'
+      break;
   }
   return statusText
 }
+
 function getStatusType(status) {
   // 1  有效 - 可以报价
   // 2  无效
@@ -335,6 +339,7 @@ function getStatusType(status) {
       statusType = 'primary'
       break;
     case 6:
+    case 9:
       statusType = 'success'
       break;
     case 7:

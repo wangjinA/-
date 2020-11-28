@@ -19,6 +19,7 @@
     "checkInvalidKey": true,
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
     "useMultiFrameRuntime": false,
     "useApiHook": true,
     "babelSetting": {
@@ -34,7 +35,7 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.11.0",
+  "libVersion": "2.14.0",
   "appid": "wx201229f657955244",
   "projectname": "hunqing",
   "cloudfunctionTemplateRoot": "",

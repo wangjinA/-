@@ -56,20 +56,22 @@ Component({
     },
     afterRead(event) {
       const { file } = event.detail;
-      console.log(file);
-      wx.$uploadFile({
-        file,
-      }).then(data => {
-        let url = data.data
-        let fileItem = {
-          url
-        }
-        this.triggerEvent('addImg', fileItem)
-        this.data.fileList.push(fileItem)
-        this.setData({
-          fileList: this.data.fileList
-        })
-      },)
+      console.log(event.detail)
+      file.forEach(item => {
+        wx.$uploadFile({
+          file: item,
+        }).then(data => {
+          let url = data.data
+          let fileItem = {
+            url
+          }
+          this.triggerEvent('addImg', fileItem)
+          this.data.fileList.push(fileItem)
+          this.setData({
+            fileList: this.data.fileList
+          })
+        },)
+      })
     },
   }
 })

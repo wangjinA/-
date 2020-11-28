@@ -23,8 +23,8 @@
     <view class="money-text">我的积分</view>
   </view>
   <view class="money-item">
-    <view class="money-num">￥0</view>
-    <view class="money-text">可提现</view>
+    <view class="money-num">{{userInfo.booked || 0}}</view>
+    <view class="money-text">待到账</view>
   </view>
   <view class="money-item">
     <view class="money-num">￥0</view>

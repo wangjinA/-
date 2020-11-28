@@ -176,6 +176,11 @@ Page({
               title: '发布成功',
             })
             formItem.clearData()
+            setTimeout(() => {
+              wx.navigateTo({
+                url: `/pages/order/order?index=1`
+              })
+            }, 1500);
           })
           .catch(error => {
             wx.showToast({
@@ -227,6 +232,11 @@ Page({
                 })
                 form.clearData()
                 this.clearXqData()
+                setTimeout(() => {
+                  wx.navigateTo({
+                    url: `/pages/order/order?index=0`
+                  })
+                }, 1500);
               })
               .catch(error => {
                 wx.showToast({

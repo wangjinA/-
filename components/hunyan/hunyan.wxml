@@ -38,7 +38,7 @@
     <van-tag size="large" type="{{tagType}}" wx:elif="{{data.status > 1 || (data.receive || isUser)}}">{{statusText}}</van-tag>
 
     <!-- 成功都可以看到 -->
-    <van-tag size="large" type="success" wx:elif="{{data.status == 6}}">{{statusText}}</van-tag>
+    <van-tag size="large" type="success" wx:elif="{{data.status == 6 || data.status == 9 }}">订单完成</van-tag>
 
     <van-button type="warning" round size="small" wx:if="{{data.status == 1 && showBtn && !isUser}}">
       {{data.offer ? '重新报价' : '点击抢单'}}

@@ -19,6 +19,11 @@ Component({
 
   methods: {
     checkRelation() {
+      if(!wx.getStorageSync('token')){
+        return wx.navigateTo({
+          url: '/pages/welcome/welcome'
+        })
+      }
       return wx.loadingAPI(wx.$get('/api/user/phoneCall', {
         hotelId: this.data.hotelId
       }))
