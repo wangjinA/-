@@ -20,11 +20,11 @@
 <view class="money-list">
   <view class="money-item" bindtap="goScoreHistory">
     <view class="money-num">{{userInfo.integral || 0}}</view>
-    <view class="money-text">我的积分</view>
+    <view class="money-text">可提现积分</view>
   </view>
   <view class="money-item">
     <view class="money-num">{{userInfo.booked || 0}}</view>
-    <view class="money-text">待到账</view>
+    <view class="money-text">待到账积分</view>
   </view>
   <view class="money-item">
     <view class="money-num">￥0</view>

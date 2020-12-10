@@ -60,9 +60,10 @@ Page({
             wx.showToast({
               title: '保存成功'
             })
-            // setTimeout(() => {
+            setTimeout(() => {
+              wx.navigateBack()
               // this.init()
-            // }, 1500);
+            }, 1000)
           })
       })
   },

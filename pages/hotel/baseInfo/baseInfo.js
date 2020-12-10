@@ -151,8 +151,9 @@ Page({
               title: '保存成功',
             })
             setTimeout(() => {
-              this.init()
-            }, 1500)
+              wx.navigateBack()
+              // this.init()
+            }, 1000)
           })
       })
 

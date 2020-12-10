@@ -20,6 +20,20 @@ const getCommon = (data, value) => {
   return wx.$getPickerData(data)
 }
 
+export const day = value => { // 婚宴价格区间
+  let data =  [{
+    name: '上午',
+    value: 0,
+  }, {
+    name: '下午',
+    value: 1,
+  }, {
+    name: '晚上',
+    value: 2,
+  }]
+  return getCommon(data, value)
+}
+
 export const hyjgqj = value => { // 婚宴价格区间
   let data = [{
     name: '1000元以下',

@@ -77,6 +77,20 @@ export function checkRequired(formData, formList) { // 提交判断required
           isNull = true
         }
       }
+      if (item.type === 'relation') {
+        if(itemData instanceof Array){
+          itemData.forEach(item => {
+            Object.keys(item).forEach(key => { // name: "一天"  value: "" 情况下
+              if(!item[key]){
+                isNull = true
+              }
+            })
+          })
+        }
+        if (!itemData || !itemData.length) {
+          isNull = true
+        }
+      }
       if (!itemData) {
         isNull = true
       }

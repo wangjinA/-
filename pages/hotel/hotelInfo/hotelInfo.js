@@ -104,7 +104,7 @@ Page({
           ]
         })
       }
-      if(wx.roles && wx.roleId == 1){
+      if(wx.roles && wx.roleId == 1 && !this.data.formList.some(item=>item.label === '账户权限设置')){
         this.setData({
           formList: [{
             label: '账户权限设置',

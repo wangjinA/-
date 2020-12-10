@@ -1,5 +1,6 @@
 import {
-  rs
+  rs,
+  day
 } from '../../utils/config'
 const app = getApp()
 // 1  有效 - 可以报价
@@ -192,7 +193,12 @@ Page({
         data.kfTotal = 0
         data.cyTotal = 0
         data.singleDemandVenueVos.forEach(item => { // 会议
-          data.hcTotal += item.budget || 0
+          let total = item.budget || 0
+          item.dayLong = wx.$parse(item.dayLong)
+          if(item.dayLong.length){
+            total = total * (item.dayLong.length || 1)
+          }
+          data.hcTotal += total
           item._show = !!(
             item.containNumbers ||
             item.dayLong ||
@@ -203,8 +209,13 @@ Page({
           )
         })
         data.singleDemandRoomsVos.forEach(item => { // 客房
-          data.kfTotal += item.budget || 0
+          let price = item.budget || 0
+          let total = 0
           item.rooms = wx.$parse(item.rooms)
+          item.rooms.forEach(item => {
+            total += price * item.value
+          })
+          data.kfTotal += total
           item._show = !!(
             item.budget ||
             item.networkFlag == 1 ||
@@ -213,7 +224,9 @@ Page({
           )
         })
         data.singleDemandRepastVos.forEach(item => { // 餐饮
-          data.cyTotal += item.budget || 0
+          let total = item.budget || 0
+          total = total * item.containNumbers
+          data.cyTotal += total
           item.dining = wx.$parse(item.dining)
           item._show = !!(
             item.containNumbers ||

@@ -14,7 +14,6 @@ Page({
       type: 'relation',
       data: ['午餐' , '晚餐'],
       rightData: ['自助式', '围桌式' , '商务简餐', '盒饭'],
-      type: 'relation',
       isAdd: '新增用餐',
     }, 
     // {
@@ -26,8 +25,9 @@ Page({
     {
       label: '人数',
       key: 'containNumbers',
-      type: 'select',
-      data: rs()
+      company: '人'
+      // type: 'select',
+      // data: rs()
     }, {
       label: '预算',
       key: 'budget',
@@ -67,9 +67,9 @@ Page({
       //   wjForms[i].data.formData.dining = wx.$stringify(dining)
       // }
       let formData = {...wjForms[i].data.formData}
-      if(formData.containNumbers) {
-        formData.containNumbers = formData.containNumbers
-      } 
+      // if(formData.containNumbers) {
+      //   formData.containNumbers = formData.containNumbers
+      // } 
       return {
         dates: item,
         ...formData
@@ -101,10 +101,10 @@ Page({
               }
             }
           })
-          if(item.containNumbers) {
-            console.log(item.containNumbers)
-            item.containNumbers = item.containNumbers
-          } 
+          // if(item.containNumbers) {
+          //   console.log(item.containNumbers)
+          //   item.containNumbers = item.containNumbers
+          // } 
           formItem.setData({
             formData: item,
             formList: formItem.data.formList

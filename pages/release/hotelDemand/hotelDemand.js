@@ -1,4 +1,5 @@
 import { formatSelectData } from "../../../utils/util";
+import { day } from "../../../utils/config";
 const app = getApp();
 Page({
 
@@ -16,8 +17,9 @@ Page({
     {
       label: '会议时间',
       key: 'dayLong',
-      type: 'select',
-      data: formatSelectData(['全天', '上午', '下午', '晚上'])
+      type: 'checkbox',
+      // data: formatSelectData(['全天', '上午', '下午', '晚上']),
+      data: day(),
     }, {
       label: '容纳人数',
       key: 'containNumbers',

@@ -41,8 +41,11 @@ Page({
     for (let i = 0; i < forms.length; i++) {
       const formItem = forms[i];
       try {
+        const formData = await formItem.getData()
+        formData.price = formData.relationBj[0].value
+        formData.company = formData.relationBj[0].name
         hcbj.push({
-          ...await formItem.getData(),
+          ...formData,
           dates: this.data.list[i].dates,
           hotelId: wx.hotelId
         })
@@ -111,9 +114,11 @@ Page({
       }, {
         label: '报价',
         required: true,
-        key: 'price',
-        inputType: 'number',
-        company: '元/场'
+        key: 'relationBj',
+        type: 'relation',
+        company: '元',
+        placeholder: '请输入报价',
+        data: ['一天', '一场'],
       }]
     })
   },
@@ -144,10 +149,17 @@ Page({
 
     // 自动通过上午或者下午设置报价
     let dayLong = this.data.list[currentIndex].dayLong
+    if(!formItem.data.formData.relationBj){
+      formItem.data.formData.relationBj = [{}]
+    }
     if(!dayLong || dayLong === '全天') { // 如果客户没有填写半天或者全天这个字段 默认设置全天价格
-      formItem.data.formData.price = meetingItem.dayPrice
+      formItem.data.formData.relationBj[0].value = meetingItem.dayPrice
+      formItem.data.formData.relationBj[0].name = '一天'
+
     }else { // 设置半天价格
-      formItem.data.formData.price = meetingItem.halfDayPrice
+      formItem.data.formData.relationBj[0].value = meetingItem.halfDayPrice
+      formItem.data.formData.relationBj[0].name = '一场'
+
     }
 
 

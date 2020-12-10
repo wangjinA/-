@@ -177,14 +177,21 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-            预算：<text class="item-budget">￥{{item.budget}}元/场</text>
+            <text class="c9">预算：</text><text class="item-budget">￥{{item.budget}}元/场</text>
           </view>
-          <view>
-            {{item.venues || ''}}
-            {{item.dayLong ? '，' + item.dayLong : ''}}
-            {{item.containNumbers ? '，' + item.containNumbers : ''}}
+          <view wx:if="{{item.dayLong && item.dayLong.length}}">
+            <text class="c9">时间：</text>{{item.dayLong}}
           </view>
-          <view class="item-remark" wx:if="{{item.notes}}">{{item.notes}}</view>
+          <view wx:if="{{item.venues}}">
+            <text class="c9">类型：</text>{{item.venues}}
+          </view>
+          <view wx:if="{{item.containNumbers}}">
+            <text class="c9">人数：</text>{{item.containNumbers}}
+          </view>
+          <!-- <view class="item-remark" wx:if="{{item.notes}}"> -->
+          <view wx:if="{{item.notes}}">
+            <text class="c9">备注：</text>{{item.notes}}
+          </view>
         </view>
       </block>
     </view>
@@ -203,10 +210,10 @@
           <view wx:if="{{item.budget}}">
             预算：<text class="item-budget">￥{{item.budget}}元/间</text>
           </view>
-          <view wx:for="{{item.rooms}}">{{item.name}} {{item.value}}间</view>
-          <view class="item-remark">
-            <text wx:if="{{item.networkFlag}}">需要网络 </text>
-            <text wx:if="{{item.notes}}">{{item.notes}}</text>
+          <view wx:for="{{item.rooms}}"><text class="c9">类型：</text>{{item.name}} {{item.value}}间</view>
+          <!-- <view class="item-remark" wx:if="{{item.notes}}"> -->
+          <view wx:if="{{item.notes}}">
+            <text class="c9">备注：</text>{{item.notes}}
           </view>
         </view>
       </block>
@@ -224,13 +231,15 @@
         <view class="detail-time">{{item.dates}}</view>
         <view class="detail-item">
           <view wx:if="{{item.budget}}">
-            预算：<text class="item-budget">￥{{item.budget}}元/人</text>
+            <text class="c9">预算：</text><text class="item-budget">￥{{item.budget}}元/人</text>
           </view>
-          <view>{{item.containNumbers || ''}}</view>
+          <view><text class="c9">人数：</text>{{item.containNumbers || ''}}人</view>
           <view>{{item.tableType || ''}}</view>
-          <view wx:for="{{item.dining}}">{{item.name}} {{item.value}}</view>
-          <view class="item-remark" wx:if="{{item.notes}}">
-            {{item.notes}}
+
+          <view wx:for="{{item.dining}}"><text class="c9">时间：</text>{{item.name}}<text class="c9" style="margin-left: 20rpx;">类型：</text>{{item.value}}</view>
+          <!-- <view class="item-remark" wx:if="{{item.notes}}"> -->
+          <view wx:if="{{item.notes}}">
+            <text class="c9">备注：</text>{{item.notes}}
           </view>
         </view>
       </block>
