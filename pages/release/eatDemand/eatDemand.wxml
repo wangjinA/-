@@ -11,4 +11,4 @@
   </van-collapse-item>
 </van-collapse>
 
-<footerButton bindtap="commit">确定</footerButton>
+<footerButton bind:click="commit">确定</footerButton>

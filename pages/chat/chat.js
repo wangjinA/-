@@ -197,7 +197,7 @@ Page({
     },
     onLoad(options) {
         this.page = 1
-        this.pageSize = 10
+        this.pageSize = 15
         this.beUserId = options.beUserId
         wx.$get('/chat/checkRoom', {
             beUserId: options.beUserId
@@ -257,7 +257,7 @@ Page({
         wx.$post('/chat/getChatRecordByChat', {
             chatId: this.chatId,
             current: 1,
-            pageSize: 10
+            pageSize: this.pageSize
         }).then(res => {
             // 没有历史纪录说明第一次访问，因为需要拿AllList对比记录做分页，下面逻辑就不执行了
             if (!this.allList.length) {

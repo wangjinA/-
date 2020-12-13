@@ -64,7 +64,7 @@ Page({
                           url: '/pages/index/index',
                         })
                       }
-                      this.lunxun()
+                      wx.$lunxun()
                     }).catch(err => {
                       console.log(err);
 
@@ -84,52 +84,52 @@ Page({
       }
     })
   },
-  lunxun() {
-    let lunxunTime = 1000
-    clearTimeout(this.timer)
-    clearTimeout(wx.msgTimer)
-    // 在tabbar页面的时候才发送请求
-    if (getCurrentPages().length !== 1) {
-      return wx.globalTimer = setTimeout(() => {
-        this.lunxun()
-      }, lunxunTime);
-    }
-    console.log('welcome页面轮询');
+  // lunxun() {
+  //   let lunxunTime = 1000
+  //   clearTimeout(this.timer)
+  //   clearTimeout(wx.msgTimer)
+  //   // 在tabbar页面的时候才发送请求
+  //   if (getCurrentPages().length !== 1) {
+  //     return wx.globalTimer = setTimeout(() => {
+  //       this.lunxun()
+  //     }, lunxunTime);
+  //   }
+  //   console.log('welcome页面轮询');
     
-    wx.$post('/chat/getChatRoom', {
-        current: 1,
-        pageSize: 100
-      })
-      .then(res => {
-        let allUnReadCount = 0
-        res.data.list.forEach(item => {
-          allUnReadCount += item.unreadCount
-        })
-        try {
-          if (getCurrentPages().length === 1) {
-            if (allUnReadCount) {
-              wx.setTabBarBadge({
-                index: 3,
-                text: allUnReadCount + ''
-              })
-            } else {
-              wx.removeTabBarBadge({
-                index: 3
-              })
-            }
-          }
-        } catch (error) {
+  //   wx.$post('/chat/getChatRoom', {
+  //       current: 1,
+  //       pageSize: 100
+  //     })
+  //     .then(res => {
+  //       let allUnReadCount = 0
+  //       res.data.list.forEach(item => {
+  //         allUnReadCount += item.unreadCount
+  //       })
+  //       try {
+  //         if (getCurrentPages().length === 1) {
+  //           if (allUnReadCount) {
+  //             wx.setTabBarBadge({
+  //               index: 3,
+  //               text: allUnReadCount + ''
+  //             })
+  //           } else {
+  //             wx.removeTabBarBadge({
+  //               index: 3
+  //             })
+  //           }
+  //         }
+  //       } catch (error) {
 
-        }
-        wx.globalTimer = setTimeout(() => {
-          this.lunxun()
-        }, lunxunTime);
-      }).catch(() => {
-        wx.globalTimer = setTimeout(() => {
-          this.lunxun()
-        }, lunxunTime);
-      })
-  },
+  //       }
+  //       wx.globalTimer = setTimeout(() => {
+  //         this.lunxun()
+  //       }, lunxunTime);
+  //     }).catch(() => {
+  //       wx.globalTimer = setTimeout(() => {
+  //         this.lunxun()
+  //       }, lunxunTime);
+  //     })
+  // },
   getPhoneNumber(e) {
     console.log(e)
     if (e.detail.iv) { // 用户同意手机号授权

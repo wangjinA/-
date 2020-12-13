@@ -43,14 +43,18 @@
 <!-- 消费单 -->
 <view class="container" wx:if="{{(status == 5 || status == 6) && (isUser || data.receive) }}">
   <view class="top">
-    <view class="name text-overflow">消费单信息</view>
+    <view class="name text-overflow">
+      <text>消费单信息</text>
+      <text wx:if="{{data.orderDemandConfirm.reason}}">
+        <text wx:if="{{isUser}}" class="warning-color size14" style="margin-left: 20rpx;">（已被拒绝，请重新上传）</text>
+        <text wx:elif="{{isHotel}}" class="warning-color size14" style="margin-left: 20rpx;">（已拒绝，等待客户重新上传）</text>
+      </text>
+    </view>
   </view>
-  <van-grid column-num="3" border="{{ false }}">
-    <van-grid-item use-slot wx:for="{{ data.orderDemandConfirm.userInvoice }}" bindtap="previewXfd"
-      data-index="{{index}}">
-      <image style="width: 100%; height: 180rpx;" src="{{item.url}}" mode="aspectFill" />
-    </van-grid-item>
-  </van-grid>
+  <view class="item" wx:if="{{data.orderDemandConfirm.reason}}">
+    <view class="label">拒绝原因</view>
+    <view class="val" style="margin-left: auto;">{{data.orderDemandConfirm.reason}}</view>
+  </view>
   <view class="item">
     <view class="label">总消费</view>
     <view class="val c totalPrice">
@@ -58,7 +62,12 @@
       <text class="price">{{data.orderDemandConfirm.price || 0}}</text>
     </view>
   </view>
-
+  <van-grid column-num="3" border="{{ false }}">
+    <van-grid-item use-slot wx:for="{{ data.orderDemandConfirm.userInvoice }}" bindtap="previewXfd"
+      data-index="{{index}}">
+      <image style="width: 100%; height: 180rpx;" src="{{item.url}}" mode="aspectFill" />
+    </van-grid-item>
+  </van-grid>
 </view>
 
 <!-- 三个报价 offer 我已报价-->
@@ -73,9 +82,13 @@
     <view class="bj-list" wx:for="{{bjList}}">
       <!-- <view class="bj-item" bindtap="showBj" data-index="{{index}}" wx:if="{{isUser || item.userId === currentUserId}}"> -->
       <view class="bj-item" bindtap="showBj" data-index="{{index}}" data-hotelid="{{item.hotelId}}">
-        <view class="hotel-name-rob col-center {{(item.hotelId === currentHotelId || item.confirm) && 'c'}}">
+        <view class="hotel-name-rob col-center {{(item.hotelId === currentHotelId || item.confirm || item.poolFlag == 1) && 'c'}}">
           <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
-          <text class="size14 bold">{{item.hotelName}} <text class="size12">{{item.confirm ? '（已确认）' : ''}}</text></text>
+          <text class="size14 bold">
+            <text>{{item.hotelName}} </text>
+            <text class="size12 primary-color">{{item.confirm ? '（已确认）' : ''}}</text>
+            <text class="size12" wx:if="{{!item.confirm}}">{{item.poolFlag ? '（备选）' : ''}}</text>
+          </text>
         </view>
         <view class="hotel-price-rob">
           <!-- <block wx:if="{{!item.show}}"> -->
@@ -142,16 +155,19 @@
           </view>
         </block>
         <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}" />
-        <footerButton bindtap="okBaojia" data-index="{{index}}" data-orderdemandId="{{item.orderdemandId}}"
-          wx:if="{{status==1 && isUser}}">接受报价</footerButton>
+        <footerButton 
+          type="{{2}}" 
+          bind:click="okBaojia"
+          bind:clickright="addBeixuan"
+          rightButtonType="{{item.poolFlag == 0 ? 'primary' : 'warning'}}"
+          data-index="{{index}}"
+          data-orderdemandId="{{item.orderdemandId}}"
+          data-poolflag="{{item.poolFlag}}"
+          wx:if="{{status==1 && isUser}}">
+          <text>接受报价</text>
+          <text slot="right">{{item.poolFlag == 0 ? '加入备选' : '移出备选'}}</text>
+        </footerButton>
       </view>
-      <!-- <van-steps
-      wx:if="{{item.show}}"
-      steps="{{ steps }}"
-      active="{{ active }}"
-      direction="vertical"
-      active-color="#FEAF11"
-    /> -->
     </view>
   </block>
   
@@ -163,8 +179,13 @@
     暂无报价
   </view>
 </view>
+<view style="padding: 0 24rpx;" wx:if="{{ status > 4 }}">
+  <van-button type="primary" size="small" block bindtap="lookXq">
+    {{showXq ? '隐藏需求' : '查看需求'}}
+  </van-button>
+</view>
 <!-- 三个详细需求 -->
-<view class="container">
+<view class="container" wx:if="{{showXq}}">
   <block wx:if="{{data.hcShow && data.singleDemandVenueVos && data.singleDemandVenueVos.length}}">
     <view class="top">
       <view class="name text-overflow">会场</view>
@@ -337,11 +358,14 @@
   </view>
 </view>
 
-<footerButton bindtap="jdok" wx:if="{{status==3 && data.orderDemandId && data.receive}}">会议完成</footerButton>
+<footerButton bind:click="jdok" wx:if="{{status==3 && data.orderDemandId && data.receive}}">会议完成</footerButton>
 <!-- <footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton> -->
-<footerButton bindtap="shangchuan" wx:if="{{(status==4 || status==5) && isUser}}">{{ status==4 ? '上传消费单' : '重新上传消费单'}}
+<footerButton bind:click="shangchuan" wx:if="{{(status==4 || status==5) && isUser}}">{{ status==4 ? '上传消费单' : '修改消费单信息'}}
 </footerButton>
-<footerButton bindtap="orderOver" wx:if="{{status==5 && data.orderDemandId && data.receive}}">确认订单完成</footerButton>
+<footerButton type="{{ data.orderDemandConfirm.reason ? 1 : 2}}" bind:click="orderOver" bind:clickright="jujueXfd" wx:if="{{status==5 && data.orderDemandId && data.receive}}">
+  <text>确认订单完成</text>
+  <text slot="right">拒绝消费单</text>
+</footerButton>
 <!-- <view class="footer-wrap">
   <view class="footer">
   <view class="baojiarenshu size14">
@@ -350,3 +374,21 @@
 	<van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button>
 </view>
 </view> -->
+<van-dialog
+  use-slot
+  title="拒绝消费单"
+  show="{{ showReason }}"
+  show-cancel-button
+  bind:close="onClose"
+  bind:confirm="jujueCommit"
+  bind:getuserinfo="getUserInfo"
+>
+  <van-field
+    value="{{ reason }}"
+    placeholder="请输入拒绝理由"
+    border="{{ false }}"
+    label="拒绝理由"
+    type="textarea"
+    bind:change="reasonInputChange"
+  />
+</van-dialog>

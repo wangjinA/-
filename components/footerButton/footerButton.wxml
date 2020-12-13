@@ -1,7 +1,25 @@
 <view class="footerPillar">
 </view>
-  <view class="footerButton {{isFixed && 'line-top'}}" style="{{isFixed ? '' : 'position: static;'}}">
-    <van-button block round type="info" bind:click="clickHandler"> 
-      <slot></slot>
-    </van-button>
-  </view>
+<view class="footerButton {{isFixed && 'line-top'}}" style="{{isFixed ? '' : 'position: static;'}}">
+  <van-button style="width: 100%;" block round type="info" bind:click="clickHandler" wx:if="{{type === 1}}">
+    <slot></slot>
+  </van-button>
+  <block wx:if="{{type === 2}}">
+    <view style="width: 45%;">
+      <van-button block type="{{leftButtonType}}" bind:click="clickHandler">
+        <slot></slot>
+      </van-button>
+    </view>
+    <view style="width: 45%;">
+      <van-button block type="{{rightButtonType}}" bind:click="clickHandler1">
+        <slot name="right"></slot>
+      </van-button>
+    </view>
+  </block>
+</view>
+
+
+<!-- <footerButton bind:click="commit" type="{{2}}">
+  <text slot="left">确认</text>
+  <text slot="right">测试</text>
+</footerButton> -->

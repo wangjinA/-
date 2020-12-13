@@ -38,7 +38,7 @@ Page({
     //       isLogin: true
     //     })
     //   })
-    wx.$loadUserInfo()
+    return wx.$loadUserInfo()
       .then(() => {
         this.setData({
           isLogin: true
@@ -182,6 +182,11 @@ Page({
     
 
     this.loadUserInfo()
+    .then(() => {
+      wx.$lunxun()
+    }).catch(() => {
+      wx.$lunxun()
+    })
     this.init()
 
   },

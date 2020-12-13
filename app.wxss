@@ -10,6 +10,12 @@ page{
 .c{
   color: #FD960D;
 }
+.primary-color{
+  color: #1989FA;
+}
+.warning-color{
+  color: #FF976A;
+}
 .c3{
   color: #333;
 }

@@ -237,10 +237,14 @@ Page({
                 form.clearData()
                 this.clearXqData()
                 setTimeout(() => {
+                  if(wx.type == 1){
+                    wx.type = 2
+                    wx.showToast({title: '已切换身份', icon: 'none', duration: 2000})
+                  }
                   wx.navigateTo({
-                    url: `/pages/order/order?index=0`
+                    url: `/pages/order/order?index=1`
                   })
-                }, 1500);
+                }, 1600);
               })
               .catch(error => {
                 wx.showToast({

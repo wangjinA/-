@@ -120,7 +120,7 @@ export function checkRequired(formData, formList) { // 提交判断required
 export function loadUserInfo() {
   return wx.$get('/api/user/getUserInfo')
     .then(res => {
-      if (res.code == '20') { // token失效
+      if (res.code == '20' || !res.data.userInfo) { // token失效
         wx.clearStorageSync('token')
         return Promise.reject()
       } else {
@@ -383,6 +383,55 @@ function hideInfo(userInfo) {
 function isEmail(s) {
   return /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
 }
+
+function lunxun() {
+    let lunxunTime = 1000
+    clearTimeout(wx.msgTimer)
+    wx.msgTimer = null
+    clearTimeout(wx.globalTimer)
+    // 在tabbar页面的时候才发送请求
+    if (getCurrentPages().length !== 1) {
+      return wx.globalTimer = setTimeout(() => {
+        lunxun()
+      }, lunxunTime);
+    }
+    console.log('global页面轮询');
+    
+    wx.$post('/chat/getChatRoom', {
+        current: 1,
+        pageSize: 100
+      })
+      .then(res => {
+        let allUnReadCount = 0
+        res.data.list.forEach(item => {
+          allUnReadCount += item.unreadCount
+        })
+        try {
+          if (getCurrentPages().length === 1) {
+            if (allUnReadCount) {
+              wx.setTabBarBadge({
+                index: 3,
+                text: allUnReadCount + ''
+              })
+            } else {
+              wx.removeTabBarBadge({
+                index: 3
+              })
+            }
+          }
+        } catch (error) {
+
+        }
+        wx.globalTimer = setTimeout(() => {
+          lunxun()
+        }, lunxunTime);
+      }).catch(() => {
+        wx.globalTimer = setTimeout(() => {
+          lunxun()
+        }, lunxunTime);
+      })
+}
+
 // function checkRole() {
 //   let 
 //   if(wx.roles.filter(item => item.id === 1).length)
@@ -406,6 +455,7 @@ wx.$parse = parse
 wx.formatTime = formatTime
 wx.loadingAPI = loadingAPI
 wx.delAPI = delAPI
+wx.$lunxun = lunxun
 export default {
   formatTime,
   formatSelectData,

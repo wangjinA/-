@@ -56,7 +56,65 @@ Page({
     isHotel: false, // 是否是报价的酒店
     currentUserId: '',
     currentHotelId: '',
-    active: 0
+    active: 0,
+    showXq: true,
+    showReason: false,
+    reason: '',
+  },
+  reasonInputChange(e) {
+    this.setData({
+      reason: e.detail
+    })
+  },
+  jujueCommit() {
+    if(!this.data.reason){
+      return wx.showToast({
+        title: '请输入拒绝理由',
+        icon: 'none'
+      })
+    }
+    wx.delAPI('确认拒绝？')
+    .then(() => {
+      wx.$post('/order/hotelRejected', {
+        reason: this.data.reason,
+        demandConfirmId: this.data.data.orderDemandConfirm.demandConfirmId
+      }).then(() => {
+        wx.showToast({
+          title: '操作成功',
+          icon:'none'
+        })
+        setTimeout(() => {
+          this.init()
+        }, 1500);
+      })
+    })
+  },
+  jujueXfd() {
+    this.setData({
+      showReason: true
+    })
+  },
+  addBeixuan(e) {
+    const {orderdemandid, poolflag, index} = e.currentTarget.dataset
+    wx.$get('/order/selectPoolDemand', { // type 拉入状态 0待选择 1拉入 2 拒绝
+      orderDemandId: orderdemandid,
+      type: poolflag == 0 ? 1 : 0
+    }).then(() => {
+      wx.showToast({
+        title: '操作成功',
+        icon:'none'
+      })
+      setTimeout(() => {
+        this.showBj(index, true)
+        this.init()
+      }, 1500);
+    })
+  },
+  // 查看需求 隐藏需求
+  lookXq() {
+    this.setData({
+      showXq: !this.data.showXq
+    })
   },
   copyCode() {
     wx.setClipboardData({
@@ -121,6 +179,11 @@ Page({
   },
   // 上传消费单
   shangchuan() {
+    if(this.data.data.orderDemandConfirm){
+      wx.xfdList = this.data.data.orderDemandConfirm.userInvoice
+      wx.xfdPrice = this.data.data.orderDemandConfirm.price
+    }
+
     wx.navigateTo({
       url: '/pages/xfd/xfd?id='+ this.data.data.meetingId,
     })
@@ -184,8 +247,10 @@ Page({
         if(data.userInfo) {
           data.hideInfo = wx.$hideInfo(data.userInfo)
         }
+        let isXfdJujue = false
         if(data.orderDemandConfirm){
           data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
+          isXfdJujue = data.orderDemandConfirm.reason
         }else {
           data.orderDemandConfirm = {}
         }
@@ -261,7 +326,9 @@ Page({
           isUser,
           statusText,
           status: data.status,
+          showXq: !(data.status > 4),
           data,
+          isXfdJujue: isXfdJujue,
           active: activeStatus.findIndex((item) => {
             if(typeof item === 'number'){
               return data.status == item

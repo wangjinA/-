@@ -1,2 +1,2 @@
 <wjForm formList="{{formList}}" id="wjForm"></wjForm>
-<footerButton bindtap="commit">保存</footerButton>
+<footerButton bind:click="commit">保存</footerButton>

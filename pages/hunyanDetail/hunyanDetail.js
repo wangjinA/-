@@ -37,7 +37,58 @@ Page({
     currentUserId: '',
     currentHotelId: '',
     OrderDemandConfirm: {},
-    active: 0
+    active: 0,
+    showReason: false,
+    reason: '',
+  },
+  reasonInputChange(e) {
+    this.setData({
+      reason: e.detail
+    })
+  },
+  jujueCommit() {
+    if(!this.data.reason){
+      return wx.showToast({
+        title: '请输入拒绝理由',
+        icon: 'none'
+      })
+    }
+    wx.delAPI('确认拒绝？')
+    .then(() => {
+      wx.$post('/order/hotelRejected', {
+        reason: this.data.reason,
+        demandConfirmId: this.data.OrderDemandConfirm.demandConfirmId
+      }).then(() => {
+        wx.showToast({
+          title: '操作成功',
+          icon:'none'
+        })
+        setTimeout(() => {
+          this.init()
+        }, 1500);
+      })
+    })
+  },
+  jujueXfd() {
+    this.setData({
+      showReason: true
+    })
+  },
+  addBeixuan(e) {
+    const {id, poolflag, index} = e.currentTarget.dataset
+    wx.$get('/order/selectPoolWedding', { // type 拉入状态 0待选择 1拉入 2 拒绝
+      orderWeedingId: id,
+      type: poolflag == 0 ? 1 : 0
+    }).then(() => {
+      wx.showToast({
+        title: '操作成功',
+        icon:'none'
+      })
+      setTimeout(() => {
+        this.showBj(index, true)
+        this.init()
+      }, 1500);
+    })
   },
   orderEnd() {
     wx.showModal({
@@ -98,6 +149,10 @@ Page({
   },
   // 上传消费单    -------------------没写
   shangchuan() {
+    if(this.data.OrderDemandConfirm){
+      wx.xfdList = this.data.OrderDemandConfirm.userInvoice
+      wx.xfdPrice = this.data.OrderDemandConfirm.price
+    }
     wx.navigateTo({
       url: `/pages/xfd/xfd?id=${this.data.id}&isHunyan=1`,
     })

@@ -6,6 +6,8 @@
   padding: 30rpx 30rpx;
   background-color: #fff;
   z-index: 99;
+  display: flex;
+  justify-content: space-between;
 }
 .footerPillar{
   height: 150rpx;

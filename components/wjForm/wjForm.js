@@ -16,6 +16,27 @@ Component({
     formData(data) {
       // console.log('formdata改变了!!!');
       console.log(data)
+      Object.keys(data).forEach(key => {
+        let target = this.data.formList.filter(item => item.key === key)[0]
+        console.log(target);
+        if(target){
+          let type = target.type
+          if(type === 'checkbox'){
+            if(target.data && target.data.forEach){
+              target.data.forEach(item => {
+                if(data[key].some(name => name == item.name)){
+                  item.checked = true
+                }else {
+                  item.checked = false
+                }
+              })
+              this.setData({
+                formList: this.data.formList
+              })
+            }
+          }
+        }
+      })
     },
     formList(list) {
       list.forEach(item => {
@@ -74,7 +95,6 @@ Component({
       })
       console.log(this.data.formData);
       console.log(key , value);
-      
     },
     getPhone() {
       this.setData({
@@ -91,7 +111,7 @@ Component({
         }
         if (item.type === 'checkbox'){
           this.setFormData({
-            [item.key]: item.data.map(item => item.value)
+            [item.key]: item.data.filter(item =>item.checked).map(item => item.value)
           })
         }
         if (item.type === 'relation') {

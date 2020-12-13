@@ -41,13 +41,24 @@ Page({
   onLoad: function (options) {
     this.data.id = options.id
     this.data.isHunyan = options.isHunyan // 是否是婚宴
+    if(wx.xfdList) {
+      let addImg = this.selectComponent('#addImg')
+      let wjForm = this.selectComponent('#wjForm')
+      addImg.setData({
+        fileList: wx.xfdList
+      })
+      wjForm.data.formData.price = wx.xfdPrice
+      wjForm.setData({
+        formData: wjForm.data.formData
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**
