@@ -33,22 +33,7 @@ Page({
         text: '订单完成',
       }
     ],
-    bjList: [{
-      hotelName: '南昌保利酒店',
-      num: 3,
-      price: '32000',
-      show: false
-    }, {
-      hotelName: '维也纳酒店',
-      num: 2,
-      price: '43996',
-      show: false
-    }, {
-      hotelName: '国际大酒店',
-      num: 1,
-      price: '12000',
-      show: false
-    }],
+    bjList: [],
     data: {},
     status: 0,
     statusText: '',
@@ -266,7 +251,7 @@ Page({
           data.hcTotal += total
           item._show = !!(
             item.containNumbers ||
-            item.dayLong ||
+            item.dayLong.length ||
             item.notes ||
             item.venues ||
             item.venueType || 
@@ -277,7 +262,7 @@ Page({
           let price = item.budget || 0
           let total = 0
           item.rooms = wx.$parse(item.rooms)
-          item.rooms.forEach(item => {
+          item.rooms && item.rooms.forEach(item => {
             total += price * item.value
           })
           data.kfTotal += total

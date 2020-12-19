@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/hotel/hotelCreate/hotelCreate",
     "pages/xfd/xfd",
     "pages/user/code/code",
     "pages/welcome/welcome",
     "pages/hunyanDetail/hunyanDetail",
-    "pages/hotel/hotelCreate/hotelCreate",
     "pages/hunyanBaojia/hunyanBaojia",
     "pages/msg/msg",
     "pages/hotel/hotelSearch/hotelSearch",

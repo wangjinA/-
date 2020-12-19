@@ -1,4 +1,4 @@
-import { formatSelectData } from "../../../utils/util";
+import { deepClone } from "../../../utils/util";
 const app = getApp();
 // pages/release/hotelDemand/hotelDemand.js
 Page({
@@ -40,8 +40,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: {...prevCom.data.formData},
-      formList: [...prevCom.data.formList]
+      formData: deepClone(prevCom.data.formData),
+      formList: deepClone(prevCom.data.formList)
     })
   },
   onChange(event) {

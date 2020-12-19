@@ -17,14 +17,15 @@ Component({
       // console.log('formdata改变了!!!');
       console.log(data)
       Object.keys(data).forEach(key => {
-        let target = this.data.formList.filter(item => item.key === key)[0]
-        console.log(target);
-        if(target){
-          let type = target.type
+        let listItemTarget = this.data.formList.filter(item => item.key === key)[0]
+        console.log(listItemTarget);
+        // 主要还是为了copy 他妈的
+        if(listItemTarget){
+          let type = listItemTarget.type
           if(type === 'checkbox'){
-            if(target.data && target.data.forEach){
-              target.data.forEach(item => {
-                if(data[key].some(name => name == item.name)){
+            if(listItemTarget.data && listItemTarget.data.forEach){
+              listItemTarget.data.forEach(item => {
+                if(data[key].some(value => value == item.value)){
                   item.checked = true
                 }else {
                   item.checked = false
@@ -92,6 +93,20 @@ Component({
       const value = e.detail.value
       this.setFormData({
         [key]: value
+      })
+      this.data.formList.forEach(item => {
+        if(item.key === key){
+          item.data.forEach(item => {
+            if(!this.data.formData[key].some(value => value == item.value)){
+              item.checked = false
+            }else {
+              item.checked = true
+            }
+          })
+        }
+      })
+      this.setData({
+        formList: this.data.formList
       })
       console.log(this.data.formData);
       console.log(key , value);

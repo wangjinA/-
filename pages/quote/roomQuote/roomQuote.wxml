@@ -17,7 +17,7 @@
         <text wx:if="{{item.notes}}" style="margin-left: 10rpx;">{{item.notes}}</text>
       </view>
     </view>
-    <wjForm formList="{{formList}}" id="wjForm"></wjForm>
+    <wjForm formList="{{formLists[index]}}" id="wjForm"></wjForm>
   </van-collapse-item>
 </van-collapse>
 

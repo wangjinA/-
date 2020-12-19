@@ -1,4 +1,4 @@
-import { formatSelectData } from "../../../utils/util";
+import { formatSelectData, deepClone } from "../../../utils/util";
 import { day } from "../../../utils/config";
 const app = getApp();
 Page({
@@ -56,8 +56,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: {...prevCom.data.formData},
-      formList: [...prevCom.data.formList]
+      formData: deepClone(prevCom.data.formData),
+      formList: deepClone(prevCom.data.formList)
     })
   },
   onChange(event) {

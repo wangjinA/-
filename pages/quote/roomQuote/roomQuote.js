@@ -1,37 +1,42 @@
 const app = getApp();
+import { deepClone } from "../../../utils/util";
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    formList: [{
-      label: '可提供房间数',
-      key: 'guestNumber',
-      required: true,
-      inputType: 'number',
-      required: true,
-      company: '间'
-    }, {
-      label: '报价',
-      key: 'price',
-      inputType: 'number',
-      required: true,
-      company: '元/间'
-    }],
+    formLists: [],
     activeNames: [0],
     list: [],
     nextText: '',
     meetingIndex: 0
   },
   copyPrev(e) {
-    const { index } = e.target.dataset
+    const {
+      index
+    } = e.target.dataset
     const wjForms = this.selectAllComponents('#wjForm')
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
+    let tag = true
+    com.data.formList.forEach(item => {
+      let comFormData = com.data.formData
+      let xdItem = prevCom.data.formList.filter(_item => _item.label == item.label)[0]
+      if(xdItem){
+        let data = prevCom.data.formData[xdItem.key]
+        if(data){
+          comFormData[item.key] = data
+          tag = false
+        }
+      }
+    })
+    if(tag){
+      console.log('数据不匹配，无法复制') 
+    }
     com.setData({
-      formData: {...prevCom.data.formData},
-      formList: [...prevCom.data.formList]
+      formData: com.data.formData,
+      // formList: deepClone(prevCom.data.formList)
     })
   },
   onChange(event) {
@@ -55,12 +60,12 @@ Page({
       }
     }
     wx.kfbj = kfbj
-    
-    if(wx.cyShow){
+
+    if (wx.cyShow) {
       wx.navigateTo({
         url: '/pages/quote/eatQuote/eatQuote',
       })
-    }else {
+    } else {
       wx.navigateTo({
         url: '/pages/quote/otherRemark/otherRemark',
       })
@@ -71,10 +76,50 @@ Page({
   },
 
   onReady: function () {
-    this.setData({
-      list: wx.singleDemandRoomsVos,
-      nextText: wx.cyShow ? '餐饮报价' :'其他说明'
+    // this.data.formList = [{
+    //   label: '可提供房间数',
+    //   key: 'guestNumber',
+    //   required: true,
+    //   inputType: 'number',
+    //   required: true,
+    //   company: '间'
+    // }, {
+    //   label: '报价',
+    //   key: 'price',
+    //   inputType: 'number',
+    //   required: true,
+    //   company: '元/间'
+    // }]
+    wx.singleDemandRoomsVos.forEach((warp, i) => {
+      let target = []
+      this.data.formLists[i] = target
+      warp.rooms.forEach((item, index) => {
+        target.push({
+          label: `${item.name}`,
+          key: 'guestNumber' + index,
+          required: true,
+          inputType: 'number',
+          placeholder: '可提供数量',
+          required: true,
+          company: '间'
+        })
+        target.push({
+          label: `${item.name} 报价`,
+          key: 'price' + index,
+          inputType: 'number',
+          placeholder: `${item.name}价格`,
+          required: true,
+          company: '元/间'
+        })
+      })
+
     })
+    this.setData({
+      formLists: this.data.formLists,
+      list: wx.singleDemandRoomsVos,
+      nextText: wx.cyShow ? '餐饮报价' : '其他说明'
+    })
+
   },
   closePopup() {
     this.setData({
@@ -82,7 +127,9 @@ Page({
     })
   },
   meetingClick(e) {
-    const { index } = e.currentTarget.dataset
+    const {
+      index
+    } = e.currentTarget.dataset
     this.setData({
       meetingIndex: index,
       showPopup: false

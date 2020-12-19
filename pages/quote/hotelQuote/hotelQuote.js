@@ -1,4 +1,5 @@
 const app = getApp();
+import { deepClone } from "../../../utils/util";
 Page({
 
   /**
@@ -19,8 +20,8 @@ Page({
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
     com.setData({
-      formData: {...prevCom.data.formData},
-      formList: [...prevCom.data.formList]
+      formData: deepClone(prevCom.data.formData),
+      formList: deepClone(prevCom.data.formList)
     })
   },
   // 去添加会场

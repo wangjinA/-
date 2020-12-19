@@ -242,7 +242,7 @@ Page({
                     wx.showToast({title: '已切换身份', icon: 'none', duration: 2000})
                   }
                   wx.navigateTo({
-                    url: `/pages/order/order?index=1`
+                    url: `/pages/order/order?index=0`
                   })
                 }, 1600);
               })

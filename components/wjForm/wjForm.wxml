@@ -81,7 +81,7 @@
         <view
           wx:if="{{index > 0 || formData[item.key][index]}}"
           class="close-relation-item"
-          style="position: absolute; right: 0rpx; top: 50%;transform: translateY(-50%);"
+          style="position: absolute; right: 0rpx; top: 50%;transform: translateY(-50%);font-size: 34rpx;"
           data-item="{{listItem}}"
           data-index="{{index}}"
           bindtap="closeRelationItem"

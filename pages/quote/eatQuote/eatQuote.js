@@ -1,29 +1,50 @@
 const app = getApp();
+import { deepClone } from "../../../utils/util";
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    formList: [{
-      label: '报价',
-      key: 'price',
-      required: true,
-      inputType: 'number',
-      company: '元/人'
-    }],
+    formLists: [],
+    // formLists: [{
+    //   label: '报价',
+    //   key: 'price',
+    //   required: true,
+    //   inputType: 'number',
+    //   company: '元/人'
+    // }],
     activeNames: [0],
     list: [],
     meetingIndex: 0
   },
   copyPrev(e) {
-    const { index } = e.target.dataset
+    const {
+      index
+    } = e.target.dataset
     const wjForms = this.selectAllComponents('#wjForm')
     let prevCom = wjForms[index - 1]
     let com = wjForms[index]
+    let tag = true
+    com.data.formList.forEach(item => {
+      let comFormData = com.data.formData
+      let xdItem = prevCom.data.formList.filter(_item => {
+        return _item.label == item.label && _item.placeholder == item.placeholder
+      })[0]
+      if(xdItem){
+        let data = prevCom.data.formData[xdItem.key]
+        if(data){
+          comFormData[item.key] = data
+          tag = false
+        }
+      }
+    })
+    if(tag){
+      console.log('数据不匹配，无法复制') 
+    }
     com.setData({
-      formData: {...prevCom.data.formData},
-      formList: [...prevCom.data.formList]
+      formData: com.data.formData,
+      // formList: deepClone(prevCom.data.formList)
     })
   },
   async next() {
@@ -63,7 +84,23 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
+    wx.singleDemandRepastVos.forEach((warp, i) => {
+      let target = []
+      this.data.formLists[i] = target
+      warp.dining.forEach((item, index) => {
+        target.push({
+          label: `${item.name} 报价`,
+          key: 'price' + index,
+          inputType: 'number',
+          placeholder: `${item.value} 价格`,
+          required: true,
+          company: '元/人'
+        })
+      })
+
+    })
     this.setData({
+      formLists: this.data.formLists,
       list:wx.singleDemandRepastVos
     })
   },
