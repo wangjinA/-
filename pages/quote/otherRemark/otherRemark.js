@@ -8,12 +8,44 @@ Page({
     remark: ''
   },
   commit() {
+    let kfbj = wx.kfbj ||  [];
+    let cybj = wx.cybj ||  [];
+    kfbj = kfbj.map(item => {
+      let guestNumber = []
+      let price = []
+      Object.keys(item).forEach((key, i) => {
+        if(key.indexOf('guestNumber') > -1) {
+          guestNumber.push(item[key])
+        }
+        if(key.indexOf('price') > -1) {
+          price.push(item[key])
+        }
+      })
+      return {
+        guestNumber,
+        price,
+        dates: item.dates
+      }
+    })
+    cybj = cybj.map(item => {
+      let price = []
+      Object.keys(item).forEach((key, i) => {
+        if(key.indexOf('price') > -1) {
+          price.push(item[key])
+        }
+      })
+      return {
+        price,
+        dates: item.dates
+      }
+    })
+
     return wx.loadingAPI(wx.$post('/order/gdeclarationDemand', {
       meetingId: wx.meetingId,
       notes: this.data.remark,
       orderDemandChambers: wx.$stringify(wx.hcbj) || '[]',
-      orderDemandGuests: wx.$stringify(wx.kfbj) || '[]',
-      orderDemandRepasts: wx.$stringify(wx.cybj) || '[]',
+      orderDemandGuests: wx.$stringify(kfbj),
+      orderDemandRepasts: wx.$stringify(cybj),
     }), '提交中')
     .then(res=>{
       wx.showModal({

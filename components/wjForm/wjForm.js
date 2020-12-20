@@ -1,4 +1,5 @@
 import { defaultCity } from '../../utils/config'
+import { deepClone } from "../../utils/util";
 import {
   formatTime
 } from '../../utils/util'
@@ -136,7 +137,18 @@ Component({
     },
     getData(bool) { // 是否需要判断必填字段
       if(wx.checkRequired(this.data.formData, this.data.formList)){
-        return Promise.resolve(this.data.formData)
+        let formData = deepClone(this.data.formData)
+        Object.keys(formData).forEach(key => {
+          let targetListItem = this.data.formList.filter(item => item.key == key)[0]
+          if(targetListItem){
+            if(targetListItem.type == 'relation' && formData[key].filter){
+              console.log('relation过滤 前 长度：' + formData[key].length);
+              formData[key] = formData[key].filter(item => item)
+              console.log('relation过滤 后 长度：' + formData[key].length);
+            }
+          }
+        })
+        return Promise.resolve(formData)
       }else {
         return Promise.reject()
       }

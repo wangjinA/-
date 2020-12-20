@@ -126,11 +126,19 @@
         <block wx:if="{{item.orderDemandGuestList.length}}">
           <view class="baojia-title">客房</view>
           <view class="baojia-info">
-            <view wx:for="{{item.orderDemandGuestList}}">
+            <view wx:for="{{item.orderDemandGuestList}}" wx:for-index="idx">
               <view class="bj-date">{{item.dates}}</view>
               <view class="bj-con">
-                <view>可提供房间数：{{item.guestNumber}} 间</view>
-                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 / 间</text></view>
+                <block wx:if="{{data.singleDemandRoomsVos.length}}">
+                  <view wx:for="{{data.singleDemandRoomsVos[idx].rooms}}" wx:for-item="room">
+                    <view>
+                      <text>{{room.name}} {{room.value}}间</text>
+                      <text style="margin-left: 20rpx;">可提供：<text class="c">{{ item.guestNumber[index] }}</text> 间 <text class="c">{{item.price[index]}}元</text> / 间</text>
+                    </view>
+                  </view>
+                </block>
+                <!-- <view>可提供房间数：{{item.guestNumber}} 间</view>
+                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 / 间</text></view> -->
               </view>
             </view>
           </view>
@@ -138,10 +146,18 @@
         <block wx:if="{{item.orderDemandRepastList.length}}">
           <view class="baojia-title">餐饮</view>
           <view class="baojia-info">
-            <view wx:for="{{item.orderDemandRepastList}}">
+            <view wx:for="{{item.orderDemandRepastList}}" wx:for-index="idx">
               <view class="bj-date">{{item.dates}}</view>
               <view class="bj-con">
-                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 / 人</text></view>
+                <block wx:if="{{data.singleDemandRepastVos.length}}">
+                  <view wx:for="{{data.singleDemandRepastVos[idx].dining}}" wx:for-item="dining">
+                    <view>
+                      <text>{{dining.name}} {{dining.value}}</text>
+                      <text style="margin-left: 20rpx;"><text class="c">{{item.price[index]}}元</text> / 人</text>
+                    </view>
+                  </view>
+                </block>
+                <!-- <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 / 人</text></view> -->
               </view>
             </view>
           </view>

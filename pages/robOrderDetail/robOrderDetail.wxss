@@ -159,6 +159,7 @@
 .bj-con{
   padding-left: 20rpx;
   margin-bottom: 10rpx;
+  font-size: 28rpx;
 }
 .baojia-close{
   position: fixed;

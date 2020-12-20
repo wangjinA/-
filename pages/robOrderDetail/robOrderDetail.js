@@ -331,10 +331,20 @@ Page({
       meetingId: this.data.id
     }).then(res => {
       let isHotel = !!res.data.hotelQuteInfoVoList.filter(item => item.hotelId === wx.hotelId).length
+      res.data.hotelQuteInfoVoList.forEach(item => {
+        item.orderDemandGuestList.forEach(item => {
+          item.guestNumber = wx.$parse(item.guestNumber)
+          item.price =  wx.$parse(item.price)
+        })
+        item.orderDemandRepastList.forEach(item => {
+          item.price =  wx.$parse(item.price)
+        })
+      })
       this.setData({
         bjList: res.data.hotelQuteInfoVoList,
         isHotel
       })
+      console.log(this.data.bjList)
     })
   },
   // 立即抢单
