@@ -49,7 +49,7 @@ Page({
   jujueCommit() {
     if(!this.data.reason){
       return wx.showToast({
-        title: '请输入拒绝理由',
+        title: '点击输入拒绝理由',
         icon: 'none'
       })
     }

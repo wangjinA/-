@@ -60,9 +60,14 @@ Page({
                           })
                         }
                       } else {
-                        wx.switchTab({
-                          url: '/pages/index/index',
-                        })
+                        // 是第一页就返回首页 否则 返回上一页
+                        if(getCurrentPages().length === 1){
+                          wx.switchTab({
+                            url: '/pages/index/index',
+                          })
+                        }else {
+                          wx.navigateBack()
+                        }
                       }
                       wx.$lunxun()
                     }).catch(err => {

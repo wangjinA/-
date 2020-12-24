@@ -82,7 +82,8 @@
     <view class="bj-list" wx:for="{{bjList}}">
       <!-- <view class="bj-item" bindtap="showBj" data-index="{{index}}" wx:if="{{isUser || item.userId === currentUserId}}"> -->
       <view class="bj-item" bindtap="showBj" data-index="{{index}}" data-hotelid="{{item.hotelId}}">
-        <view class="hotel-name-rob col-center {{(item.hotelId === currentHotelId || item.confirm || item.poolFlag == 1) && 'c'}}">
+        <view
+          class="hotel-name-rob col-center {{(item.hotelId === currentHotelId || item.confirm || item.poolFlag == 1) && 'c'}}">
           <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
           <text class="size14 bold">
             <text>{{item.hotelName}} </text>
@@ -96,7 +97,7 @@
             <!-- <text class="size12 c9">第{{item.num}}次报价：</text> -->
             <text class="size12 c9">报价：</text>
             <text
-              class="totalPrice">￥{{(isUser || item.hotelId === currentHotelId) ? item.quotationPrice : '***'}}</text>
+              class="totalPrice">￥{{(isUser || item.hotelId === currentHotelId) ? item.totalSumBudget : '***'}}</text>
           </block>
           <!-- <block wx:else>
           <van-button type="info" size="small" catchtap="useBj">确认报价</van-button>
@@ -112,19 +113,26 @@
           </view>
         </block>
         <block wx:if="{{item.orderDemandChamberList.length}}">
-          <view class="baojia-title">会场</view>
+          <view class="baojia-title">
+            <text>会场</text>
+            <text style="margin-left: 20rpx; font-size: 28rpx;">￥{{item.chamberSumBudget}}</text>
+          </view>
           <view class="baojia-info">
             <view wx:for="{{item.orderDemandChamberList}}">
               <view class="bj-date">{{item.dates}}</view>
               <view class="bj-con">
                 <view>场地：{{item.hotelChamber.chamberName}}</view>
-                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 / 场</text></view>
+                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 /
+                    {{item.company}}</text></view>
               </view>
             </view>
           </view>
         </block>
         <block wx:if="{{item.orderDemandGuestList.length}}">
-          <view class="baojia-title">客房</view>
+          <view class="baojia-title">
+            <text>客房</text>
+            <text style="margin-left: 20rpx; font-size: 28rpx;">￥{{item.guestSumBudget}}</text>
+          </view>
           <view class="baojia-info">
             <view wx:for="{{item.orderDemandGuestList}}" wx:for-index="idx">
               <view class="bj-date">{{item.dates}}</view>
@@ -133,7 +141,8 @@
                   <view wx:for="{{data.singleDemandRoomsVos[idx].rooms}}" wx:for-item="room">
                     <view>
                       <text>{{room.name}} {{room.value}}间</text>
-                      <text style="margin-left: 20rpx;">可提供：<text class="c">{{ item.guestNumber[index] }}</text> 间 <text class="c">{{item.price[index]}}元</text> / 间</text>
+                      <text style="margin-left: 20rpx;">可提供：<text class="c">{{ item.guestNumber[index] }}</text> 间 <text
+                          class="c">{{item.price[index]}}元</text> / 间</text>
                     </view>
                   </view>
                 </block>
@@ -144,12 +153,16 @@
           </view>
         </block>
         <block wx:if="{{item.orderDemandRepastList.length}}">
-          <view class="baojia-title">餐饮</view>
+          <view class="baojia-title">
+            <text>餐饮</text>
+            <text style="margin-left: 20rpx; font-size: 28rpx;">￥{{item.repastSumBudget}}</text>
+          </view>
           <view class="baojia-info">
             <view wx:for="{{item.orderDemandRepastList}}" wx:for-index="idx">
               <view class="bj-date">{{item.dates}}</view>
               <view class="bj-con">
                 <block wx:if="{{data.singleDemandRepastVos.length}}">
+                  <view>人数：{{data.singleDemandRepastVos[idx].containNumbers}}人</view>
                   <view wx:for="{{data.singleDemandRepastVos[idx].dining}}" wx:for-item="dining">
                     <view>
                       <text>{{dining.name}} {{dining.value}}</text>
@@ -171,22 +184,16 @@
           </view>
         </block>
         <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}" />
-        <footerButton 
-          type="{{2}}" 
-          bind:click="okBaojia"
-          bind:clickright="addBeixuan"
-          rightButtonType="{{item.poolFlag == 0 ? 'primary' : 'warning'}}"
-          data-index="{{index}}"
-          data-orderdemandId="{{item.orderdemandId}}"
-          data-poolflag="{{item.poolFlag}}"
-          wx:if="{{status==1 && isUser}}">
+        <footerButton type="{{2}}" bind:click="okBaojia" bind:clickright="addBeixuan"
+          rightButtonType="{{item.poolFlag == 0 ? 'primary' : 'warning'}}" data-index="{{index}}"
+          data-orderdemandId="{{item.orderdemandId}}" data-poolflag="{{item.poolFlag}}" wx:if="{{status==1 && isUser}}">
           <text>接受报价</text>
           <text slot="right">{{item.poolFlag == 0 ? '加入备选' : '移出备选'}}</text>
         </footerButton>
       </view>
     </view>
   </block>
-  
+
   <view class="notMore" style="text-align:left;" wx:elif="{{bjList.length && !data.offer}}">
     报价后查看
   </view>
@@ -273,7 +280,8 @@
           <view><text class="c9">人数：</text>{{item.containNumbers || ''}}人</view>
           <view>{{item.tableType || ''}}</view>
 
-          <view wx:for="{{item.dining}}"><text class="c9">时间：</text>{{item.name}}<text class="c9" style="margin-left: 20rpx;">类型：</text>{{item.value}}</view>
+          <view wx:for="{{item.dining}}"><text class="c9">时间：</text>{{item.name}}<text class="c9"
+              style="margin-left: 20rpx;">类型：</text>{{item.value}}</view>
           <!-- <view class="item-remark" wx:if="{{item.notes}}"> -->
           <view wx:if="{{item.notes}}">
             <text class="c9">备注：</text>{{item.notes}}
@@ -376,9 +384,11 @@
 
 <footerButton bind:click="jdok" wx:if="{{status==3 && data.orderDemandId && data.receive}}">会议完成</footerButton>
 <!-- <footerButton bindtap="shangchuan"  wx:if="{{status==4 && isUser}}">上传消费单</footerButton> -->
-<footerButton bind:click="shangchuan" wx:if="{{(status==4 || status==5) && isUser}}">{{ status==4 ? '上传消费单' : '修改消费单信息'}}
+<footerButton bind:click="shangchuan" wx:if="{{(status==4 || status==5) && isUser}}">
+  {{ status==4 ? '上传消费单' : '修改消费单信息'}}
 </footerButton>
-<footerButton type="{{ data.orderDemandConfirm.reason ? 1 : 2}}" bind:click="orderOver" bind:clickright="jujueXfd" wx:if="{{status==5 && data.orderDemandId && data.receive}}">
+<footerButton type="{{ data.orderDemandConfirm.reason ? 1 : 2}}" bind:click="orderOver" bind:clickright="jujueXfd"
+  wx:if="{{status==5 && data.orderDemandId && data.receive}}">
   <text>确认订单完成</text>
   <text slot="right">拒绝消费单</text>
 </footerButton>
@@ -390,21 +400,8 @@
 	<van-button icon="success" round type="primary" bindtap="orderEnd">确认成交</van-button>
 </view>
 </view> -->
-<van-dialog
-  use-slot
-  title="拒绝消费单"
-  show="{{ showReason }}"
-  show-cancel-button
-  bind:close="onClose"
-  bind:confirm="jujueCommit"
-  bind:getuserinfo="getUserInfo"
->
-  <van-field
-    value="{{ reason }}"
-    placeholder="请输入拒绝理由"
-    border="{{ false }}"
-    label="拒绝理由"
-    type="textarea"
-    bind:change="reasonInputChange"
-  />
+<van-dialog use-slot title="拒绝消费单" show="{{ showReason }}" show-cancel-button bind:close="onClose"
+  bind:confirm="jujueCommit" bind:getuserinfo="getUserInfo">
+  <van-field value="{{ reason }}" placeholder="点击输入拒绝理由" border="{{ false }}" label="拒绝理由" type="textarea"
+    bind:change="reasonInputChange" />
 </van-dialog>

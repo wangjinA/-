@@ -158,3 +158,15 @@ page{
   font-size: 28rpx;
   text-align: center;
 }
+
+
+
+.van-uploader__preview-delete{
+
+  width: 20px;
+  height: 20px;
+}
+
+.van-uploader__preview-delete-icon{
+  font-size: 24px;
+}

@@ -54,7 +54,7 @@ Page({
   jujueCommit() {
     if(!this.data.reason){
       return wx.showToast({
-        title: '请输入拒绝理由',
+        title: '点击输入拒绝理由',
         icon: 'none'
       })
     }
@@ -262,7 +262,7 @@ Page({
           let price = item.budget || 0
           let total = 0
           item.rooms = wx.$parse(item.rooms)
-          item.rooms && item.rooms.forEach(item => {
+          item.rooms && item.rooms.forEach(item => { // 乘以房间数
             total += price * item.value
           })
           data.kfTotal += total
@@ -274,10 +274,18 @@ Page({
           )
         })
         data.singleDemandRepastVos.forEach(item => { // 餐饮
-          let total = item.budget || 0
-          total = total * item.containNumbers
-          data.cyTotal += total
+          // let total = item.budget || 0
+          // total = total * item.containNumbers
+          // data.cyTotal += total
+          
+          let price = item.budget || 0
+          let total = 0
           item.dining = wx.$parse(item.dining)
+          item.dining && item.dining.forEach(() => { // 乘以人数
+            total += price * item.containNumbers
+          })
+          data.cyTotal += total
+
           item._show = !!(
             item.containNumbers ||
             (item.dining && item.dining.length) ||
