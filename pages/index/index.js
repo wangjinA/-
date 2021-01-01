@@ -43,6 +43,7 @@ Page({
         this.setData({
           isLogin: true
         })
+        wx.type == 1 && wx.checkHotelInfo()
       }).catch(() => {
         this.setData({
           isLogin: false

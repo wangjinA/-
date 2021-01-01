@@ -26,7 +26,7 @@ Component({
           if(type === 'checkbox'){
             if(listItemTarget.data && listItemTarget.data.forEach){
               listItemTarget.data.forEach(item => {
-                if(data[key].some(value => value == item.value)){
+                if(data[key] instanceof Array && data[key].some(value => value == item.value)){
                   item.checked = true
                 }else {
                   item.checked = false

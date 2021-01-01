@@ -105,8 +105,11 @@ Page({
         .then(() => {
           if (wx.hotelId) {
             this.setUser(1)
-            wx.switchTab({
-              url: '/pages/index/index',
+            wx.checkHotelInfo()
+            .then(() => {
+              wx.switchTab({
+                url: '/pages/index/index',
+              })
             })
           } else {
             wx.navigateTo({

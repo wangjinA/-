@@ -85,6 +85,7 @@
 			<view class="recom-item" wx:for="{{recommendList}}" data-id="{{item.id}}" bindtap="toHotelDetail">
 				<image src="{{item.imgUrl}}" mode="aspectFill"></image>
 				<view class="recom-item-name text-overflow1">{{item.hotelName}}</view>
+				<view wx:if="{{item.signing}}" class="qy-icon">签约</view>
 			</view>
 		</view>
 		<view class="notMore" wx:if="{{!recommendList.length}}">暂无数据</view>

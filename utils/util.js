@@ -260,11 +260,12 @@ function parse(str) {
   }
 }
 
-function delAPI(title) {
+function delAPI(content, title, showCancel=true) {
   return new Promise((resolve, reject) => {
     wx.showModal({
-      title: '温馨提示',
-      content: title || '是否确认删除',
+      title: title || '温馨提示',
+      content: content || '是否确认删除',
+      showCancel,
       success(res) {
         if (res.confirm) {
           resolve()
@@ -370,8 +371,29 @@ function getStatusType(status) {
 }
 
 
-
-
+function checkHotelInfo() {
+  return new Promise((resolve, reject) => {
+    if(!wx.hotelId){
+      return resolve()
+    }
+    return wx.$get('/hotel/checkHotelDetailsInfo', {
+      hotelId: wx.hotelId
+    }).then(res => {
+      if(res.data){
+        return resolve()
+      }else {
+        wx.delAPI('请完善酒店基本信息，添加宴会厅与客房信息', '酒店信息未完善', false)
+        .then(res=>{
+          wx.navigateTo({
+            url: '/pages/hotel/hotelInfo/hotelInfo'
+          })
+        })
+        return reject()
+      }
+    })
+  })
+}
+wx.checkHotelInfo = checkHotelInfo
 
 function hideInfo(userInfo) {
   return {

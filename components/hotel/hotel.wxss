@@ -1,7 +1,8 @@
 .hotel {
   display: flex;
   overflow: hidden;
-  padding: 15rpx 0;
+  margin: 15rpx 0;
+  position: relative;
 }
 .hotel-title{
   font-weight: bold;

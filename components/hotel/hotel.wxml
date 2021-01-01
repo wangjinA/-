@@ -34,4 +34,5 @@
 			<template is='star' data="{{count:3}}" /> {{store.price}}2
 		</view>
 	</view> -->
+	<view class="qy-icon" wx:if="{{data.signing}}">签约</view>
 </view>

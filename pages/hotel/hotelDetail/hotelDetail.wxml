@@ -1,3 +1,4 @@
+<van-notice-bar wx:if="{{data.signing}}" mode="closeable" text="该酒店是平台签约酒店,成交订单可享受积分加成" />
 <view class="swiperContainer">
 	<swiper bindchange="swiperChange" circular autoplay="{{autoplay}}" duration="{{duration}}" style='height: 380rpx;'>
 		<block wx:for="{{bannerList}}" wx:key="*this">
@@ -11,6 +12,7 @@
 <view class="container">
 	<view class="hotel-name-wrap">
 		<view class="hotel-name">{{data.hotelName}}</view>
+		<text class="qy-text" wx:if="{{data.signing}}">签约</text>
 		<van-rate class="van-rate" size="14" value="{{ data.starType }}" count="{{ 5 }}" readonly />
 	</view>
 	<view class="title">详细地址</view>

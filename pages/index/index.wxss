@@ -1,19 +1,23 @@
-
 page {
     padding-bottom: 20rpx;
 }
-.swiper-container{
+
+.swiper-container {
     padding: 30rpx 0;
 }
-.swiper-container image{
+
+.swiper-container image {
     /* border-radius: 15rpx; */
 }
-swiper-item{
+
+swiper-item {
     border-radius: 20rpx;
 }
-van-notice-bar{
+
+van-notice-bar {
     margin-top: 10rpx;
 }
+
 /* van-notice-bar{
     flex: 1;
 }
@@ -93,6 +97,8 @@ van-notice-bar{
 
 .recom-item {
     width: 200rpx;
+    position: relative;
+    overflow: hidden;
 }
 
 .recom-item+.recom-item {
@@ -126,20 +132,23 @@ van-notice-bar{
 .business-item {
     /* width: 27vw; */
     /* height: 27vw; */
-    height: 200rpx;    
+    height: 200rpx;
     border-radius: 20rpx;
     display: flex;
     align-items: center;
     color: #fff;
     padding: 0 50rpx;
 }
-.business-item + .business-item{
+
+.business-item+.business-item {
     margin-top: 30rpx;
 }
-.business-item image{
+
+.business-item image {
     width: 120rpx;
     height: 120rpx;
 }
+
 .nav-text {
     margin-left: 20rpx;
 }
@@ -166,52 +175,19 @@ van-notice-bar{
     font-size: 40rpx;
     font-weight: 700;
 }
-.h-hotel-info{
+
+.h-hotel-info {
     display: flex;
     justify-content: space-between;
     height: 140rpx;
     line-height: 140rpx;
     align-items: baseline;
 }
-.more{
+
+.more {
     font-size: 24rpx;
     color: #999;
     display: flex;
     align-items: center;
     margin-left: auto;
 }
-
-
-/* .business-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 32rpx;
-}
-.business-item image{
-    width: 70rpx;
-    height: 70rpx;
-}
-.nav-text {
-    margin-top: 20rpx;
-}
-
-.business-item:nth-of-type(1) {
-    background: #1ea9fe;
-    box-shadow: 1rpx 1rpx 12rpx 0rpx rgb(30, 169, 254);
-    background: linear-gradient(90deg, rgba(30, 169, 254, 1) 0%, rgba(24, 142, 253, 1) 100%);
-}
-
-.business-item:nth-of-type(2) {
-    background: rgb(254, 130, 128);
-    box-shadow: 1rpx 1rpx 12rpx 0rpx rgb(254, 130, 128);
-    background: linear-gradient(90deg, rgba(254, 130, 128, 1) 0%, rgba(255, 106, 108, 1) 100%);
-}
-
-.business-item:nth-of-type(3) {
-    background: rgb(197, 163, 255);
-    box-shadow: 1rpx 1rpx 12rpx 0rpx rgb(197, 163, 255);
-    background: linear-gradient(90deg, rgba(197, 163, 255, 1) 0%, rgba(167, 127, 253, 1) 100%);
-} */
