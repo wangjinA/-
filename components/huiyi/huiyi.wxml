@@ -1,45 +1,51 @@
-<view class="huiyi" data-id="{{data.meetingId}}" bindtap="toDetail">
+<view class="huiyi" data-id="{{_data.meetingId}}" bindtap="toDetail">
   <view class="top">
-    <view class="name text-overflow">在{{data.city}}需要{{data.meetingPeople}}的场地</view>
+    <view class="name">
+      <text class="rs">会议人数：</text>
+      {{_data.meetingPeople}}
+    </view>
+    <view class="companyName text-overflow" wx:if="{{_data.companyName && _data.companyName !='无'}}">
+      {{_data.companyName.substr(0, 2) + '****' + '公司'}}</view>
+    <view class="companyName text-overflow" wx:else>个人</view>
     <!-- <view class="type flex0">会议</view> -->
   </view>
   <view class="middle">
     <view class="date cs">
-    <van-icon name="underway-o" />
-      <text class="text-overflow">{{data.meetingStartTime}} - {{data.meetingEndTime}}</text>
-    </view>
-    <view class="address cs">
       <van-icon name="location-o" />
-      <text class="text-overflow">{{data.city}}</text>
+      <text class="text-overflow">{{_data.city}}</text>
+      <van-icon name="underway-o" style="margin-left:auto;" />
+      <text class="text-overflow">{{_data.meetingStartTime}} - {{_data.meetingEndTime}}</text>
     </view>
-    <view class="tips cs " wx:if="{{data.notes}}">
+    <view class="tips cs " wx:if="{{_data.notes}}">
       <van-icon name="label-o" />
-      <text class="text-overflow">{{data.notes}}</text>
+      <text class="text-overflow">{{_data.notes}}</text>
     </view>
   </view>
   <view class="bottom">
-    <view class="yusuan" wx:if="{{data.budget}}">
+    <view class="yusuan" wx:if="{{_data.budget}}">
       <text class="yusuan-label size14">预算：</text>
-      <text class="price c">￥{{data.budget}}</text>
+      <view class="price c">￥{{_data._budget}} <text style="font-size: 26rpx;">{{_data._budgetCompany}}</text></view>
     </view>
     <!-- receive: 客户确认了我的报价 -->
     <!-- offer: 我已报价 -->
 
     <text style="margin-left: auto;"></text>
     <!-- 等待接单；是用户显示  -->
-    <van-tag size="large" type="success" wx:if="{{data.status == 1 && isUser && data.bjCount == 0}}">等待报价</van-tag>
+    <van-tag size="large" type="success" wx:if="{{_data.status == 1 && isUser && _data.bjCount == 0}}">等待报价</van-tag>
 
     <!-- 报价人数  -->
-    <van-tag size="large" type="success" wx:elif="{{data.status == 1 && isUser && data.bjCount > 0}}">{{data.bjCount}}人报价</van-tag>
+    <van-tag size="large" type="success" wx:elif="{{_data.status == 1 && isUser && _data.bjCount > 0}}">
+      {{_data.bjCount}}人报价</van-tag>
 
     <!-- 状态大于1 是酒店并且报价 || 是用户  -->
-    <van-tag size="large" type="{{tagType}}" wx:elif="{{data.status > 1 && (data.receive || isUser)}}">{{statusText}}</van-tag>
+    <van-tag size="large" type="{{tagType}}" wx:elif="{{_data.status > 1 && (_data.receive || isUser)}}">{{statusText}}
+    </van-tag>
 
     <!-- 成功都可以看到 -->
-    <van-tag size="large" type="success" wx:elif="{{data.status == 6 || data.status == 9 }}">订单完成</van-tag>
+    <van-tag size="large" type="success" wx:elif="{{_data.status == 6 || _data.status == 9 }}">订单完成</van-tag>
 
-    <van-button type="info" round size="small" wx:if="{{data.status == 1 && showBtn && !isUser}}">
-      {{data.offer ? '重新报价' : '点击抢单'}}
+    <van-button type="info" round size="small" wx:if="{{_data.status == 1 && showBtn && !isUser}}">
+      {{_data.offer ? '重新报价' : '点击抢单'}}
     </van-button>
   </view>
 </view>

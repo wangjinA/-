@@ -1,5 +1,6 @@
 // pages/user/user.js
 const app = getApp()
+import { saveImage } from "../../utils/util";
 Page({
 
   /**
@@ -21,6 +22,9 @@ Page({
     type(type) {
       this.init()
     }
+  },
+  saveImage() {
+    saveImage(this.data.userInfo.qrCode)
   },
   init() {
     return wx.$get('/api/user/getUserInfo')

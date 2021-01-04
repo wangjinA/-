@@ -414,6 +414,7 @@ Page({
           label: '总预算',
           inputType: 'number',
           key: 'budget',
+          required: true,
           company: '元'
         }, {
           label: '备注',

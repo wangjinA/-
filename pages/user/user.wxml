@@ -82,7 +82,10 @@
   use-slot
   title="邀请码"
   show="{{ showCode }}"
+  confirmButtonText="保存"
   bind:close="onClose"
+  bind:confirm="saveImage"
+  closeOnClickOverlay
 >
   <view style="text-align:center">
     <image style="width:240px; height:240px;" src="{{userInfo.qrCode}}" mode="aspectFill"/>

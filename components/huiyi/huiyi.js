@@ -1,12 +1,25 @@
 // components/huiyi/huiyi.js
-import { getStatus } from "../../utils/util";
+import {
+  numGetUnit
+} from "../../utils/util";
 Component({
   /**
    * 组件的属性列表
    */
-  
+
   options: {
     addGlobalClass: true,
+  },
+  observers: {
+    data(data) {
+      this.setData({
+        _data: {
+          ...data,
+          _budget: numGetUnit(data.budget),
+          _budgetCompany:numGetUnit(data.budget, true),
+        }
+      })
+    },
   },
   properties: {
     data: Object,
@@ -19,7 +32,8 @@ Component({
   data: {
     isUser: false,
     statusText: '',
-    tagType: 'success'
+    tagType: 'success',
+    _data: {}
   },
 
   attached() {
@@ -27,10 +41,13 @@ Component({
       isUser: this.data.data.userId == wx.userInfo.id,
       statusText: wx.$getStatus(this.data.data.status),
       tagType: wx.$getStatusType(this.data.data.status),
+      // _data: {
+      //   ...this.data.data,
+      // }
     })
     console.log(this.data);
-    
-  }, 
+
+  },
   /**
    * 组件的方法列表
    */

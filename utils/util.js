@@ -409,6 +409,46 @@ function isEmail(s) {
   return /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(s)
 }
 
+export const saveImage = (url)=> {
+  wx.showLoading({
+    title: '保存中...', 
+    mask: true,
+  });
+  wx.downloadFile({
+    url: url,
+    success: function(res) {
+      if (res.statusCode === 200) {
+        let img = res.tempFilePath;
+        wx.saveImageToPhotosAlbum({
+          filePath: img,
+          success(res) {
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
+            });
+          },
+          fail(res) {
+            wx.showToast({
+              title: '保存失败',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        });
+      }
+    },
+    fail(res) {
+      wx.showToast({
+        title: '保存失败',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+
+  });
+}
+
 function lunxun() {
     let lunxunTime = 1000
     clearTimeout(wx.msgTimer)
@@ -475,6 +515,67 @@ export const deepClone = (obj, hash = new WeakMap()) => {
   }
   return cloneObj;
 }
+
+export const numGetUnit = (__num, __isReturnUnit = false) => {
+  // 数字转换单位  10000 -> 1万
+  let wszd = {
+    addWan: function (integer, number, mutiple, decimalDigit) {
+      var me = this
+      var digit = me.getDigit(integer)
+      if (digit > 3) {
+        var remainder = digit % 8
+        if (remainder >= 5) {
+          // ‘十万’、‘百万’、‘千万’显示为‘万’
+          remainder = 4
+        }
+        return [Math.round(number / Math.pow(10, remainder + mutiple - decimalDigit)) / Math.pow(10, decimalDigit), '万']
+      } else {
+        return [Math.round(number / Math.pow(10, mutiple - decimalDigit)) / Math.pow(10, decimalDigit)]
+      }
+    },
+    getDigit: function (integer) {
+      var digit = -1
+      while (integer >= 1) {
+        digit++
+        integer = integer / 10
+      }
+      return digit
+    },
+    addChineseUnit: function (number, decimalDigit = 0) {
+      // decimalDigit：小数点保留多少位 默认0
+      var me = this
+      var integer = Math.floor(number)
+      var digit = me.getDigit(integer)
+      // ['个', '十', '百', '千', '万', '十万', '百万', '千万'];
+      var unit = []
+      if (digit > 3) {
+        var multiple = Math.floor(digit / 8)
+        if (multiple >= 1) {
+          // 添加亿
+          var tmp = Math.round(integer / Math.pow(10, 8 * multiple))
+          unit = me.addWan(tmp, number, 8 * multiple, decimalDigit)
+          for (var i = 0; i < multiple; i++) {
+            unit.push('亿')
+          }
+          return unit
+        } else {
+          // 添加万
+          return me.addWan(integer, number, 0, decimalDigit)
+        }
+      } else {
+        return [number]
+      }
+    }
+  }
+  let arr = wszd.addChineseUnit(__num, 2)
+  if (__isReturnUnit) {
+    arr.shift()
+    return arr.join('') // 返回单位
+  } else {
+    return arr[0] // 返回数字
+  }
+}
+
 // function checkRole() {
 //   let 
 //   if(wx.roles.filter(item => item.id === 1).length)
