@@ -39,3 +39,20 @@
   display: flex;
   border-top: 1rpx solid #ebedf0;
 }
+
+.rs{
+  font-size: 24rpx;
+  font-weight: normal;
+}
+.yusuan{
+  display: flex;
+    align-items: baseline;
+}
+.price{
+  font-size: 36rpx;
+}
+
+.companyName{
+  font-size: 24rpx;
+  margin-left: auto;
+}

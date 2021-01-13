@@ -101,7 +101,8 @@
     <view class="bj-list" wx:for="{{bjList}}">
       <!-- <view class="bj-item" bindtap="showBj" data-index="{{index}}" wx:if="{{isUser || item.userId === currentUserId}}"> -->
       <view class="bj-item" bindtap="showBj" data-index="{{index}}" data-hotelid="{{item.hotelId}}">
-        <view class="col-center {{(item.hotelId === currentHotelId || item.confirm || item.newOrderWedding.poolFlag == 1) && 'c'}}">
+        <view
+          class="col-center {{(item.hotelId === currentHotelId || item.confirm || item.newOrderWedding.poolFlag == 1) && 'c'}}">
           <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
           <text class="size14 bold">
             <text>{{item.hotelName}} </text>
@@ -114,7 +115,9 @@
           <block>
             <!-- <text class="size12 c9">第{{item.num}}次报价：</text> -->
             <text class="size12 c9">报价：</text>
-            <text class="totalPrice">￥{{(isUser || item.hotelId === currentHotelId) ? item.newOrderWedding.price : '***'}} /桌</text>
+            <text
+              class="totalPrice">￥{{(isUser || item.hotelId === currentHotelId) ? item.newOrderWedding.price : '***'}}
+              /桌</text>
           </block>
           <!-- <block wx:else>
             <van-button type="info" size="small" catchtap="useBj">确认报价</van-button>
@@ -141,14 +144,9 @@
         <!-- <footerButton bind:click="okBaojia" data-index="{{index}}" data-id="{{item.newOrderWedding.orderWeddingId}}"
           wx:if="{{status==1 && isUser}}">接受报价</footerButton>
          -->
-        <footerButton 
-          type="{{2}}" 
-          bind:click="okBaojia"
-          bind:clickright="addBeixuan"
-          rightButtonType="{{item.newOrderWedding.poolFlag == 0 ? 'primary' : 'warning'}}"
-          data-index="{{index}}"
-          data-id="{{item.newOrderWedding.orderWeddingId}}"
-          data-poolflag="{{item.newOrderWedding.poolFlag}}"
+        <footerButton type="{{2}}" bind:click="okBaojia" bind:clickright="addBeixuan"
+          rightButtonType="{{item.newOrderWedding.poolFlag == 0 ? 'primary' : 'warning'}}" data-index="{{index}}"
+          data-id="{{item.newOrderWedding.orderWeddingId}}" data-poolflag="{{item.newOrderWedding.poolFlag}}"
           wx:if="{{status==1 && isUser}}">
           <text>接受报价</text>
           <text slot="right">{{item.newOrderWedding.poolFlag == 0 ? '加入备选' : '移出备选'}}</text>
@@ -193,6 +191,8 @@
     <view class="item" wx:if="{{userInfo.contacts}}">
       <view class="label">联系人</view>
       <view class="val">{{userInfo.contacts}}</view>
+      <van-button wx:if="{{data.receive && isHotel}}" style="margin-left: 20rpx;" icon="chat-o" round size="small"
+        type="info" bindtap="sendInfo">发消息</van-button>
     </view>
     <view class="item" wx:if="{{userInfo.companyName}}">
       <view class="label">公司名称</view>
@@ -200,7 +200,10 @@
     </view>
     <view class="item" wx:if="{{userInfo.phone}}">
       <view class="label">联系电话</view>
-      <view class="val" style="color:#1989FA;" bindtap="callPhone">{{userInfo.phone}}</view>
+      <view class="val" style="color:#1989FA;" bindtap="callPhone">
+        {{userInfo.phone}}
+        <text class="size12 c">(点击拨打)</text>
+      </view>
     </view>
     <view class="item" wx:if="{{userInfo.finitude}}">
       <view class="label">邮箱</view>
@@ -253,12 +256,14 @@
 </view>
 
 <footerButton bind:click="jdok" wx:if="{{status==3 && data.orderWeddingId && data.receive}}">婚宴完成</footerButton>
-<footerButton bind:click="shangchuan" wx:if="{{(status==4 || status==5) && isUser}}">{{ status==4 ? '上传消费单' : '修改消费单信息'}}
+<footerButton bind:click="shangchuan" wx:if="{{(status==4 || status==5) && isUser}}">
+  {{ status==4 ? '上传消费单' : '修改消费单信息'}}
 </footerButton>
 <!-- <footerButton bindtap="shangchuan"  wx:if="{{status == 4 && isUser}}">上传消费单</footerButton> -->
 <!-- <footerButton bind:click="orderOver" wx:if="{{status==5 && data.orderWeddingId && data.receive}}">确认订单完成</footerButton> -->
 
-<footerButton type="{{ OrderDemandConfirm.reason ? 1 : 2}}" bind:click="orderOver" bind:clickright="jujueXfd" wx:if="{{status==5 && data.orderWeddingId && data.receive}}">
+<footerButton type="{{ OrderDemandConfirm.reason ? 1 : 2}}" bind:click="orderOver" bind:clickright="jujueXfd"
+  wx:if="{{status==5 && data.orderWeddingId && data.receive}}">
   <text>确认订单完成</text>
   <text slot="right">拒绝消费单</text>
 </footerButton>
@@ -271,21 +276,8 @@
 </view>
 </view> -->
 
-<van-dialog
-  use-slot
-  title="拒绝消费单"
-  show="{{ showReason }}"
-  show-cancel-button
-  bind:close="onClose"
-  bind:confirm="jujueCommit"
-  bind:getuserinfo="getUserInfo"
->
-  <van-field
-    value="{{ reason }}"
-    placeholder="点击输入拒绝理由"
-    border="{{ false }}"
-    label="拒绝理由"
-    type="textarea"
-    bind:change="reasonInputChange"
-  />
+<van-dialog use-slot title="拒绝消费单" show="{{ showReason }}" show-cancel-button bind:close="onClose"
+  bind:confirm="jujueCommit" bind:getuserinfo="getUserInfo">
+  <van-field value="{{ reason }}" placeholder="点击输入拒绝理由" border="{{ false }}" label="拒绝理由" type="textarea"
+    bind:change="reasonInputChange" />
 </van-dialog>

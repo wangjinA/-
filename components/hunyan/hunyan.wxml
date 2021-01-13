@@ -1,47 +1,70 @@
-<view class="hunyan" data-id="{{data.weddingBanquetId}}" bindtap="toDetail">
+<view class="hunyan" data-id="{{_data.weddingBanquetId}}" bindtap="toDetail">
+  
   <view class="top">
-    <view class="name text-overflow">需要价格在{{data.priceRange}},能容纳{{data.tablesNumber}}</view>
+    <view class="name">
+      <text class="rs">婚宴桌数：</text>
+      {{_data.tablesNumber}}
+    </view>
+    <view class="companyName text-overflow" wx:if="{{_data.companyName && _data.companyName !='无' && gs}}">
+      {{_data.companyName}}</view>
+    <view class="companyName text-overflow" wx:elif="{{_data.companyName && _data.companyName !='无'}}">
+      {{_data._companyName}}</view>
+    <view class="companyName text-overflow" wx:else>个人</view>
+    <!-- <view class="name text-overflow">需要价格在{{_data.priceRange}},能容纳{{_data.tablesNumber}}</view> -->
     <!-- <view class="type flex0">会议</view> -->
   </view>
-  <view class="middle">
+  <!-- <view class="middle">
     <view class="date cs">
     <van-icon name="underway-o" />
-      <text class="text-overflow">{{data.startTime}} - {{data.endTime}}</text>
+      <text class="text-overflow">{{_data.startTime}} - {{_data.endTime}}</text>
     </view>
     <view class="address cs">
       <van-icon name="location-o" />
-      <text class="text-overflow">{{data.place}}
-      <!--  {{data.detailedAddress}} -->
+      <text class="text-overflow">{{_data.place}}
+       {{_data.detailedAddress}}
       </text>
     </view>
-    <view class="tips cs " wx:if="{{data.notes}}">
+    <view class="tips cs " wx:if="{{_data.notes}}">
       <van-icon name="label-o" />
-      <text class="text-overflow">{{data.notes}}</text>
+      <text class="text-overflow">{{_data.notes}}</text>
+    </view>
+  </view> -->
+  
+  <view class="middle">
+    <view class="date cs">
+      <van-icon name="location-o" />
+      <text class="text-overflow">{{_data.place}}</text>
+      <van-icon name="underway-o" style="margin-left:auto;" />
+      <text class="text-overflow">{{_data.startTime}} - {{_data.endTime}}</text>
+    </view>
+    <view class="tips cs " wx:if="{{_data.notes}}">
+      <van-icon name="label-o" />
+      <text class="text-overflow">{{_data.notes}}</text>
     </view>
   </view>
   <view class="bottom">
-    <view class="yusuan" wx:if="{{data.budget}}">
+    <view class="yusuan" wx:if="{{_data.budget}}">
       <text class="yusuan-label size14">预算：</text>
-      <text class="price c">￥{{data.budget}}</text>
+      <text class="price c">￥{{_data.budget}}</text>
     </view>
     <!-- receive: 客户确认了我的报价 -->
     <!-- offer: 我已报价 -->
 
     <text style="margin-left: auto;"></text>
     <!-- 等待接单；是用户显示  -->
-    <van-tag size="large" type="success" wx:if="{{data.status == 1 && isUser && data.bjCount == 0}}">等待报价</van-tag>
+    <van-tag size="large" type="success" wx:if="{{_data.status == 1 && isUser && _data.bjCount == 0}}">等待报价</van-tag>
 
     <!-- 报价人数  -->
-    <van-tag size="large" type="success" wx:elif="{{data.status == 1 && isUser && data.bjCount > 0}}">{{data.bjCount}}人报价</van-tag>
+    <van-tag size="large" type="success" wx:elif="{{_data.status == 1 && isUser && _data.bjCount > 0}}">{{_data.bjCount}}人报价</van-tag>
 
     <!-- 状态大于1 是酒店并且报价 || 是用户  -->
-    <van-tag size="large" type="{{tagType}}" wx:elif="{{data.status > 1 || (data.receive || isUser)}}">{{statusText}}</van-tag>
+    <van-tag size="large" type="{{tagType}}" wx:elif="{{_data.status > 1 || (_data.receive || isUser)}}">{{statusText}}</van-tag>
 
     <!-- 成功都可以看到 -->
-    <van-tag size="large" type="success" wx:elif="{{data.status == 6 || data.status == 9 }}">订单完成</van-tag>
+    <van-tag size="large" type="success" wx:elif="{{_data.status == 6 || _data.status == 9 }}">订单完成</van-tag>
 
-    <van-button type="warning" round size="small" wx:if="{{data.status == 1 && showBtn && !isUser}}">
-      {{data.offer ? '重新报价' : '点击抢单'}}
+    <van-button type="warning" round size="small" wx:if="{{_data.status == 1 && showBtn && !isUser}}">
+      {{_data.offer ? '重新报价' : '点击抢单'}}
     </van-button>
   </view>
 </view>

@@ -203,7 +203,7 @@ Page({
             beUserId: options.beUserId
         }).then(res => {
             let title = ''
-            if (!res.data.sysUser) {
+            if (!res.data || !res.data.sysUser) {
                 title = '暂未获取到该用户信息'
             } else if (res.data.sysUser.id === wx.userInfo.id) {
                 title = '不能同自己聊天'

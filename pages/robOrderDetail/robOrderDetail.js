@@ -46,6 +46,11 @@ Page({
     showReason: false,
     reason: '',
   },
+  sendInfo() {
+    wx.navigateTo({
+      url: '/pages/chat/chat?beUserId=' + this.data.data.userId
+    })
+  },
   reasonInputChange(e) {
     this.setData({
       reason: e.detail

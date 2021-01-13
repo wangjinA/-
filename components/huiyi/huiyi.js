@@ -12,17 +12,29 @@ Component({
   },
   observers: {
     data(data) {
+      let _companyName = data.companyName
+      if (_companyName && _companyName != '无') {
+        _companyName = _companyName.substr(0, 2) + '****公司'
+      }
+      console.log(_companyName);
+      console.log(data.companyName);
+      
       this.setData({
         _data: {
           ...data,
           _budget: numGetUnit(data.budget),
-          _budgetCompany:numGetUnit(data.budget, true),
+          _budgetCompany: numGetUnit(data.budget, true),
+          _companyName
         }
       })
     },
   },
   properties: {
     data: Object,
+    gs: {
+      type: Boolean,
+      value: false
+    },
     showBtn: {
       type: Boolean,
       value: true

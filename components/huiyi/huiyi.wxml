@@ -4,8 +4,10 @@
       <text class="rs">会议人数：</text>
       {{_data.meetingPeople}}
     </view>
-    <view class="companyName text-overflow" wx:if="{{_data.companyName && _data.companyName !='无'}}">
-      {{_data.companyName.substr(0, 2) + '****' + '公司'}}</view>
+    <view class="companyName text-overflow" wx:if="{{_data.companyName && _data.companyName !='无' && gs}}">
+      {{_data.companyName}}</view>
+    <view class="companyName text-overflow" wx:elif="{{_data.companyName && _data.companyName !='无'}}">
+      {{_data._companyName}}</view>
     <view class="companyName text-overflow" wx:else>个人</view>
     <!-- <view class="type flex0">会议</view> -->
   </view>

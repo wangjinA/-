@@ -323,6 +323,8 @@
     <view class="item" wx:if="{{data.userInfo.contacts}}">
       <view class="label">联系人</view>
       <view class="val">{{data.userInfo.contacts}}</view>
+      <van-button wx:if="{{data.receive && isHotel}}" style="margin-left: 20rpx;" icon="chat-o" round size="small"
+        type="info" bindtap="sendInfo">发消息</van-button>
     </view>
     <view class="item" wx:if="{{data.userInfo.companyName}}">
       <view class="label">公司名称</view>
@@ -330,7 +332,10 @@
     </view>
     <view class="item" wx:if="{{data.userInfo.phone}}">
       <view class="label">联系电话</view>
-      <view class="val" style="color:#1989FA;" bindtap="callPhone">{{data.userInfo.phone}}</view>
+      <view class="val" style="color:#1989FA;" bindtap="callPhone">
+        {{data.userInfo.phone}}
+        <text class="size12 c">(点击拨打)</text>
+      </view>
     </view>
     <view class="item" wx:if="{{data.userInfo.finitude}}">
       <view class="label">邮箱</view>

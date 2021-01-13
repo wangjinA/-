@@ -12,13 +12,37 @@ Component({
     showBtn: {
       type: Boolean,
       value: true
-    }
+    },
+    gs: {
+      type: Boolean,
+      value: false
+    },
+  },
+  
+  observers: {
+    data(data) {
+      console.log(data);
+      
+      let _companyName = data.companyName
+      if (_companyName && _companyName != '无') {
+        _companyName = _companyName.substr(0, 2) + '****公司'
+      }
+      this.setData({
+        _data: {
+          ...data,
+          _companyName,
+          // _budget: numGetUnit(data.budget),
+          // _budgetCompany: numGetUnit(data.budget, true),
+        }
+      })
+    },
   },
 
   data: {
     isUser: false,
     statusText: '',
-    tagType: 'success'
+    tagType: 'success',
+    _data: {}
   },
 
   attached() {
