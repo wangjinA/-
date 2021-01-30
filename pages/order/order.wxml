@@ -1,5 +1,5 @@
 <van-tabs active="{{ activeIndex }}" bind:change="onChange" color="#FD960D">
-	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item }}">
+	<van-tab wx:for="{{ tabs }}" wx:key="index" title="{{ item.name + (total[item.key] ? ' ' + total[item.key] : '') }}">
 		<block wx:if="{{isHuiyi}}">
 			<huiyi gs="{{true}}" showBtn="{{false}}" class="huiyi" data="{{item}}" wx:for="{{list}}"></huiyi>
 		</block>

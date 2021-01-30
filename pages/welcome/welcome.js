@@ -5,7 +5,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    targetType: '',
+    list: [{
+      name: '我是酒店',
+      img: '/images/welcome-hoel.png',
+      type: 1
+    }, {
+      name: '我是用户',
+      img: '/images/welcome-user.png',
+      type: 2
+    }]
   },
   getUserInfo(e) {
     wx.login({
@@ -199,6 +208,15 @@ Page({
     console.log(options.scene);
     this.data.scene = options.scene
     console.log(2);
+    if(options.type){
+      this.setData({
+        list: [{
+          name: (options.type == 1 ? '酒店' : '用户') + '登录',
+          img: this.data.list.filter(item => item.type == options.type)[0].img,
+          type: options.type
+        }]
+      })
+    }
   },
   getScene: function (scene = "") {
     if (scene == "") return {}

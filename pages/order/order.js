@@ -7,46 +7,66 @@ import {
 Page({
 
   data: {
-    tabs: ['已报价', '已完成'],
+    tabs: [{
+      name: '已报价',
+      key: 'alreadyOffer'
+    }, {
+      name: '已完成',
+      key: 'complete',
+    }, {
+      name: '全部',
+      key: 'all'
+    }],
     current: 1,
     pageSize: 8,
     type: 1,
     activeIndex: 0,
     list: [],
-    isHuiyi: true // 默认会议 否则婚宴
+    isHuiyi: true, // 默认会议 否则婚宴
+    total: {}
   },
+  // 首次加载，isTwo第一页没有数据就加载第二页
   async init(isTwo = false, isInit = false) {
     let result
-    let type = isTwo ? 2 : (this.data.activeIndex + 1) // 类型 1.未报价，2.已报价，3.已完成
+    let type = isTwo ? 2 : (this.data.activeIndex + 1) // 类型 0全部 1.未报价，2.已报价，3.已完成
     if (wx.type == 1) { // 酒店
+      let _type = type
+      if(type == 3 ){
+        _type = 0
+      }
       if (this.data.isHuiyi) {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyOrderDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type: type + 1 // 没有未报价 所以 + 1
+          type: _type // 没有未报价 所以 + 1
         }))
         wx.setNavigationBarTitle({title: '会议报价'})
       } else {
         result = wx.loadingAPI(wx.$get('/demandorder/getMyWeddingOrderDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type: type + 1 // 没有未报价 所以 + 1
+          type: _type // 没有未报价 所以 + 1
         }))
         wx.setNavigationBarTitle({title: '婚宴报价'})
       }
     } else { // 用户
+      
+      let _type = type
+      if(type == 4 ){
+        _type = 0
+      }
       if (this.data.isHuiyi) {
         result = wx.loadingAPI(wx.$post('/demandorder/getUserDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type // 类型 1.未报价，2.已报价，3.已完成
+          type: _type // 类型 1.未报价，2.已报价，3.已完成
         }))
         wx.setNavigationBarTitle({title: '会议需求'})
       } else {
         result = wx.loadingAPI(wx.$post('/demandorder/getUserWeddingDemand', {
           current: this.data.current,
           pageSize: this.data.pageSize,
-          type // 类型 1.未报价，2.已报价，3.已完成
+          type: _type // 类型 1.未报价，2.已报价，3.已完成
         }))
         wx.setNavigationBarTitle({title: '婚宴需求'})
       }
@@ -124,7 +144,19 @@ Page({
     })
     if (wx.type == 2) {
       this.setData({
-        tabs: ['未报价', '已报价', '已完成']
+        tabs: [{
+          name: '未报价',
+          key: 'noQuotation'
+        },{
+          name: '已报价',
+          key: 'alreadyOffer'
+        }, {
+          name: '已完成',
+          key: 'complete',
+        }, {
+          name: '全部',
+          key: 'all'
+        }]
       })
     }
   },
@@ -133,14 +165,22 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.init(false, true)
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.init(false, true)
+    wx.$get('/order/statisticalOrder', {
+      userType: wx.type,
+      type: this.data.isHuiyi ? 1 : 2 // 1会议2婚宴
+    }).then(res => {
+      console.log(res);
+      this.setData({
+        total: res.data
+      })
+    })
   },
 
   /**

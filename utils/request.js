@@ -11,6 +11,7 @@ const request = function(options) {
       },
       header: {
         token: wx.getStorageSync('token'),
+        usertype: wx.type,
         // Accept: 'application / prs.lyg.v1 + json',
         'Content-Type': 'application/json',
         // Authorization: wx.getStorageSync(' tokenType') + ' ' + wx.getStorageSync('token')

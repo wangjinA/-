@@ -367,6 +367,13 @@
     </view>
   </view>
 </view>
+
+<van-button 
+  wx:if="{{isUser && status == 1}}"
+  icon="warn-o" type="danger" size="small" style="margin: 28rpx 0 0 28rpx;" bind:click="cancelOrder">
+  取消订单
+</van-button>
+
 <view class="container b0">
   <view class="time-wrap">
     <view class="time">{{data.createTime}}</view>

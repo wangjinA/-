@@ -41,6 +41,21 @@ Page({
     showReason: false,
     reason: '',
   },
+  cancelOrder() {
+    wx.delAPI('确认取消订单？')
+    .then(() => {
+      wx.$get('/order/cancelWedding', {
+        id: this.data.id
+      })
+      .then(() => {
+        this.init()
+        wx.showToast({
+          title: '订单已取消',
+          icon:'success'
+        })
+      })
+    })
+  },
   sendInfo() {
     wx.navigateTo({
       url: '/pages/chat/chat?beUserId=' + this.data.userInfo.id,
@@ -301,6 +316,9 @@ Page({
   onLoad: function (options) {
     this.data.id = options.id
     wx.meetingId = options.id
+    if(options.type) {
+      wx.type = options.type
+    }
     // this.init()
     // this.getBaojiaList()
     this.setData({
@@ -313,6 +331,18 @@ Page({
     this.setData({
       type: wx.type,
     })
+    
+    if(!wx.getStorageSync('token')){
+      return wx.showModal({
+        content: '暂未登录，去登录',
+        showCancel: false,
+        success: () => {
+          wx.navigateTo({
+            url: '/pages/welcome/welcome?type=' + wx.type
+          })
+        }
+      })
+    }
     if (this.data.id) {
       this.init()
     }

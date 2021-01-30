@@ -304,7 +304,7 @@ function getStatus(status) {
       statusText = '等待接单'
       break;
     case 2:
-      statusText = '失效订单'
+      statusText = '订单失效'
       break;
     case 3:
       statusText = '用户确认报价'
