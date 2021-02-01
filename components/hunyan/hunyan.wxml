@@ -43,9 +43,9 @@
     </view>
   </view>
   <view class="bottom">
-    <view class="yusuan" wx:if="{{_data.budget}}">
-      <text class="yusuan-label size14">预算：</text>
-      <text class="price c">￥{{_data.budget}}</text>
+    <view class="yusuan size12 c9">
+      <text class="yusuan-label">询价单号：</text>
+      <text class="">{{_data.orderNo}}</text>
     </view>
     <!-- receive: 客户确认了我的报价 -->
     <!-- offer: 我已报价 -->

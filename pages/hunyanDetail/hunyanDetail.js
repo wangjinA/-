@@ -43,18 +43,18 @@ Page({
   },
   cancelOrder() {
     wx.delAPI('确认取消订单？')
-    .then(() => {
-      wx.$get('/order/cancelWedding', {
-        id: this.data.id
-      })
       .then(() => {
-        this.init()
-        wx.showToast({
-          title: '订单已取消',
-          icon:'success'
-        })
+        wx.$get('/order/cancelWedding', {
+            id: this.data.id
+          })
+          .then(() => {
+            this.init()
+            wx.showToast({
+              title: '订单已取消',
+              icon: 'success'
+            })
+          })
       })
-    })
   },
   sendInfo() {
     wx.navigateTo({
@@ -67,27 +67,27 @@ Page({
     })
   },
   jujueCommit() {
-    if(!this.data.reason){
+    if (!this.data.reason) {
       return wx.showToast({
         title: '点击输入拒绝理由',
         icon: 'none'
       })
     }
     wx.delAPI('确认拒绝？')
-    .then(() => {
-      wx.$post('/order/hotelRejected', {
-        reason: this.data.reason,
-        demandConfirmId: this.data.OrderDemandConfirm.demandConfirmId
-      }).then(() => {
-        wx.showToast({
-          title: '操作成功',
-          icon:'none'
+      .then(() => {
+        wx.$post('/order/hotelRejected', {
+          reason: this.data.reason,
+          demandConfirmId: this.data.OrderDemandConfirm.demandConfirmId
+        }).then(() => {
+          wx.showToast({
+            title: '操作成功',
+            icon: 'none'
+          })
+          setTimeout(() => {
+            this.init()
+          }, 1500);
         })
-        setTimeout(() => {
-          this.init()
-        }, 1500);
       })
-    })
   },
   jujueXfd() {
     this.setData({
@@ -95,14 +95,18 @@ Page({
     })
   },
   addBeixuan(e) {
-    const {id, poolflag, index} = e.currentTarget.dataset
+    const {
+      id,
+      poolflag,
+      index
+    } = e.currentTarget.dataset
     wx.$get('/order/selectPoolWedding', { // type 拉入状态 0待选择 1拉入 2 拒绝
       orderWeedingId: id,
       type: poolflag == 0 ? 1 : 0
     }).then(() => {
       wx.showToast({
         title: '操作成功',
-        icon:'none'
+        icon: 'none'
       })
       setTimeout(() => {
         this.showBj(index, true)
@@ -151,25 +155,28 @@ Page({
   },
   // 用户确认报价
   okBaojia(e) {
-    const {id, index} = e.currentTarget.dataset
+    const {
+      id,
+      index
+    } = e.currentTarget.dataset
     wx.delAPI('确认使用该报价！')
-    .then(()=>{
-      this.setOrderStatus(id, 3)
-      .then(()=>{
-        this.showBj(index, true)
+      .then(() => {
+        this.setOrderStatus(id, 3)
+          .then(() => {
+            this.showBj(index, true)
+          })
       })
-    })
   },
   // 酒店确认婚宴完成    -------------------没写
   jdok() {
     wx.delAPI('确认婚宴结束，提交后不可更改！')
-    .then(()=>{
-      this.setOrderStatus(this.data.data.orderWeddingId, 4)
-    })
+      .then(() => {
+        this.setOrderStatus(this.data.data.orderWeddingId, 4)
+      })
   },
   // 上传消费单    -------------------没写
   shangchuan() {
-    if(this.data.OrderDemandConfirm){
+    if (this.data.OrderDemandConfirm) {
       wx.xfdList = this.data.OrderDemandConfirm.userInvoice
       wx.xfdPrice = this.data.OrderDemandConfirm.price
     }
@@ -189,9 +196,9 @@ Page({
   // 订单结束    -------------------没写
   orderOver() {
     wx.delAPI('确认订单完成，提交后不可更改！')
-    .then(()=>{
-      this.setOrderStatus(this.data.data.orderWeddingId, 6)
-    })
+      .then(() => {
+        this.setOrderStatus(this.data.data.orderWeddingId, 6)
+      })
   },
   setOrderStatus(orderWeddingId, status) {
     return wx.loadingAPI(wx.$post('/demandorder/updateOrderWeddinfStatus ', {
@@ -202,13 +209,13 @@ Page({
     })
   },
   showBj(e, eIsIndex = false) {
-    if(!eIsIndex && !this.data.isUser){
+    if (!eIsIndex && !this.data.isUser) {
       const hotelId = e.currentTarget.dataset.hotelid
-      if(hotelId && hotelId != wx.hotelId){
+      if (hotelId && hotelId != wx.hotelId) {
         wx.navigateTo({
-          url: '/pages/hotel/hotelDetail/hotelDetail?id='+hotelId,
+          url: '/pages/hotel/hotelDetail/hotelDetail?id=' + hotelId,
         })
-        return 
+        return
       }
     }
     const index = !eIsIndex ? e.currentTarget.dataset.index : e
@@ -238,14 +245,14 @@ Page({
         detail.hotelStar = jdxj(detail.hotelStar)
         let hideInfo = wx.$hideInfo(userInfo)
         let isUser = false
-        if(userInfo && wx.userInfo && userInfo.id == wx.userInfo.id){
+        if (userInfo && wx.userInfo && userInfo.id == wx.userInfo.id) {
           isUser = true
         }
         let statusText = wx.$getStatus(detail.status)
         // 消费单
-        if(data.OrderDemandConfirm){
+        if (data.OrderDemandConfirm) {
           data.OrderDemandConfirm.userInvoice = wx.$parse(data.OrderDemandConfirm.userInvoice)
-        }else {
+        } else {
           data.OrderDemandConfirm = {}
         }
         const activeStatus = [1, 3, 4, 5, [6, 9]]
@@ -258,9 +265,9 @@ Page({
           status: detail.status,
           statusText,
           active: activeStatus.findIndex((item) => {
-            if(typeof item === 'number'){
+            if (typeof item === 'number') {
               return detail.status == item
-            }else {
+            } else {
               return item.filter(i => i == detail.status).length
             }
           }),
@@ -289,9 +296,9 @@ Page({
       weddingBanquetId: this.data.data.weddingBanquetId
     }).then(res => {
       console.log(res);
-      
+
       console.log(res.data);
-      
+
       let isHotel = !!(res.data.orderWeddingList.filter(item => item.hotelId === wx.hotelId).length)
       this.setData({
         bjList: res.data.orderWeddingList,
@@ -316,23 +323,24 @@ Page({
   onLoad: function (options) {
     this.data.id = options.id
     wx.meetingId = options.id
-    if(options.type) {
+    if (options.type) {
       wx.type = options.type
     }
     // this.init()
     // this.getBaojiaList()
-    this.setData({
-      status: options.status || 0,
-      currentUserId: wx.userInfo.id,
-      currentHotelId: wx.hotelId
-    })
   },
   onShow() {
-    this.setData({
-      type: wx.type,
-    })
-    
-    if(!wx.getStorageSync('token')){
+    wx.$loadUserInfo()
+      .then(() => {
+        this.setData({
+          status: options.status || 0,
+          currentUserId: wx.userInfo.id,
+          currentHotelId: wx.hotelId,
+          type: wx.type,
+        })
+      })
+
+    if (!wx.getStorageSync('token')) {
       return wx.showModal({
         content: '暂未登录，去登录',
         showCancel: false,

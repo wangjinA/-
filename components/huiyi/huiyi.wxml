@@ -50,4 +50,9 @@
       {{_data.offer ? '重新报价' : '点击抢单'}}
     </van-button>
   </view>
-</view>
+    
+    <view class="yusuan size12 c9" style="padding-bottom: 24rpx;">
+      <text class="yusuan-label">询价单号：</text>
+      <text class="">{{_data.orderNo}}</text>
+    </view>
+  </view>

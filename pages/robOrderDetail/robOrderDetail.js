@@ -48,18 +48,18 @@ Page({
   },
   cancelOrder() {
     wx.delAPI('确认取消订单？')
-    .then(() => {
-      wx.$get('/order/cancelMeeting', {
-        id: this.data.id
-      })
       .then(() => {
-        this.init()
-        wx.showToast({
-          title: '订单已取消',
-          icon:'success'
-        })
+        wx.$get('/order/cancelMeeting', {
+            id: this.data.id
+          })
+          .then(() => {
+            this.init()
+            wx.showToast({
+              title: '订单已取消',
+              icon: 'success'
+            })
+          })
       })
-    })
   },
   sendInfo() {
     wx.navigateTo({
@@ -72,27 +72,27 @@ Page({
     })
   },
   jujueCommit() {
-    if(!this.data.reason){
+    if (!this.data.reason) {
       return wx.showToast({
         title: '点击输入拒绝理由',
         icon: 'none'
       })
     }
     wx.delAPI('确认拒绝？')
-    .then(() => {
-      wx.$post('/order/hotelRejected', {
-        reason: this.data.reason,
-        demandConfirmId: this.data.data.orderDemandConfirm.demandConfirmId
-      }).then(() => {
-        wx.showToast({
-          title: '操作成功',
-          icon:'none'
+      .then(() => {
+        wx.$post('/order/hotelRejected', {
+          reason: this.data.reason,
+          demandConfirmId: this.data.data.orderDemandConfirm.demandConfirmId
+        }).then(() => {
+          wx.showToast({
+            title: '操作成功',
+            icon: 'none'
+          })
+          setTimeout(() => {
+            this.init()
+          }, 1500);
         })
-        setTimeout(() => {
-          this.init()
-        }, 1500);
       })
-    })
   },
   jujueXfd() {
     this.setData({
@@ -100,14 +100,18 @@ Page({
     })
   },
   addBeixuan(e) {
-    const {orderdemandid, poolflag, index} = e.currentTarget.dataset
+    const {
+      orderdemandid,
+      poolflag,
+      index
+    } = e.currentTarget.dataset
     wx.$get('/order/selectPoolDemand', { // type 拉入状态 0待选择 1拉入 2 拒绝
       orderDemandId: orderdemandid,
       type: poolflag == 0 ? 1 : 0
     }).then(() => {
       wx.showToast({
         title: '操作成功',
-        icon:'none'
+        icon: 'none'
       })
       setTimeout(() => {
         this.showBj(index, true)
@@ -155,50 +159,53 @@ Page({
   },
   orderEnd() {
     wx.delAPI('确认订单完成，提交后不可更改！')
-    .then(()=>{
-      wx.navigateTo({
-        url: '/pages/order/orderEnd/orderEnd',
+      .then(() => {
+        wx.navigateTo({
+          url: '/pages/order/orderEnd/orderEnd',
+        })
       })
-    })
   },
   useBj() {
     console.log('使用这个报价')
   },
   // 用户确认报价
   okBaojia(e) {
-    const {orderdemandid, index} = e.currentTarget.dataset
+    const {
+      orderdemandid,
+      index
+    } = e.currentTarget.dataset
     wx.delAPI('确认使用该报价！')
-    .then(()=>{
-      this.setOrderStatus(orderdemandid, 3)
-      .then(()=>{
-        this.showBj(index, true)
+      .then(() => {
+        this.setOrderStatus(orderdemandid, 3)
+          .then(() => {
+            this.showBj(index, true)
+          })
       })
-    })
   },
   // 酒店确认会议完成
   jdok() {
     wx.delAPI('确认会议结束，提交后不可更改！')
-    .then(()=>{
-      this.setOrderStatus(this.data.data.orderDemandId, 4)
-    })
+      .then(() => {
+        this.setOrderStatus(this.data.data.orderDemandId, 4)
+      })
   },
   // 上传消费单
   shangchuan() {
-    if(this.data.data.orderDemandConfirm){
+    if (this.data.data.orderDemandConfirm) {
       wx.xfdList = this.data.data.orderDemandConfirm.userInvoice
       wx.xfdPrice = this.data.data.orderDemandConfirm.price
     }
 
     wx.navigateTo({
-      url: '/pages/xfd/xfd?id='+ this.data.data.meetingId,
+      url: '/pages/xfd/xfd?id=' + this.data.data.meetingId,
     })
   },
   // 订单结束
   orderOver() {
     wx.delAPI('确认订单完成，提交后不可更改！')
-    .then(()=>{
-      this.setOrderStatus(this.data.data.orderDemandId, 6)
-    })
+      .then(() => {
+        this.setOrderStatus(this.data.data.orderDemandId, 6)
+      })
   },
   setOrderStatus(orderDemandId, status) {
     return wx.loadingAPI(wx.$post('/demandorder/updateOrderDemandStatus', {
@@ -209,13 +216,13 @@ Page({
     })
   },
   showBj(e, eIsIndex = false) {
-    if(!eIsIndex && !this.data.isUser){
+    if (!eIsIndex && !this.data.isUser) {
       const hotelId = e.currentTarget.dataset.hotelid
-      if(hotelId && hotelId != wx.hotelId){
+      if (hotelId && hotelId != wx.hotelId) {
         wx.navigateTo({
-          url: '/pages/hotel/hotelDetail/hotelDetail?id='+hotelId,
+          url: '/pages/hotel/hotelDetail/hotelDetail?id=' + hotelId,
         })
-        return 
+        return
       }
     }
     const index = !eIsIndex ? e.currentTarget.dataset.index : e
@@ -249,14 +256,14 @@ Page({
         data.meetingStartTime_filter = wx.formatTime(new Date(data.meetingStartTime), true)
         data.meetingEndTime_filter = wx.formatTime(new Date(data.meetingEndTime), true)
         data.userInfo = data.sysUserVo
-        if(data.userInfo) {
+        if (data.userInfo) {
           data.hideInfo = wx.$hideInfo(data.userInfo)
         }
         let isXfdJujue = false
-        if(data.orderDemandConfirm){
+        if (data.orderDemandConfirm) {
           data.orderDemandConfirm.userInvoice = wx.$parse(data.orderDemandConfirm.userInvoice)
           isXfdJujue = data.orderDemandConfirm.reason
-        }else {
+        } else {
           data.orderDemandConfirm = {}
         }
         data.hcTotal = 0
@@ -265,7 +272,7 @@ Page({
         data.singleDemandVenueVos.forEach(item => { // 会议
           let total = item.budget || 0
           item.dayLong = wx.$parse(item.dayLong)
-          if(item.dayLong.length){
+          if (item.dayLong.length) {
             total = total * (item.dayLong.length || 1)
           }
           data.hcTotal += total
@@ -274,7 +281,7 @@ Page({
             item.dayLong.length ||
             item.notes ||
             item.venues ||
-            item.venueType || 
+            item.venueType ||
             item.budget
           )
         })
@@ -297,7 +304,7 @@ Page({
           // let total = item.budget || 0
           // total = total * item.containNumbers
           // data.cyTotal += total
-          
+
           let price = item.budget || 0
           let total = 0
           item.dining = wx.$parse(item.dining)
@@ -310,7 +317,7 @@ Page({
             item.containNumbers ||
             (item.dining && item.dining.length) ||
             item.notes ||
-            item.tableType || 
+            item.tableType ||
             item.budget
           )
         })
@@ -330,7 +337,7 @@ Page({
 
         let statusText = wx.$getStatus(data.status)
         let isUser = false
-        if(data.userInfo && wx.userInfo && data.userInfo.id == wx.userInfo.id){
+        if (data.userInfo && wx.userInfo && data.userInfo.id == wx.userInfo.id) {
           isUser = true
         }
         console.log(data.status);
@@ -343,9 +350,9 @@ Page({
           data,
           isXfdJujue: isXfdJujue,
           active: activeStatus.findIndex((item) => {
-            if(typeof item === 'number'){
+            if (typeof item === 'number') {
               return data.status == item
-            }else {
+            } else {
               return item.filter(i => i == data.status).length
             }
           }),
@@ -362,10 +369,10 @@ Page({
       res.data.hotelQuteInfoVoList.forEach(item => {
         item.orderDemandGuestList.forEach(item => {
           item.guestNumber = wx.$parse(item.guestNumber)
-          item.price =  wx.$parse(item.price)
+          item.price = wx.$parse(item.price)
         })
         item.orderDemandRepastList.forEach(item => {
-          item.price =  wx.$parse(item.price)
+          item.price = wx.$parse(item.price)
         })
       })
       this.setData({
@@ -399,21 +406,23 @@ Page({
   onLoad: function (options) {
     this.data.id = options.id
     wx.meetingId = options.id
-    if(options.type) {
+    if (options.type) {
       wx.type = options.type
     }
-    this.setData({
-      currentUserId: wx.userInfo.id,
-      currentHotelId: wx.hotelId
-    })
+
     // this.init()
   },
 
   onShow() {
-    this.setData({
-      type: wx.type,
-    })
-    if(!wx.getStorageSync('token')){
+    wx.$loadUserInfo()
+      .then(() => {
+        this.setData({
+          currentUserId: wx.userInfo.id,
+          currentHotelId: wx.hotelId,
+          type: wx.type,
+        })
+      })
+    if (!wx.getStorageSync('token')) {
       return wx.showModal({
         content: '暂未登录，去登录',
         showCancel: false,
