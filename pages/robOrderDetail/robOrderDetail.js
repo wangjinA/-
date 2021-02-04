@@ -33,6 +33,7 @@ Page({
         text: '订单完成',
       }
     ],
+    scoreValue: 0,
     bjList: [],
     data: {},
     status: 0,
@@ -384,6 +385,12 @@ Page({
   },
   // 立即抢单
   qiangdan() {
+    if(wx.hotelId === this.data.data.userInfo.hotelId){
+      return wx.showToast({
+        icon: 'none',
+        title: '与发布需求的用户在同一家酒店，无法报价',
+      })
+    }
     if (this.data.data.hcShow)
       wx.navigateTo({
         url: '/pages/quote/hotelQuote/hotelQuote',
@@ -436,6 +443,14 @@ Page({
     if (this.data.id) {
       this.init()
     }
+    // 1.签到，2.提成 3.会员成交获取提成
+    wx.$get('/system/selectSetUpByType', {
+      type: 3
+    }).then(res => {
+      this.setData({
+        scoreValue: res.data.value * 100
+      })
+    })
   },
 
   /**

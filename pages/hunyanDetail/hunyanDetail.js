@@ -13,6 +13,7 @@ Page({
     type: wx.type,
     statusText: '',
     status: 0,
+    scoreValue: 0,
     steps: [{
         text: '等待接单',
       },
@@ -307,6 +308,13 @@ Page({
     })
   },
   qiangdan() {
+    
+    if(wx.hotelId === this.data.userInfo.hotelId){
+      return wx.showToast({
+        icon: 'none',
+        title: '与发布需求的用户在同一家酒店，无法报价',
+      })
+    }
     wx.weddingBanque = this.data.data
     if (true)
       wx.navigateTo({
@@ -326,6 +334,9 @@ Page({
     if (options.type) {
       wx.type = options.type
     }
+    this.setData({
+      status: options.status || 0,
+    })
     // this.init()
     // this.getBaojiaList()
   },
@@ -333,7 +344,6 @@ Page({
     wx.$loadUserInfo()
       .then(() => {
         this.setData({
-          status: options.status || 0,
           currentUserId: wx.userInfo.id,
           currentHotelId: wx.hotelId,
           type: wx.type,
@@ -354,6 +364,15 @@ Page({
     if (this.data.id) {
       this.init()
     }
+
+    // 1.签到，2.提成 3.会员成交获取提成
+    wx.$get('/system/selectSetUpByType', {
+      type: 3
+    }).then(res => {
+      this.setData({
+        scoreValue: res.data.value * 100
+      })
+    })
   },
 
   /**

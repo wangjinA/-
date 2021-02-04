@@ -1,6 +1,6 @@
 <!-- 最多10家报价 -->
-<van-notice-bar wx:if="{{isUser}}" wrapable color="rgb(25, 137, 250)" background="rgb(236, 249, 255)" scrollable="false"
-  text="订单成交后，您将获得成交金额10%的积分奖励" />
+<van-notice-bar custom-class="noticeSize" wx:if="{{isUser && scoreValue}}" wrapable color="rgb(25, 137, 250)" background="rgb(236, 249, 255)" scrollable="false"
+  text="订单成交后，您将获得签约酒店成交金额{{scoreValue}}%的积分奖励" />
 <view class="container">
   <view class="top">
     <view class="name text-overflow">在{{data.city}}需要{{data.meetingPeople_filter}}的场地</view>
@@ -87,6 +87,7 @@
           <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
           <text class="size14 bold">
             <text>{{item.hotelName}} </text>
+            <text class="size12" wx:if="{{item.signing}}">[平台签约]</text>
             <text class="size12 primary-color">{{item.confirm ? '（已确认）' : ''}}</text>
             <text class="size12" wx:if="{{!item.confirm}}">{{item.poolFlag ? '（备选）' : ''}}</text>
           </text>

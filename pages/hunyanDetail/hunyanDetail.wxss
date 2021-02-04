@@ -147,3 +147,6 @@
 .hotel-price-rob{
   flex-shrink: 0;
 }
+.noticeSize{
+  font-size: 26rpx!important;
+}
