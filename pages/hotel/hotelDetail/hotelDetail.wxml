@@ -1,6 +1,6 @@
 <van-notice-bar wx:if="{{data.signing}}" mode="closeable" text="该酒店是平台签约酒店,成交订单可享受积分加成" />
 <view class="swiperContainer">
-	<swiper bindchange="swiperChange" circular autoplay="{{autoplay}}" duration="{{duration}}" style='height: 380rpx;'>
+	<swiper bindchange="swiperChange" circular autoplay="{{autoplay}}" duration="{{duration}}" style='height: 375rpx;'>
 		<block wx:for="{{bannerList}}" wx:key="*this">
 			<swiper-item wx:key="*this">
 				<image src="{{item}}" data-url="{{item}}" class="img" bindtap="previewImage" mode="aspectFill"/>

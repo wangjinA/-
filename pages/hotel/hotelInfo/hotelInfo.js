@@ -40,22 +40,33 @@ Page({
   },
   goAddHotelImage() {
     wx.navigateTo({
-      url: '/pages/hotel/hotelImageMenage/hotelImageMenage?hotelId='+this.data.hotelId,
+      url: '/pages/hotel/hotelImageMenage/hotelImageMenage?hotelId=' + this.data.hotelId,
     })
   },
   afterRead(event) {
-    const { file } = event.detail;
+    const {
+      file
+    } = event.detail;
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
     wx.uploadFile({
       url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
       filePath: file.path,
       name: 'file',
-      formData: { user: 'test' },
+      formData: {
+        user: 'test'
+      },
       success(res) {
         // 上传完成需要更新 fileList
-        const { fileList = [] } = this.data;
-        fileList.push({ ...file, url: res.data });
-        this.setData({ fileList });
+        const {
+          fileList = []
+        } = this.data;
+        fileList.push({
+          ...file,
+          url: res.data
+        });
+        this.setData({
+          fileList
+        });
       },
     });
   },
@@ -66,7 +77,7 @@ Page({
       pageSize: 50,
     }).then(data => {
       this.setData({
-        yhList: data.data.list.map(item =>({
+        yhList: data.data.list.map(item => ({
           ...item,
           imgUrl: wx.$parse(item.imgUrl),
           img: wx.$parse(item.imgUrl)[0].url,
@@ -79,7 +90,7 @@ Page({
       pageSize: 50,
     }).then(data => {
       this.setData({
-        kfList: data.data.list.map(item =>({
+        kfList: data.data.list.map(item => ({
           ...item,
           imgUrl: wx.$parse(item.imgUrl),
           img: wx.$parse(item.imgUrl)[0].url,
@@ -89,22 +100,21 @@ Page({
     wx.loadingAPI(wx.$get('/hotel/getHotelImgUrlInfo', {
       hotelId: wx.hotelId
     })).then(data => {
-      if(data.data.list && data.data.list.length){
+      if (data.data.list && data.data.list.length) {
         this.setData({
           banner: data.data.list,
-          formList: [
-            {
+          formList: [{
               label: '图片管理',
               key: 'imgList',
               type: 'link',
               value: '',
-              url: '/pages/hotel/hotelImageMenage/hotelImageMenage?hotelId='+this.data.hotelId,
+              url: '/pages/hotel/hotelImageMenage/hotelImageMenage?hotelId=' + this.data.hotelId,
             },
             ...formList
           ]
         })
       }
-      if(wx.roles && wx.roleId == 1 && !this.data.formList.some(item=>item.label === '账户权限设置')){
+      if (wx.roles && wx.roleId == 1 && !this.data.formList.some(item => item.label === '账户权限设置')) {
         this.setData({
           formList: [{
             label: '账户权限设置',
@@ -117,22 +127,34 @@ Page({
       }
     })
   },
-  onLoad (options) {
-    this.data.hotelId = options.id
-  },
+  onLoad(options) {},
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    console.log(wx.roles && wx.roles.filter(item => item.id ===1).length);
+    console.log(wx.roles && wx.roles.filter(item => item.id === 1).length);
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.initData()
+    wx.$loadUserInfo()
+      .then(() => {
+        this.data.hotelId = wx.hotelId
+        this.initData()
+      }).catch(() => {
+        wx.showModal({
+          content: '暂未登录，去登录',
+          showCancel: false,
+          success: () => {
+            wx.navigateTo({
+              url: '/pages/welcome/welcome?type=' + 1
+            })
+          }
+        })
+      })
   },
 
   /**

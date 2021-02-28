@@ -33,7 +33,7 @@ Page({
                   console.log(res);
                   console.log(wx.getStorageSync('wxcode'));
                   console.log(6);
-                  
+
                   console.log((this.data.scene && this.data.scene.toString()))
                   console.log(7);
                   // 调取后台接口登录
@@ -57,10 +57,18 @@ Page({
                       wx.setStorageSync('type', type)
                       if (type == 1) {
                         console.log(res);
-                        if (res.data.userInfo && res.data.userInfo.hotelId) {
-                          wx.switchTab({
-                            url: '/pages/index/index',
-                          })
+                        if (wx.userInfo && wx.hotelId) {
+                          // 是第一页就返回首页 否则 返回上一页
+                          if (getCurrentPages().length === 1) {
+                            wx.switchTab({
+                              url: '/pages/index/index',
+                            })
+                          } else {
+                            wx.navigateBack()
+                          }
+                          // wx.switchTab({
+                          //   url: '/pages/index/index',
+                          // })
                         } else {
                           wx.type = 2
                           wx.setStorageSync('type', 2)
@@ -70,11 +78,11 @@ Page({
                         }
                       } else {
                         // 是第一页就返回首页 否则 返回上一页
-                        if(getCurrentPages().length === 1){
+                        if (getCurrentPages().length === 1) {
                           wx.switchTab({
                             url: '/pages/index/index',
                           })
-                        }else {
+                        } else {
                           wx.navigateBack()
                         }
                       }
@@ -109,7 +117,7 @@ Page({
   //     }, lunxunTime);
   //   }
   //   console.log('welcome页面轮询');
-    
+
   //   wx.$post('/chat/getChatRoom', {
   //       current: 1,
   //       pageSize: 100
@@ -208,7 +216,7 @@ Page({
     console.log(options.scene);
     this.data.scene = options.scene
     console.log(2);
-    if(options.type){
+    if (options.type) {
       this.setData({
         list: [{
           name: (options.type == 1 ? '酒店' : '用户') + '登录',

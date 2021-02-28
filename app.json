@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/hotel/hotelInfo/hotelInfo",
     "pages/hotel/hotelCreate/hotelCreate",
     "pages/xfd/xfd",
     "pages/user/code/code",
@@ -17,7 +18,6 @@
     "pages/order/orderEnd/orderEnd",
     "pages/robOrder/robOrder",
     "pages/order/order",
-    "pages/hotel/hotelInfo/hotelInfo",
     "pages/quote/roomQuote/roomQuote",
     "pages/quote/hotelQuote/hotelQuote",
     "pages/quote/eatQuote/eatQuote",

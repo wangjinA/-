@@ -30,6 +30,7 @@ Page({
     }, {
       label: '邮箱',
       key: 'finitude',
+      required: true
     }]
   },
   commit() {

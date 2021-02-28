@@ -87,7 +87,7 @@
           <van-icon name="{{item.show ? 'arrow-down' : 'arrow'}}" />
           <text class="size14 bold">
             <text>{{item.hotelName}} </text>
-            <text class="size12" wx:if="{{item.signing}}">[平台签约]</text>
+            <text class="size12 c" wx:if="{{item.signing}}">[平台签约]</text>
             <text class="size12 primary-color">{{item.confirm ? '（已确认）' : ''}}</text>
             <text class="size12" wx:if="{{!item.confirm}}">{{item.poolFlag ? '（备选）' : ''}}</text>
           </text>
@@ -123,8 +123,7 @@
               <view class="bj-date">{{item.dates}}</view>
               <view class="bj-con">
                 <view>场地：{{item.hotelChamber.chamberName}}</view>
-                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 /
-                    {{item.company}}</text></view>
+                <view>报价：<text class="c">{{item.price}}</text> <text class="size12" style="margin-left: 10rpx;">元 / {{item.company}}</text></view>
               </view>
             </view>
           </view>
@@ -187,8 +186,9 @@
         <van-icon class="baojia-close" name="cross" bindtap="showBj" data-index="{{index}}" />
         <footerButton type="{{2}}" bind:click="okBaojia" bind:clickright="addBeixuan"
           rightButtonType="{{item.poolFlag == 0 ? 'primary' : 'warning'}}" data-index="{{index}}"
-          data-orderdemandId="{{item.orderdemandId}}" data-poolflag="{{item.poolFlag}}" wx:if="{{status==1 && isUser}}">
-          <text>接受报价</text>
+          data-orderdemandId="{{item.orderdemandId}}" data-poolflag="{{item.poolFlag}}" wx:if="{{status==1 && isUser}}"
+          data-signing="{{item.signing}}">
+          <text >接受报价</text>
           <text slot="right">{{item.poolFlag == 0 ? '加入备选' : '移出备选'}}</text>
         </footerButton>
       </view>

@@ -142,7 +142,7 @@ Page({
   },
   callPhone() {
     wx.makePhoneCall({
-      phoneNumber: this.data.userInfo.phone,
+      phoneNumber: this.data.data.userInfo.phone,
       success: function () {
         console.log("拨打电话成功！")
       },
@@ -173,9 +173,11 @@ Page({
   okBaojia(e) {
     const {
       orderdemandid,
-      index
+      index,
+      signing
     } = e.currentTarget.dataset
-    wx.delAPI('确认使用该报价！')
+    let text = signing ? '确认使用该报价！' : '该酒店非平台签约酒店，订单成交后无积分奖励'
+    wx.delAPI(text)
       .then(() => {
         this.setOrderStatus(orderdemandid, 3)
           .then(() => {
